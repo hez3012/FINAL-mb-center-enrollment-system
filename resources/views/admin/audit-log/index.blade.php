@@ -34,14 +34,14 @@
     <li class="nav-item">
         <a class="nav-link {{ $activeTab === 'log' ? 'active' : '' }}"
             href="{{ route('admin.audit-log.index', array_merge(request()->query(), ['tab' => 'log'])) }}">
-            <i class="bi bi-shield-lock me-1"></i>Log
+            <i class="bi bi-shield-lock me-1"></i>Login / Logout History
             <span class="badge bg-secondary ms-1">{{ $logs->total() }}</span>
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link {{ $activeTab === 'trail' ? 'active' : '' }}"
             href="{{ route('admin.audit-log.index', array_merge(request()->query(), ['tab' => 'trail'])) }}">
-            <i class="bi bi-clock-history me-1"></i>Trail
+            <i class="bi bi-clock-history me-1"></i>Audit Trails
             <span class="badge bg-secondary ms-1">{{ $trails->total() }}</span>
         </a>
     </li>

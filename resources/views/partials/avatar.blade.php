@@ -42,7 +42,9 @@ img.av-32,img.av-36,img.av-40,img.av-48,img.av-56,img.av-64,img.av-80{object-fit
 @if($img)
     <img src="{{ asset('storage/' . $img) }}"
          class="av-{{ $szKey }}"
-         alt="{{ $nm }}">
+         alt="{{ $nm }}"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='inline-flex';">
+    <div class="d-none align-items-center justify-content-center fw-bold text-white av-{{ $szKey }} av-c{{ $ci }}" style="display:none!important;">{{ $ini }}</div>
 @else
     <div class="d-inline-flex align-items-center justify-content-center fw-bold text-white av-{{ $szKey }} av-c{{ $ci }}">{{ $ini }}</div>
 @endif

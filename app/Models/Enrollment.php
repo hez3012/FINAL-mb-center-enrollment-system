@@ -41,6 +41,7 @@ class Enrollment extends Model
         'waiver_signed',
         'rejection_reason',
         'remarks',
+        'facebook_link',
         'processed_by',
     ];
 

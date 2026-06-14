@@ -29,8 +29,8 @@ $canRecord = $enrollment->status === 'pending_payment'
 <div class="alert alert-danger">{{ session('error') }}</div>
 @endif
 
-{{-- Approve / Reject for online pending --}}
-@if($hasPending)
+{{-- Approve / Reject for online pending — Directress and Admin only --}}
+@if($hasPending && Auth::user()->hasPermission('approve_enrollment'))
     <div class="card border-warning border mb-3">
         <div class="card-body">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
@@ -245,6 +245,16 @@ $canRecord = $enrollment->status === 'pending_payment'
                     <tr>
                         <td class="text-muted">Remarks</td>
                         <td>{{ $enrollment->remarks }}</td>
+                    </tr>
+                    @endif
+                    @if($enrollment->facebook_link)
+                    <tr>
+                        <td class="text-muted">Facebook Account</td>
+                        <td>
+                            <a href="{{ $enrollment->facebook_link }}" target="_blank" rel="noopener noreferrer" class="text-primary small">
+                                <i class="bi bi-facebook me-1"></i>View Profile
+                            </a>
+                        </td>
                     </tr>
                     @endif
                     @if($enrollment->rejection_reason)

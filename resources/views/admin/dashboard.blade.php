@@ -79,6 +79,20 @@
 
 <div class="row g-3">
     <div class="col-md-3">
+        @if($isTeacherOrStaff)
+        <div class="card dashboard-card shadow text-center py-3">
+            <div class="card-body">
+                <div class="icon-badge">
+                    <i class="bi bi-person-check fs-2" style="color: var(--primary-green, #22c55e);"></i>
+                </div>
+                <h3 class="fw-bold mt-2 mb-0">{{ $totalEnrollees }}</h3>
+                <small class="text-muted">Total Enrollees This A.Y.</small>
+                <a href="{{ route('admin.enrollments.index') }}" class="view-link">
+                    View Enrollments <i class="bi bi-arrow-right-short"></i>
+                </a>
+            </div>
+        </div>
+        @else
         <div class="card dashboard-card shadow text-center py-3">
             <div class="card-body">
                 <div class="icon-badge">
@@ -91,6 +105,7 @@
                 </a>
             </div>
         </div>
+        @endif
     </div>
     <div class="col-md-3">
         <div class="card dashboard-card shadow text-center py-3">

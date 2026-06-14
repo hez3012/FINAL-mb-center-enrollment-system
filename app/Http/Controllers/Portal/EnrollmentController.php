@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Portal;
 
 use App\Http\Controllers\Controller;
+use App\Models\AuditLog;
 use App\Models\Enrollment;
 use App\Models\EnrollmentDocument;
 use App\Models\Student;
@@ -91,32 +92,40 @@ class EnrollmentController extends Controller
         $isOthers = Disability::find($request->disability_id)?->disability_name === 'Others';
 
         $validated = $request->validate([
-            'student_first_name'  => 'required|string|min:2|max:50',
-            'student_last_name'   => 'required|string|min:2|max:50',
-            'student_middle_name' => 'nullable|string|max:50',
-            'student_birthdate'   => 'required|date|before:today',
-            'student_sex'         => 'required|in:male,female,others,prefer_not_to_say',
-            'student_sex_specify' => 'nullable|string|max:100',
-            'house_unit_no'       => 'nullable|string|max:100',
-            'street'              => 'nullable|string|min:4|max:100',
-            'barangay'            => 'nullable|string|min:4|max:100',
-            'city'                => 'nullable|string|max:100',
-            'province'            => 'nullable|string|max:100',
-            'region'              => 'nullable|string|max:100',
-            'zip_code'            => ['nullable', 'regex:/^\d{4}$/'],
-            'service_type_id'     => 'required|exists:service_type,service_type_id',
-            'disability_id'       => 'required|exists:disability,disability_id',
-            'disability_other'    => $isOthers
+            'student_first_name'     => 'required|string|min:2|max:50',
+            'student_last_name'      => 'required|string|min:2|max:50',
+            'student_middle_name'    => 'nullable|string|max:50',
+            'student_birthdate'      => 'required|date|before:today',
+            'student_sex'            => 'required|in:male,female,others,prefer_not_to_say',
+            'student_sex_specify'    => 'nullable|string|max:100',
+            'house_unit_no'          => 'nullable|string|max:100',
+            'street'                 => 'nullable|string|min:4|max:100',
+            'barangay'               => 'nullable|string|min:4|max:100',
+            'city'                   => 'nullable|string|max:100',
+            'province'               => 'nullable|string|max:100',
+            'region'                 => 'nullable|string|max:100',
+            'zip_code'               => ['nullable', 'regex:/^\d{4}$/'],
+            'service_type_id'        => 'required|exists:service_type,service_type_id',
+            'disability_id'          => 'required|exists:disability,disability_id',
+            'disability_other'       => $isOthers
                 ? 'required|string|max:255'
                 : 'nullable|string|max:255',
-            'program_level_id'    => $isSpED
+            'program_level_id'       => $isSpED
                 ? 'required|exists:program_level,program_level_id'
                 : 'nullable|exists:program_level,program_level_id',
-            'remarks'             => 'nullable|string|max:500',
-            'waiver_signed'       => 'nullable|boolean',
-            'doc_file.*'          => 'nullable|file|max:51200',
-            'doc_notes.*'         => 'nullable|string|max:255',
+            'remarks'                => 'nullable|string|max:500',
+            'facebook_link'          => 'nullable|url|max:500',
+            'waiver_signed'          => 'nullable|boolean',
+            'doc_file.*'             => 'nullable|file|max:51200',
+            'doc_notes.*'            => 'nullable|string|max:255',
+            'student_profile_picture'=> 'nullable|image|mimes:jpg,jpeg,png|max:51200',
         ]);
+
+        $studentPicPath = null;
+        if ($request->hasFile('student_profile_picture')) {
+            $studentPicPath = $request->file('student_profile_picture')
+                ->store('profile_pictures/students', 'public');
+        }
 
         $student = Student::create([
             'first_name'       => $validated['student_first_name'],
@@ -137,6 +146,7 @@ class EnrollmentController extends Controller
             'disability_id'    => $validated['disability_id'],
             'disability_other' => $isOthers ? ($validated['disability_other'] ?? null) : null,
             'program_level_id' => $isSpED ? ($validated['program_level_id'] ?? null) : null,
+            'profile_picture'  => $studentPicPath,
             'status'           => 'active',
         ]);
 
@@ -148,6 +158,7 @@ class EnrollmentController extends Controller
             'enrollment_type'  => 'online',
             'status'           => 'pending',
             'remarks'          => $validated['remarks'] ?? null,
+            'facebook_link'    => $validated['facebook_link'] ?? null,
             'waiver_signed'    => $request->boolean('waiver_signed'),
             'processed_by'     => null,
         ]);
@@ -170,6 +181,20 @@ class EnrollmentController extends Controller
                 'notes'            => $request->input("doc_notes.{$id}"),
             ]);
         }
+
+        // ── Record to Activity Trail ───────────────────────────────────────────
+        AuditLog::create([
+            'user_id'    => $authUser->getAuthIdentifier(),
+            'action'     => 'create',
+            'table_name' => 'enrollment',
+            'record_id'  => $enrollment->enrollment_id,
+            'changes'    => json_encode([
+                'student'     => $student->full_name,
+                'school_year' => $currentYear->year_label ?? $currentYear->school_year_id,
+                'status'      => 'pending',
+            ]),
+            'timestamp'  => now(),
+        ]);
 
         return redirect()
             ->route('portal.enrollments.show', $enrollment->enrollment_id)

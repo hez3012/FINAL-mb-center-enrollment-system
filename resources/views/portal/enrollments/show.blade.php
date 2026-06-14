@@ -9,13 +9,6 @@
     </a>
 </div>
 
-@if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show">
-        <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
-
 {{-- Status-based notices --}}
 @if($enrollment->status === 'pending')
     <div class="alert alert-warning">
@@ -48,7 +41,8 @@
         </p>
         <p class="mb-0 small text-muted">
             <i class="bi bi-chat-dots me-1"></i>
-            Our facilitator will contact you via <strong>Messenger</strong>
+            Our facilitator will contact you via <strong>Facebook Messenger</strong>
+            or through your registered <strong>Contact Number</strong>
             for the payment details, schedule, and further instructions.
             Please watch out for our message.
         </p>
@@ -127,6 +121,16 @@
                         <td class="text-muted">Date Filed</td>
                         <td>{{ $enrollment->enrollment_date?->format('m/d/Y') }}</td>
                     </tr>
+                    @if($enrollment->facebook_link)
+                    <tr>
+                        <td class="text-muted">Facebook Account</td>
+                        <td>
+                            <a href="{{ $enrollment->facebook_link }}" target="_blank" rel="noopener noreferrer" class="text-primary small">
+                                <i class="bi bi-facebook me-1"></i>View Profile
+                            </a>
+                        </td>
+                    </tr>
+                    @endif
                     <tr>
                         <td class="text-muted">Waiver</td>
                         <td>

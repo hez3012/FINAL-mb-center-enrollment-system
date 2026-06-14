@@ -27,7 +27,9 @@ class AuditLogController extends Controller
         $isOwnOnly    = !$isDirectress && !$isAdmin;
 
         // ── Trail ──────────────────────────────────────────────────────────────
-        $trailQuery = AuditLog::with('user.role')->orderByDesc('timestamp');
+        $trailQuery = AuditLog::with('user.role')
+            ->whereNotIn('action', ['login', 'logout'])  // Login/Logout belong in the Log tab only
+            ->orderByDesc('timestamp');
 
         if ($isOwnOnly) {
             $trailQuery->where('user_id', $userId);

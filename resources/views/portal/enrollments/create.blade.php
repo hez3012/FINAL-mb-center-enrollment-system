@@ -38,6 +38,36 @@ $currentSex = old('student_sex');
             enctype="multipart/form-data">
             @csrf
 
+            {{-- Child's Profile Picture --}}
+            <p class="fw-semibold text-primary small mb-2">
+                <i class="bi bi-person-circle me-1"></i>Child's Profile Picture
+                <span class="text-muted fw-normal">(optional)</span>
+            </p>
+            <div class="border rounded p-3 mb-4">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-3 text-center">
+                        <div id="studentAvatarPreview" class="d-inline-flex align-items-center justify-content-center rounded-circle border border-2 border-primary-subtle shadow-sm" style="width:80px;height:80px;background:#f0f9ff;">
+                            <i class="bi bi-person fs-1 text-muted"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <label for="studentPicInput" class="btn btn-sm btn-outline-primary mb-0">
+                                <i class="bi bi-image me-1"></i>Choose Picture
+                            </label>
+                            <input type="file" name="student_profile_picture" id="studentPicInput"
+                                class="d-none @error('student_profile_picture') is-invalid @enderror"
+                                accept=".jpg,.jpeg,.png">
+                            <span id="studentPicName" class="text-muted small">No file chosen</span>
+                        </div>
+                        <small class="text-muted">JPG or PNG only · Max 50MB · Optional</small>
+                        @error('student_profile_picture')
+                        <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
             {{-- Child's Personal Information --}}
             <p class="fw-semibold text-primary small mb-2">
                 <i class="bi bi-person me-1"></i>Child's Personal Information
@@ -282,7 +312,23 @@ $currentSex = old('student_sex');
                 @endforeach
             </div>
 
-            {{-- Remarks + Waiver --}}
+            {{-- Remarks + Facebook Link + Waiver --}}
+            <div class="row g-3 mb-4">
+                <div class="col-md-8">
+                    <label class="form-label fw-semibold">
+                        Facebook Account Link
+                        <span class="text-muted small fw-normal">(optional)</span>
+                    </label>
+                    <input type="url" name="facebook_link"
+                        class="form-control @error('facebook_link') is-invalid @enderror"
+                        value="{{ old('facebook_link') }}"
+                        placeholder="https://facebook.com/yourprofile">
+                    <small class="text-muted">So our facilitators can reach you via Messenger.</small>
+                    @error('facebook_link')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
             <div class="row g-3 mb-4">
                 <div class="col-md-8">
                     <label class="form-label fw-semibold">
@@ -478,6 +524,24 @@ $currentSex = old('student_sex');
                 label.textContent = this.files[0] ? this.files[0].name : 'No file chosen';
             }
         });
+    });
+
+    // ── Student Profile Picture Preview ──────────────────────────────────────────
+    document.getElementById('studentPicInput').addEventListener('change', function() {
+        var file = this.files[0];
+        var nameSpan = document.getElementById('studentPicName');
+        var preview  = document.getElementById('studentAvatarPreview');
+        if (file) {
+            nameSpan.textContent = file.name;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                preview.innerHTML = '<img src="' + e.target.result + '" style="width:76px;height:76px;object-fit:cover;border-radius:50%;">';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            nameSpan.textContent = 'No file chosen';
+            preview.innerHTML = '<i class="bi bi-person fs-1 text-muted"></i>';
+        }
     });
 </script>
 @endsection

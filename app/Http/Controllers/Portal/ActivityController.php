@@ -22,6 +22,7 @@ class ActivityController extends Controller
         $userId   = $authUser?->getAuthIdentifier();
 
         $trails = AuditLog::where('user_id', $userId)
+            ->whereNotIn('action', ['login', 'logout'])
             ->orderByDesc('timestamp')
             ->paginate(15, ['*'], 'trail_page')
             ->withQueryString();
