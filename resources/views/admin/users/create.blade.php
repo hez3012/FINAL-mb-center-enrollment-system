@@ -283,6 +283,18 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
                         </select>
                         @error('relationship')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">
+                            Facebook Account Link
+                            <span class="text-muted small fw-normal">(optional)</span>
+                        </label>
+                        <input type="url" name="facebook_link"
+                            class="form-control @error('facebook_link') is-invalid @enderror"
+                            value="{{ old('facebook_link') }}"
+                            placeholder="https://facebook.com/yourprofile">
+                        <small class="text-muted">So facilitators can reach the guardian via Messenger.</small>
+                        @error('facebook_link')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
                 </div>
             </div>
 

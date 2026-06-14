@@ -281,6 +281,21 @@
                                     <small class="text-muted">Format: 09XXXXXXXXX (11 digits)</small>
                                 @enderror
                             </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">
+                                    Facebook Account Link
+                                    <span class="text-muted small fw-normal">(optional)</span>
+                                </label>
+                                <input type="url" name="facebook_link"
+                                       class="form-control @error('facebook_link') is-invalid @enderror"
+                                       value="{{ old('facebook_link') }}"
+                                       placeholder="https://facebook.com/yourprofile">
+                                @error('facebook_link')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @else
+                                    <small class="text-muted">So our facilitators can reach you via Messenger.</small>
+                                @enderror
+                            </div>
                         </div>
 
                         {{-- Address --}}

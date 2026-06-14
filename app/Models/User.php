@@ -57,6 +57,7 @@ class User extends Authenticatable
         'birthdate',
         'contact_number_1',
         'contact_number_2',
+        'facebook_link',
         'region',
         'province',
         'city',

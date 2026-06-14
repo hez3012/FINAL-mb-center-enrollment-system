@@ -312,23 +312,7 @@ $currentSex = old('student_sex');
                 @endforeach
             </div>
 
-            {{-- Remarks + Facebook Link + Waiver --}}
-            <div class="row g-3 mb-4">
-                <div class="col-md-8">
-                    <label class="form-label fw-semibold">
-                        Facebook Account Link
-                        <span class="text-muted small fw-normal">(optional)</span>
-                    </label>
-                    <input type="url" name="facebook_link"
-                        class="form-control @error('facebook_link') is-invalid @enderror"
-                        value="{{ old('facebook_link') }}"
-                        placeholder="https://facebook.com/yourprofile">
-                    <small class="text-muted">So our facilitators can reach you via Messenger.</small>
-                    @error('facebook_link')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
+            {{-- Remarks + Waiver --}}
             <div class="row g-3 mb-4">
                 <div class="col-md-8">
                     <label class="form-label fw-semibold">

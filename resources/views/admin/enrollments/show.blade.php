@@ -247,16 +247,6 @@ $canRecord = $enrollment->status === 'pending_payment'
                         <td>{{ $enrollment->remarks }}</td>
                     </tr>
                     @endif
-                    @if($enrollment->facebook_link)
-                    <tr>
-                        <td class="text-muted">Facebook Account</td>
-                        <td>
-                            <a href="{{ $enrollment->facebook_link }}" target="_blank" rel="noopener noreferrer" class="text-primary small">
-                                <i class="bi bi-facebook me-1"></i>View Profile
-                            </a>
-                        </td>
-                    </tr>
-                    @endif
                     @if($enrollment->rejection_reason)
                     <tr>
                         <td class="text-muted">Rejection Reason</td>

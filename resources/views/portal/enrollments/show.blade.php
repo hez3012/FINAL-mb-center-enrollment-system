@@ -121,16 +121,6 @@
                         <td class="text-muted">Date Filed</td>
                         <td>{{ $enrollment->enrollment_date?->format('m/d/Y') }}</td>
                     </tr>
-                    @if($enrollment->facebook_link)
-                    <tr>
-                        <td class="text-muted">Facebook Account</td>
-                        <td>
-                            <a href="{{ $enrollment->facebook_link }}" target="_blank" rel="noopener noreferrer" class="text-primary small">
-                                <i class="bi bi-facebook me-1"></i>View Profile
-                            </a>
-                        </td>
-                    </tr>
-                    @endif
                     <tr>
                         <td class="text-muted">Waiver</td>
                         <td>

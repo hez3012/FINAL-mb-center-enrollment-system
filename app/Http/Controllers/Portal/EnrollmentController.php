@@ -114,7 +114,6 @@ class EnrollmentController extends Controller
                 ? 'required|exists:program_level,program_level_id'
                 : 'nullable|exists:program_level,program_level_id',
             'remarks'                => 'nullable|string|max:500',
-            'facebook_link'          => 'nullable|url|max:500',
             'waiver_signed'          => 'nullable|boolean',
             'doc_file.*'             => 'nullable|file|max:51200',
             'doc_notes.*'            => 'nullable|string|max:255',
@@ -158,7 +157,6 @@ class EnrollmentController extends Controller
             'enrollment_type'  => 'online',
             'status'           => 'pending',
             'remarks'          => $validated['remarks'] ?? null,
-            'facebook_link'    => $validated['facebook_link'] ?? null,
             'waiver_signed'    => $request->boolean('waiver_signed'),
             'processed_by'     => null,
         ]);
