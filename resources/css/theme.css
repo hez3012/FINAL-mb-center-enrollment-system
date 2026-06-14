@@ -1,0 +1,823 @@
+/* ====================================================
+   MB CENTER ENROLLMENT SYSTEM - GLOBAL THEME
+   Green-YellowGreen-Yellow Color Scheme
+   ==================================================== */
+
+:root {
+    /* Primary Colors */
+    --primary-green: #22c55e;
+    --secondary-green: #16a34a;
+    --dark-green: #15803d;
+    --light-green: #dcfce7;
+    --lighter-green: #f0fdf4;
+    
+    /* Yellow-Green Colors */
+    --yellowgreen: #84cc16;
+    --lime-green: #a3e635;
+    
+    /* Yellow Colors */
+    --primary-yellow: #eab308;
+    --light-yellow: #fef08a;
+    
+    /* Backgrounds */
+    --light-bg: #f0fdf4;
+    --dark-bg: #052e16;
+    --body-bg: #fafaf9;
+    
+    /* Text Colors */
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --text-light: #9ca3af;
+    
+    /* Borders and Shadows */
+    --border-color: #e5e7eb;
+    --border-light: #f3f4f6;
+}
+
+/* ====================================================
+   GLOBAL STYLES
+   ==================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* ====================================================
+   BUTTONS
+   ==================================================== */
+
+.btn {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    padding: 0.6rem 1.5rem;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.2);
+}
+
+/* Primary Button */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.25);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--secondary-green) 0%, var(--dark-green) 100%);
+    color: white;
+}
+
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(34, 197, 94, 0.35);
+}
+
+.btn-primary:active {
+    background: linear-gradient(135deg, var(--dark-green) 0%, var(--secondary-green) 100%);
+}
+
+/* Success Button */
+.btn-success {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--yellowgreen) 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.25);
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, var(--secondary-green) 0%, var(--primary-green) 100%);
+    color: white;
+}
+
+.btn-success:focus {
+    box-shadow: 0 0 0 0.25rem rgba(34, 197, 94, 0.35);
+}
+
+/* Warning Button */
+.btn-warning {
+    background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--yellowgreen) 100%);
+    color: var(--dark-green);
+    border: none;
+    box-shadow: 0 4px 15px rgba(234, 179, 8, 0.2);
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, var(--light-yellow) 0%, var(--primary-yellow) 100%);
+    color: var(--dark-green);
+}
+
+.btn-warning:focus {
+    box-shadow: 0 0 0 0.25rem rgba(234, 179, 8, 0.35);
+}
+
+/* Info Button */
+.btn-info {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-yellow) 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.25);
+}
+
+.btn-info:hover {
+    background: linear-gradient(135deg, var(--secondary-green) 0%, var(--yellowgreen) 100%);
+    color: white;
+}
+
+.btn-info:focus {
+    box-shadow: 0 0 0 0.25rem rgba(34, 197, 94, 0.35);
+}
+
+/* Outline Buttons */
+.btn-outline-primary {
+    color: var(--primary-green);
+    border: 2px solid var(--primary-green);
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-green);
+    border-color: var(--primary-green);
+    color: white;
+}
+
+.btn-outline-success {
+    color: var(--secondary-green);
+    border: 2px solid var(--secondary-green);
+}
+
+.btn-outline-success:hover {
+    background: var(--secondary-green);
+    border-color: var(--secondary-green);
+    color: white;
+}
+
+/* ====================================================
+   CARDS
+   ==================================================== */
+
+.card {
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.12);
+    transform: translateY(-2px);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--light-green) 0%, var(--light-yellow) 100%);
+    border-bottom: 2px solid var(--primary-green);
+    border-radius: 11px 11px 0 0;
+    font-weight: 700;
+    color: var(--dark-green);
+}
+
+.card-header.bg-primary {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%) !important;
+    color: white;
+    border: none;
+}
+
+.card-header.bg-success {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--yellowgreen) 100%) !important;
+    color: white;
+    border: none;
+}
+
+.card-header.bg-warning {
+    background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--yellowgreen) 100%) !important;
+    color: var(--dark-green);
+    border: none;
+}
+
+/* ====================================================
+   BADGES
+   ==================================================== */
+
+.badge {
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.badge-primary {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+    color: white;
+}
+
+.badge-success {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--yellowgreen) 100%);
+    color: white;
+}
+
+.badge-warning {
+    background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--yellowgreen) 100%);
+    color: var(--dark-green);
+}
+
+.badge-info {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-yellow) 100%);
+    color: white;
+}
+
+/* ====================================================
+   FORMS & INPUTS
+   ==================================================== */
+
+.form-control,
+.form-select,
+textarea.form-control {
+    border: 2px solid var(--border-light);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 0.2rem rgba(34, 197, 94, 0.15);
+    background-color: #ffffff;
+}
+
+.form-control::placeholder {
+    color: var(--text-light);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.input-group-text {
+    background: linear-gradient(135deg, var(--light-green) 0%, var(--light-yellow) 100%);
+    border: 2px solid var(--border-light);
+    color: var(--dark-green);
+    font-weight: 600;
+}
+
+/* ====================================================
+   ALERTS
+   ==================================================== */
+
+.alert {
+    border: none;
+    border-radius: 10px;
+    border-left: 4px solid;
+    padding: 1rem;
+    font-weight: 500;
+}
+
+.alert-primary {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(132, 204, 22, 0.05) 100%);
+    border-left-color: var(--primary-green);
+    color: var(--dark-green);
+}
+
+.alert-success {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(132, 204, 22, 0.1) 100%);
+    border-left-color: var(--primary-green);
+    color: var(--dark-green);
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.1) 0%, rgba(132, 204, 22, 0.1) 100%);
+    border-left-color: var(--primary-yellow);
+    color: var(--dark-green);
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%);
+    border-left-color: #ef4444;
+    color: #991b1b;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+    border-left-color: var(--primary-green);
+    color: var(--dark-green);
+}
+
+/* ====================================================
+   TABLES
+   ==================================================== */
+
+.table {
+    border-collapse: collapse;
+}
+
+.table thead th {
+    background: linear-gradient(135deg, var(--light-green) 0%, var(--light-yellow) 100%);
+    color: var(--dark-green);
+    font-weight: 700;
+    border: none;
+    padding: 1rem 0.75rem;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.table tbody td {
+    padding: 1rem 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: middle;
+}
+
+.table tbody tr {
+    transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background-color: var(--light-bg);
+    box-shadow: inset 0 2px 4px rgba(34, 197, 94, 0.1);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(240, 253, 244, 0.5);
+}
+
+.table-primary,
+.table-primary > th,
+.table-primary > td {
+    background-color: rgba(34, 197, 94, 0.16) !important;
+    color: var(--dark-green) !important;
+    border-color: rgba(34, 197, 94, 0.24) !important;
+}
+
+.table-success,
+.table-success > th,
+.table-success > td {
+    background-color: rgba(74, 222, 128, 0.18) !important;
+    color: var(--dark-green) !important;
+    border-color: rgba(74, 222, 128, 0.28) !important;
+}
+
+.table-info,
+.table-info > th,
+.table-info > td {
+    background-color: rgba(132, 204, 22, 0.18) !important;
+    color: var(--dark-green) !important;
+    border-color: rgba(132, 204, 22, 0.28) !important;
+}
+
+.table-warning,
+.table-warning > th,
+.table-warning > td {
+    background-color: rgba(234, 179, 8, 0.16) !important;
+    color: var(--dark-green) !important;
+    border-color: rgba(234, 179, 8, 0.24) !important;
+}
+
+.table-secondary,
+.table-secondary > th,
+.table-secondary > td {
+    background-color: rgba(34, 197, 94, 0.08) !important;
+    color: var(--dark-green) !important;
+    border-color: rgba(34, 197, 94, 0.16) !important;
+}
+
+/* ====================================================
+   NAVBAR
+   ==================================================== */
+
+.navbar {
+    background: linear-gradient(90deg, var(--dark-green) 0%, var(--secondary-green) 50%, var(--primary-green) 100%) !important;
+    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.2);
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: white !important;
+    letter-spacing: -0.5px;
+}
+
+.navbar .nav-link {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-weight: 600;
+    margin: 0 0.75rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.navbar .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-yellow);
+    transition: width 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+    color: white !important;
+}
+
+.navbar .nav-link:hover::after {
+    width: 100%;
+}
+
+.navbar .nav-link.active {
+    color: white !important;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+}
+
+/* ====================================================
+   SIDEBAR
+   ==================================================== */
+
+.sidebar {
+    background: linear-gradient(180deg, #ffffff 0%, var(--light-bg) 100%);
+    border-right: 2px solid var(--border-light);
+}
+
+.sidebar-brand {
+    background: linear-gradient(135deg, var(--light-green) 0%, var(--light-yellow) 100%);
+    color: var(--dark-green);
+    font-weight: 800;
+    padding: 1.5rem 1rem;
+    border-bottom: 3px solid var(--primary-green);
+}
+
+.sidebar .nav-link {
+    color: var(--text-secondary);
+    font-weight: 500;
+    padding: 0.7rem 1rem;
+    margin: 4px 8px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.sidebar .nav-link:hover {
+    background: linear-gradient(135deg, var(--light-green) 0%, var(--light-yellow) 100%);
+    color: var(--dark-green);
+    transform: translateX(5px);
+}
+
+.sidebar .nav-link.active {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.25);
+}
+
+/* ====================================================
+   TOPBAR / HEADER
+   ==================================================== */
+
+.topbar {
+    background: white;
+    border-bottom: 2px solid var(--border-light);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.topbar .nav-link {
+    color: var(--text-secondary) !important;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.topbar .nav-link:hover {
+    color: var(--primary-green) !important;
+    transform: translateY(-2px);
+}
+
+/* ====================================================
+   PAGINATION
+   ==================================================== */
+
+.pagination {
+    gap: 0.25rem;
+}
+
+.page-link {
+    color: var(--primary-green);
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.page-link:hover {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+    border-color: var(--primary-green);
+    color: white;
+}
+
+.page-link.active {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+    border-color: var(--primary-green);
+}
+
+.page-link:disabled {
+    color: var(--text-light);
+    background-color: var(--border-light);
+    border-color: var(--border-light);
+}
+
+/* ====================================================
+   PROGRESS BARS
+   ==================================================== */
+
+.progress {
+    background-color: var(--border-light);
+    border-radius: 10px;
+    height: 1.5rem;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, var(--primary-green) 0%, var(--yellowgreen) 100%);
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+/* ====================================================
+   DROPDOWN MENUS
+   ==================================================== */
+
+.dropdown-menu {
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.dropdown-item {
+    color: var(--text-secondary);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.dropdown-item:hover,
+.dropdown-item.active {
+    background: linear-gradient(135deg, var(--light-green) 0%, var(--light-yellow) 100%);
+    color: var(--dark-green);
+    font-weight: 700;
+}
+
+/* ====================================================
+   MODAL
+   ==================================================== */
+
+.modal-content {
+    border: 1px solid var(--border-light);
+    border-radius: 15px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, var(--light-green) 0%, var(--light-yellow) 100%);
+    border-bottom: 2px solid var(--primary-green);
+    border-radius: 15px 15px 0 0;
+    font-weight: 700;
+    color: var(--dark-green);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border-light);
+}
+
+/* ====================================================
+   TOOLTIPS & POPOVERS
+   ==================================================== */
+
+.tooltip-inner {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.bs-tooltip-auto[data-popper-placement^="top"] .tooltip-arrow::before,
+.bs-tooltip-top .tooltip-arrow::before {
+    border-top-color: var(--primary-green);
+}
+
+/* ====================================================
+   SPINNERS & LOADERS
+   ==================================================== */
+
+.spinner-border {
+    color: var(--primary-green);
+    border-width: 0.3em;
+}
+
+.spinner-border.text-success {
+    color: var(--yellowgreen) !important;
+}
+
+/* ====================================================
+   TEXT UTILITIES
+   ==================================================== */
+
+.text-primary {
+    color: var(--primary-green) !important;
+}
+
+.text-success {
+    color: var(--yellowgreen) !important;
+}
+
+.text-warning {
+    color: var(--primary-yellow) !important;
+}
+
+.text-info {
+    color: var(--primary-green) !important;
+}
+
+.text-muted {
+    color: var(--text-secondary) !important;
+}
+
+/* ====================================================
+   BACKGROUND UTILITIES
+   ==================================================== */
+
+.bg-primary {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%) !important;
+    color: white;
+}
+
+.bg-success {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--yellowgreen) 100%) !important;
+    color: white;
+}
+
+.bg-warning {
+    background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--yellowgreen) 100%) !important;
+    color: var(--dark-green);
+}
+
+.bg-info {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-yellow) 100%) !important;
+    color: white;
+}
+
+.bg-light {
+    background: var(--light-bg) !important;
+}
+
+/* ====================================================
+   BORDER UTILITIES
+   ==================================================== */
+
+.border-primary {
+    border-color: var(--primary-green) !important;
+}
+
+.border-success {
+    border-color: var(--yellowgreen) !important;
+}
+
+.border-warning {
+    border-color: var(--primary-yellow) !important;
+}
+
+/* ====================================================
+   UTILITY CLASSES
+   ==================================================== */
+
+.shadow-sm {
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.1) !important;
+}
+
+.shadow {
+    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.15) !important;
+}
+
+.shadow-lg {
+    box-shadow: 0 20px 50px rgba(34, 197, 94, 0.2) !important;
+}
+
+/* Gradient backgrounds */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+}
+
+.bg-gradient-success {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--yellowgreen) 100%);
+}
+
+.bg-gradient-warning {
+    background: linear-gradient(135deg, var(--primary-yellow) 0%, var(--yellowgreen) 100%);
+}
+
+/* ====================================================
+   ANIMATIONS
+   ==================================================== */
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-slide-up {
+    animation: slideInUp 0.6s ease-out;
+}
+
+.animate-slide-left {
+    animation: slideInLeft 0.6s ease-out;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* ====================================================
+   RESPONSIVE ADJUSTMENTS
+   ==================================================== */
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+    
+    .sidebar-brand {
+        padding: 1rem 0.5rem;
+        text-align: center;
+    }
+    
+    .sidebar .nav-link {
+        margin: 4px;
+        padding: 0.7rem;
+    }
+    
+    .navbar .nav-link {
+        margin: 0 0.25rem;
+    }
+}
+
+/* ====================================================
+   PRINT STYLES
+   ==================================================== */
+
+@media print {
+    .sidebar,
+    .topbar,
+    .navbar,
+    .btn-close {
+        display: none;
+    }
+    
+    body {
+        background: white;
+    }
+    
+    .card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+}
