@@ -115,7 +115,7 @@ class EnrollmentController extends Controller
                 : 'nullable|exists:program_level,program_level_id',
             'remarks'                => 'nullable|string|max:500',
             'waiver_signed'          => 'nullable|boolean',
-            'doc_file.*'             => 'nullable|file|max:51200',
+            'doc_file.*.*'           => 'nullable|file|max:51200',
             'doc_notes.*'            => 'nullable|string|max:255',
             'student_profile_picture'=> 'nullable|image|mimes:jpg,jpeg,png|max:51200',
         ]);
@@ -163,19 +163,21 @@ class EnrollmentController extends Controller
 
         $docTypes = DocumentType::where('is_active', 1)->get();
         foreach ($docTypes as $docType) {
-            $id   = $docType->document_type_id;
-            $path = null;
+            $id    = $docType->document_type_id;
+            $paths = [];
 
-            if ($request->hasFile("doc_file.{$id}")) {
-                $path = $request->file("doc_file.{$id}")
-                    ->store('enrollment_documents', 'public');
+            $files = $request->file("doc_file.{$id}", []);
+            foreach ((array) $files as $file) {
+                if ($file) {
+                    $paths[] = $file->store('enrollment_documents', 'public');
+                }
             }
 
             EnrollmentDocument::create([
                 'enrollment_id'    => $enrollment->enrollment_id,
                 'document_type_id' => $id,
-                'file_path'        => $path,
-                'submission_status' => $path ? 'pending' : 'missing',
+                'file_path'        => !empty($paths) ? json_encode($paths) : null,
+                'submission_status' => !empty($paths) ? 'pending' : 'missing',
                 'notes'            => $request->input("doc_notes.{$id}"),
             ]);
         }

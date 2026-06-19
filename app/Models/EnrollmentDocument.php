@@ -26,6 +26,24 @@ class EnrollmentDocument extends Model
         'submission_date' => 'date',
     ];
 
+    /**
+     * Returns the list of stored file paths as a plain array.
+     * Supports both the new JSON-array format and legacy single-path strings.
+     */
+    public function getFilePathsAttribute(): array
+    {
+        if (!$this->file_path) {
+            return [];
+        }
+        $decoded = json_decode($this->file_path, true);
+        return is_array($decoded) ? $decoded : [$this->file_path];
+    }
+
+    public function getHasFileAttribute(): bool
+    {
+        return count($this->file_paths) > 0;
+    }
+
     public function enrollment()
     {
         return $this->belongsTo(Enrollment::class, 'enrollment_id', 'enrollment_id');

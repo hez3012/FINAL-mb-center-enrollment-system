@@ -23,7 +23,8 @@
         </p>
         <p class="mb-0 small text-muted">
             <i class="bi bi-chat-dots me-1"></i>
-            Our facilitator will reach out to you via <strong>Messenger</strong>
+            Our facilitator will reach out to you via <strong>Facebook Messenger</strong>
+            or through your registered <strong>Contact Number</strong>
             to inform you of the result and guide you through the next steps.
         </p>
     </div>
@@ -158,13 +159,17 @@
                             @endif
                         </div>
                         <div class="d-flex align-items-center gap-2">
-                            @if($doc->file_path)
-                                <a href="{{ Storage::url($doc->file_path) }}"
+                            @foreach($doc->file_paths as $i => $path)
+                                <a href="{{ Storage::url($path) }}"
                                    target="_blank"
-                                   class="btn btn-sm btn-outline-secondary">
+                                   class="btn btn-sm btn-outline-secondary"
+                                   title="View File{{ count($doc->file_paths) > 1 ? ' ' . ($i + 1) : '' }}">
                                     <i class="bi bi-file-earmark"></i>
+                                    @if(count($doc->file_paths) > 1)
+                                    <span class="small">{{ $i + 1 }}</span>
+                                    @endif
                                 </a>
-                            @endif
+                            @endforeach
                             @php
                                 $dc = [
                                     'submitted' => 'success',

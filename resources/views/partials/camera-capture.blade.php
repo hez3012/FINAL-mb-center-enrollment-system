@@ -35,11 +35,11 @@
 <script>
     (function() {
         var cameraStream = null;
-        var cameraTargetInputId = null;
+        var cameraTarget = null; // string (inputId, replace mode) OR function (callback mode)
         var cameraCapturedBlob = null;
 
-        window.openCameraCapture = function(inputId) {
-            cameraTargetInputId = inputId;
+        window.openCameraCapture = function(target) {
+            cameraTarget = target;
             cameraCapturedBlob = null;
 
             var modalEl = document.getElementById('cameraCaptureModal');
@@ -119,16 +119,20 @@
         });
 
         document.getElementById('cameraUseBtn').addEventListener('click', function() {
-            if (!cameraCapturedBlob || !cameraTargetInputId) return;
+            if (!cameraCapturedBlob || !cameraTarget) return;
 
             var fileName = 'webcam-photo-' + Date.now() + '.jpg';
             var file = new File([cameraCapturedBlob], fileName, { type: 'image/jpeg' });
-            var dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
 
-            var input = document.getElementById(cameraTargetInputId);
-            input.files = dataTransfer.files;
-            input.dispatchEvent(new Event('change', { bubbles: true }));
+            if (typeof cameraTarget === 'function') {
+                cameraTarget(file);
+            } else {
+                var dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                var input = document.getElementById(cameraTarget);
+                input.files = dataTransfer.files;
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+            }
 
             bootstrap.Modal.getInstance(document.getElementById('cameraCaptureModal')).hide();
         });

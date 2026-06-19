@@ -111,7 +111,7 @@ class EnrollmentController extends Controller
             'remarks'          => 'nullable|string|max:500',
             'rejection_reason' => 'nullable|string|max:500',
             'waiver_signed'    => 'nullable|boolean',
-            'doc_file.*'       => 'nullable|file|max:51200',
+            'doc_file.*.*'     => 'nullable|file|max:51200',
             'doc_status.*'     => 'nullable|in:pending,submitted,missing',
             'doc_notes.*'      => 'nullable|string|max:255',
         ]);
@@ -134,23 +134,34 @@ class EnrollmentController extends Controller
         ]);
 
         $docTypes = DocumentType::where('is_active', 1)->get();
+        // "Pending Payment" should only ever exist once every required document
+        // is submitted — enforce that invariant explicitly rather than trusting
+        // each individual dropdown value alone.
+        $forceSubmitted = $validated['status'] === 'pending_payment';
+
         foreach ($docTypes as $docType) {
             $id     = $docType->document_type_id;
             $status = $request->input("doc_status.{$id}", 'missing');
-            $path   = null;
+            $paths  = [];
 
-            if ($request->hasFile("doc_file.{$id}")) {
-                $path   = $request->file("doc_file.{$id}")
-                    ->store('enrollment_documents', 'public');
-                $status = in_array($status, ['pending', 'submitted'])
-                    ? $status : 'pending';
+            $files = $request->file("doc_file.{$id}", []);
+            foreach ((array) $files as $file) {
+                if ($file) {
+                    $paths[] = $file->store('enrollment_documents', 'public');
+                }
+            }
+
+            if (!empty($paths)) {
+                $status = $forceSubmitted
+                    ? 'submitted'
+                    : (in_array($status, ['pending', 'submitted']) ? $status : 'pending');
             }
 
             EnrollmentDocument::create([
                 'enrollment_id'    => $enrollment->enrollment_id,
                 'document_type_id' => $id,
-                'file_path'        => $path,
-                'submission_status' => $path ? $status : 'missing',
+                'file_path'        => !empty($paths) ? json_encode($paths) : null,
+                'submission_status' => !empty($paths) ? $status : 'missing',
                 'notes'            => $request->input("doc_notes.{$id}"),
             ]);
         }
@@ -239,9 +250,10 @@ class EnrollmentController extends Controller
             'remarks'          => 'nullable|string|max:500',
             'rejection_reason' => 'nullable|string|max:500',
             'waiver_signed'    => 'nullable|boolean',
-            'doc_file.*'       => 'nullable|file|max:51200',
+            'doc_file.*.*'     => 'nullable|file|max:51200',
             'doc_status.*'     => 'nullable|in:pending,submitted,missing',
             'doc_notes.*'      => 'nullable|string|max:255',
+            'keep_existing_doc.*.*' => 'nullable|string',
         ]);
 
         if (!$isSpED) {
@@ -257,38 +269,59 @@ class EnrollmentController extends Controller
             'waiver_signed'    => $request->boolean('waiver_signed'),
         ]);
 
-        $docTypes = DocumentType::where('is_active', 1)->get();
-        foreach ($docTypes as $docType) {
-            $id  = $docType->document_type_id;
-            $doc = $enrollment->documents
-                ->where('document_type_id', $id)
-                ->first();
+        // Documents are only editable while the enrollment was at "Pending Review"
+        // (matches the lock rule shown on the edit page). This guards against
+        // direct form submissions bypassing the UI restriction.
+        $docsWereEditable = !$hasPayment && $enrollment->getOriginal('status') === 'pending';
 
-            $status = $request->input("doc_status.{$id}");
-            $path   = $doc?->file_path;
+        if ($docsWereEditable) {
+            $docTypes = DocumentType::where('is_active', 1)->get();
+            $forceSubmitted = $validated['status'] === 'pending_payment';
 
-            if ($request->hasFile("doc_file.{$id}")) {
-                if ($path) {
-                    Storage::disk('public')->delete($path);
+            foreach ($docTypes as $docType) {
+                $id  = $docType->document_type_id;
+                $doc = $enrollment->documents
+                    ->where('document_type_id', $id)
+                    ->first();
+
+                $status        = $request->input("doc_status.{$id}");
+                $existingPaths = $doc?->file_paths ?? [];
+
+                // Keep only the existing paths the user did NOT remove in the UI
+                $keepPaths = $request->input("keep_existing_doc.{$id}", []);
+                $pathsToDelete = array_diff($existingPaths, $keepPaths);
+                foreach ($pathsToDelete as $deletedPath) {
+                    Storage::disk('public')->delete($deletedPath);
                 }
-                $path   = $request->file("doc_file.{$id}")
-                    ->store('enrollment_documents', 'public');
-                $status = in_array($status, ['pending', 'submitted'])
-                    ? $status : 'pending';
+                $finalPaths = array_values(array_intersect($existingPaths, $keepPaths));
+
+                // Append any newly uploaded / captured files
+                $newFiles = $request->file("doc_file.{$id}", []);
+                foreach ((array) $newFiles as $file) {
+                    if ($file) {
+                        $finalPaths[] = $file->store('enrollment_documents', 'public');
+                    }
+                }
+
+                if (!empty($finalPaths)) {
+                    $status = $forceSubmitted
+                        ? 'submitted'
+                        : (in_array($status, ['pending', 'submitted']) ? $status : 'pending');
+                }
+
+                $docData = [
+                    'file_path'         => !empty($finalPaths) ? json_encode($finalPaths) : null,
+                    'submission_status' => !empty($finalPaths) ? ($status ?? 'pending') : 'missing',
+                    'notes'             => $request->input("doc_notes.{$id}"),
+                ];
+
+                $doc
+                    ? $doc->update($docData)
+                    : EnrollmentDocument::create(array_merge($docData, [
+                        'enrollment_id'    => $enrollment->enrollment_id,
+                        'document_type_id' => $id,
+                    ]));
             }
-
-            $docData = [
-                'file_path'         => $path,
-                'submission_status' => $path ? ($status ?? 'pending') : 'missing',
-                'notes'             => $request->input("doc_notes.{$id}"),
-            ];
-
-            $doc
-                ? $doc->update($docData)
-                : EnrollmentDocument::create(array_merge($docData, [
-                    'enrollment_id'    => $enrollment->enrollment_id,
-                    'document_type_id' => $id,
-                ]));
         }
 
         AuditLog::create([

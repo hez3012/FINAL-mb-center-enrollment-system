@@ -290,22 +290,25 @@ $currentSex = old('student_sex');
                     </div>
                     <div class="row g-2">
                         <div class="col-md-7">
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                                <label for="portalDocFile{{ $docType->document_type_id }}"
+                            <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                                <label for="docFile{{ $docType->document_type_id }}"
                                     class="btn btn-sm btn-outline-secondary mb-0">
                                     <i class="bi bi-paperclip me-1"></i>Choose File
                                 </label>
+                                <button type="button" class="btn btn-sm btn-outline-secondary mb-0"
+                                    onclick="openCameraCapture(function(file){ addDocFiles({{ $docType->document_type_id }}, [file]); })">
+                                    <i class="bi bi-camera me-1"></i>Take Photo
+                                </button>
                                 <input type="file"
-                                    name="doc_file[{{ $docType->document_type_id }}]"
-                                    id="portalDocFile{{ $docType->document_type_id }}"
+                                    name="doc_file[{{ $docType->document_type_id }}][]"
+                                    id="docFile{{ $docType->document_type_id }}"
                                     class="d-none"
-                                    accept=".pdf,.jpg,.jpeg,.png">
-                                <span class="text-muted small"
-                                    id="portalDocName{{ $docType->document_type_id }}">
-                                    No file chosen
-                                </span>
+                                    multiple
+                                    accept=".pdf,.jpg,.jpeg,.png"
+                                    onchange="addDocFiles({{ $docType->document_type_id }}, this.files)">
                             </div>
-                            <small class="text-muted">PDF, JPG, PNG · Max 50MB</small>
+                            <div id="docFileList{{ $docType->document_type_id }}" class="mb-1"></div>
+                            <small class="text-muted">PDF, JPG, PNG · Max 50MB each · Multiple files allowed</small>
                         </div>
                         <div class="col-md-5">
                             <input type="text"
@@ -506,17 +509,6 @@ $currentSex = old('student_sex');
     serviceSelect.addEventListener('change', onServiceChange);
     disabilitySelect.addEventListener('change', onDisabilityChange);
 
-    // ── Document file choose ──────────────────────────────────────────────────────
-    document.querySelectorAll('[id^="portalDocFile"]').forEach(function(input) {
-        var docTypeId = input.id.replace('portalDocFile', '');
-        input.addEventListener('change', function() {
-            var label = document.getElementById('portalDocName' + docTypeId);
-            if (label) {
-                label.textContent = this.files[0] ? this.files[0].name : 'No file chosen';
-            }
-        });
-    });
-
     // ── Student Profile Picture Preview ──────────────────────────────────────────
     document.getElementById('studentPicInput').addEventListener('change', function() {
         var file = this.files[0];
@@ -547,4 +539,5 @@ $currentSex = old('student_sex');
 </script>
 
 @include('partials.camera-capture')
+@include('partials.doc-multi-file')
 @endsection

@@ -7,8 +7,10 @@ $hasPayment = $enrollment->payment !== null;
 $isOnlinePending = $enrollment->status === 'pending'
 && $enrollment->enrollment_type === 'online';
 $studentIsSpED = (int) $enrollment->student?->service_type_id === (int) $spedId;
-$docsLocked = $hasPayment
-|| ($enrollment->enrollment_type === 'online' && !$isOnlinePending);
+// Documents are editable ONLY while the enrollment is still at "Pending Review".
+// Once it moves past that stage (Pending Payment, Enrolled, Rejected, Withdrawn,
+// Completed) or a payment has been recorded, the checklist becomes read-only.
+$docsLocked = $enrollment->status !== 'pending' || $hasPayment;
 @endphp
 
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -132,8 +134,27 @@ $docsLocked = $hasPayment
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
 
+                        @elseif($docsLocked)
+                        {{-- Walk-in, locked (docs already submitted, past Pending Review) --}}
+                        <select name="status"
+                            class="form-select @error('status') is-invalid @enderror"
+                            required>
+                            @foreach([
+                            'pending_payment' => 'Pending Payment',
+                            'withdrawn' => 'Withdrawn',
+                            ] as $val => $label)
+                            <option value="{{ $val }}"
+                                {{ old('status', $enrollment->status) === $val ? 'selected' : '' }}>
+                                {{ $label }}
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('status')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+
                         @else
-                        {{-- Walk-in before payment: document-driven dynamic status --}}
+                        {{-- Walk-in, still Pending Review: document-driven dynamic status --}}
                         <select name="status" id="enrollmentStatus"
                             class="form-select @error('status') is-invalid @enderror"
                             required>
@@ -195,9 +216,12 @@ $docsLocked = $hasPayment
                         <i class="bi bi-lock me-1"></i>
                         @if($hasPayment)
                         Documents are locked after payment is recorded.
-                        @else
+                        @elseif($enrollment->enrollment_type === 'online')
                         Documents are locked — digital enrollment approved.
                         All files are marked as <strong>Submitted</strong>.
+                        @else
+                        Documents are locked — all required files were already
+                        submitted and the enrollment has moved past Pending Review.
                         @endif
                     </p>
                     @foreach($documentTypes as $docType)
@@ -217,30 +241,35 @@ $docsLocked = $hasPayment
                                 {{ ucfirst($statusVal) }}
                             </span>
                         </div>
-                        @if($existing?->file_path)
-                        <a href="{{ Storage::url($existing->file_path) }}"
-                            target="_blank"
-                            class="btn btn-sm btn-outline-secondary mt-2">
-                            <i class="bi bi-file-earmark me-1"></i>View File
-                        </a>
+                        @if($existing?->file_paths)
+                        <div class="d-flex flex-wrap gap-2 mt-2">
+                            @foreach($existing->file_paths as $i => $path)
+                            <a href="{{ Storage::url($path) }}"
+                                target="_blank"
+                                class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-file-earmark me-1"></i>View File{{ count($existing->file_paths) > 1 ? ' ' . ($i + 1) : '' }}
+                            </a>
+                            @endforeach
+                        </div>
                         @endif
                     </div>
                     @endforeach
                 </div>
 
                 @else
-                {{-- Editable documents (walk-in, before payment) --}}
+                {{-- Editable documents (Pending Review only) --}}
                 <div class="border rounded p-3 mb-4">
                     <p class="text-muted small mb-3">
-                        Upload a new file to replace the existing one.
-                        Status is locked to <strong>Missing</strong> until a file is on record.
+                        Add, capture, or remove files/photos for each document.
+                        Status is locked to <strong>Missing</strong> until at least one file is on record.
                     </p>
                     @foreach($documentTypes as $docType)
                     @php
                     $existing = $enrollment->documents
                     ->where('document_type_id', $docType->document_type_id)
                     ->first();
-                    $hasFile = $existing?->file_path !== null;
+                    $existingPaths = $existing?->file_paths ?? [];
+                    $hasFile = count($existingPaths) > 0;
                     $currentDocStatus = $hasFile
                     ? ($existing?->submission_status ?? 'pending')
                     : 'missing';
@@ -275,33 +304,54 @@ $docsLocked = $hasPayment
                         </div>
                         <div class="row g-2">
                             <div class="col-md-7">
-                                @if($existing?->file_path)
-                                <div class="mb-1">
-                                    <a href="{{ Storage::url($existing->file_path) }}"
-                                        target="_blank"
-                                        class="btn btn-sm btn-outline-secondary">
-                                        <i class="bi bi-file-earmark me-1"></i>
-                                        View Current File
-                                    </a>
+                                {{-- Already-saved files on record --}}
+                                <div id="existingDocFiles{{ $docType->document_type_id }}" class="mb-2">
+                                    @foreach($existingPaths as $i => $path)
+                                    <div class="d-flex align-items-center justify-content-between gap-2 border rounded px-2 py-1 mb-1"
+                                        style="background:#f8f9fa;"
+                                        id="existingDocRow{{ $docType->document_type_id }}_{{ $i }}">
+                                        <span class="small text-truncate" style="max-width:180px;" title="{{ basename($path) }}">
+                                            <i class="bi bi-file-earmark-check me-1 text-success"></i>{{ basename($path) }}
+                                        </span>
+                                        <div class="d-flex gap-1 flex-shrink-0">
+                                            <a href="{{ Storage::url($path) }}" target="_blank"
+                                                class="btn btn-sm btn-outline-secondary py-0 px-2" title="View File">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-outline-danger py-0 px-2"
+                                                title="Remove File / Photo"
+                                                onclick="document.getElementById('existingDocRow{{ $docType->document_type_id }}_{{ $i }}').remove(); document.getElementById('keepExistingDoc{{ $docType->document_type_id }}_{{ $i }}').remove(); refreshDocLockState({{ $docType->document_type_id }});">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                        <input type="hidden"
+                                            name="keep_existing_doc[{{ $docType->document_type_id }}][]"
+                                            value="{{ $path }}"
+                                            id="keepExistingDoc{{ $docType->document_type_id }}_{{ $i }}">
+                                    </div>
+                                    @endforeach
                                 </div>
-                                @endif
-                                <div class="d-flex align-items-center gap-2 mb-1">
+
+                                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
                                     <label for="docFile{{ $docType->document_type_id }}"
                                         class="btn btn-sm btn-outline-secondary mb-0">
                                         <i class="bi bi-paperclip me-1"></i>Choose File
                                     </label>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary mb-0"
+                                        onclick="openCameraCapture(function(file){ addDocFiles({{ $docType->document_type_id }}, [file]); })">
+                                        <i class="bi bi-camera me-1"></i>Take Photo
+                                    </button>
                                     <input type="file"
-                                        name="doc_file[{{ $docType->document_type_id }}]"
+                                        name="doc_file[{{ $docType->document_type_id }}][]"
                                         id="docFile{{ $docType->document_type_id }}"
                                         class="d-none"
+                                        multiple
                                         data-doc-type="{{ $docType->document_type_id }}"
-                                        accept=".pdf,.jpg,.jpeg,.png">
-                                    <span class="text-muted small"
-                                        id="docName{{ $docType->document_type_id }}">
-                                        {{ $hasFile ? 'Replace current file' : 'No file chosen' }}
-                                    </span>
+                                        accept=".pdf,.jpg,.jpeg,.png"
+                                        onchange="addDocFiles({{ $docType->document_type_id }}, this.files)">
                                 </div>
-                                <small class="text-muted">PDF, JPG, PNG · Max 50MB</small>
+                                <div id="docFileList{{ $docType->document_type_id }}" class="mb-1"></div>
+                                <small class="text-muted">PDF, JPG, PNG · Max 50MB each · Multiple files allowed</small>
                             </div>
                             <div class="col-md-5">
                                 <input type="text"
@@ -368,27 +418,6 @@ $docsLocked = $hasPayment
             if (select.dataset.hasFile === '0') {
                 lockDocSelect(select);
             }
-
-            var docTypeId = select.dataset.docType;
-            var fileInput = document.getElementById('docFile' + docTypeId);
-            var fileLabel = document.getElementById('docName' + docTypeId);
-
-            if (fileInput) {
-                fileInput.addEventListener('change', function() {
-                    if (this.files.length > 0) {
-                        unlockDocSelect(select);
-                        if (fileLabel) {
-                            fileLabel.textContent = this.files[0].name;
-                        }
-                    } else if (select.dataset.hasFile === '0') {
-                        lockDocSelect(select);
-                        if (fileLabel) {
-                            fileLabel.textContent = 'No file chosen';
-                        }
-                    }
-                });
-            }
-
             select.addEventListener('change', updateStatusOptions);
         });
     }
@@ -502,4 +531,7 @@ $docsLocked = $hasPayment
         document.querySelector('select[name="status"]');
     updateRejRow(anyStatus ? anyStatus.value : '');
 </script>
+
+@include('partials.camera-capture')
+@include('partials.doc-multi-file')
 @endsection

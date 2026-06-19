@@ -183,6 +183,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\DocumentType $documentType
  * @property-read \App\Models\Enrollment|null $enrollment
+ * @property-read array $file_paths
+ * @property-read bool $has_file
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EnrollmentDocument newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EnrollmentDocument newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|EnrollmentDocument onlyTrashed()

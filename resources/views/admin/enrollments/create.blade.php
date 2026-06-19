@@ -185,23 +185,26 @@
                         </div>
                         <div class="row g-2">
                             <div class="col-md-7">
-                                <div class="d-flex align-items-center gap-2 mb-1">
+                                <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
                                     <label for="docFile{{ $docType->document_type_id }}"
                                         class="btn btn-sm btn-outline-secondary mb-0">
                                         <i class="bi bi-paperclip me-1"></i>Choose File
                                     </label>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary mb-0"
+                                        onclick="openCameraCapture(function(file){ addDocFiles({{ $docType->document_type_id }}, [file]); })">
+                                        <i class="bi bi-camera me-1"></i>Take Photo
+                                    </button>
                                     <input type="file"
-                                        name="doc_file[{{ $docType->document_type_id }}]"
+                                        name="doc_file[{{ $docType->document_type_id }}][]"
                                         id="docFile{{ $docType->document_type_id }}"
                                         class="d-none"
+                                        multiple
                                         data-doc-type="{{ $docType->document_type_id }}"
-                                        accept=".pdf,.jpg,.jpeg,.png">
-                                    <span class="text-muted small"
-                                        id="docName{{ $docType->document_type_id }}">
-                                        No file chosen
-                                    </span>
+                                        accept=".pdf,.jpg,.jpeg,.png"
+                                        onchange="addDocFiles({{ $docType->document_type_id }}, this.files)">
                                 </div>
-                                <small class="text-muted">PDF, JPG, PNG · Max 50MB</small>
+                                <div id="docFileList{{ $docType->document_type_id }}" class="mb-1"></div>
+                                <small class="text-muted">PDF, JPG, PNG · Max 50MB each · Multiple files allowed</small>
                             </div>
                             <div class="col-md-5">
                                 <input type="text"
@@ -331,28 +334,6 @@
         if (select.dataset.hasFile === '0') {
             lockDocSelect(select);
         }
-
-        var docTypeId = select.dataset.docType;
-        var fileInput = document.getElementById('docFile' + docTypeId);
-        var fileLabel = document.getElementById('docName' + docTypeId);
-
-        if (fileInput) {
-            fileInput.addEventListener('change', function() {
-                if (this.files.length > 0) {
-                    unlockDocSelect(select);
-                    if (fileLabel) {
-                        fileLabel.textContent = this.files[0].name;
-                    }
-                } else if (select.dataset.hasFile === '0') {
-                    lockDocSelect(select);
-                    updateStatusOptions();
-                    if (fileLabel) {
-                        fileLabel.textContent = 'No file chosen';
-                    }
-                }
-            });
-        }
-
         select.addEventListener('change', updateStatusOptions);
     });
 
@@ -430,4 +411,7 @@
 
     updateStatusOptions();
 </script>
+
+@include('partials.camera-capture')
+@include('partials.doc-multi-file')
 @endsection

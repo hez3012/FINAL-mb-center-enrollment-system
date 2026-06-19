@@ -276,13 +276,17 @@ $canRecord = $enrollment->status === 'pending_payment'
                         @endif
                     </div>
                     <div class="d-flex align-items-center gap-2">
-                        @if($doc->file_path)
-                        <a href="{{ Storage::url($doc->file_path) }}"
+                        @foreach($doc->file_paths as $i => $path)
+                        <a href="{{ Storage::url($path) }}"
                             target="_blank"
-                            class="btn btn-sm btn-outline-secondary">
+                            class="btn btn-sm btn-outline-secondary"
+                            title="View File{{ count($doc->file_paths) > 1 ? ' ' . ($i + 1) : '' }}">
                             <i class="bi bi-file-earmark"></i>
+                            @if(count($doc->file_paths) > 1)
+                            <span class="small">{{ $i + 1 }}</span>
+                            @endif
                         </a>
-                        @endif
+                        @endforeach
                         @if(!$isOnline)
                                 @php $dc=['submitted'=>'success','pending'=>'warning','missing'=>'danger']; @endphp
                                 <span class="badge bg-{{ $dc[$doc->submission_status] ?? 'secondary' }}">
