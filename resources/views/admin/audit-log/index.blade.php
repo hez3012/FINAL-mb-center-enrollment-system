@@ -1,28 +1,26 @@
 @extends('admin.layouts.app')
 @section('title', 'Audit Log')
-@section('content')
 
+@section('extra-styles')
 <style>
-    /* Fix oversized Bootstrap pagination arrows */
     .pagination svg {
         width: 0.8rem !important;
         height: 0.8rem !important;
     }
-
-    .pagination {
-        font-size: 0.875rem;
-        flex-wrap: wrap;
-    }
-
-    .pagination .page-link {
-        padding: 0.3rem 0.6rem;
-    }
+    .pagination { font-size: 0.875rem; flex-wrap: wrap; }
+    .pagination .page-link { padding: 0.3rem 0.6rem; }
+    .nav-tabs .nav-link { color: #6b7280; font-weight: 600; }
+    .nav-tabs .nav-link.active { color: #1B4332; border-bottom: 2px solid #1B4332; background: transparent; font-weight: 700; }
+    .nav-tabs .nav-link:hover { color: #1B4332; }
 </style>
+@endsection
+
+@section('content')
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0">Audit Log</h5>
+    <h5 class="fw-bold mb-0" style="color:var(--hope-green,#1B4332);">Audit Log</h5>
     @if($isDirectress)
-    <span class="badge bg-primary">Viewing: All Users</span>
+    <span class="badge" style="background:#1B4332;color:#EAB308;font-weight:700;">Viewing: All Users</span>
     @elseif($isAdmin)
     <span class="badge bg-info text-dark">Viewing: All Users (except Directress)</span>
     @else
@@ -34,14 +32,14 @@
     <li class="nav-item">
         <a class="nav-link {{ $activeTab === 'log' ? 'active' : '' }}"
             href="{{ route('admin.audit-log.index', array_merge(request()->query(), ['tab' => 'log'])) }}">
-            <i class="bi bi-shield-lock me-1"></i>Login / Logout History
+            <i data-lucide="shield" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>Login / Logout History
             <span class="badge bg-secondary ms-1">{{ $logs->total() }}</span>
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link {{ $activeTab === 'trail' ? 'active' : '' }}"
             href="{{ route('admin.audit-log.index', array_merge(request()->query(), ['tab' => 'trail'])) }}">
-            <i class="bi bi-clock-history me-1"></i>Audit Trails
+            <i data-lucide="history" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>Audit Trails
             <span class="badge bg-secondary ms-1">{{ $trails->total() }}</span>
         </a>
     </li>
@@ -49,7 +47,7 @@
 
 {{-- ── LOG TAB ─────────────────────────────────────────────────────────────── --}}
 @if($activeTab === 'log')
-<div class="card border-0 shadow mb-3">
+<div class="card mb-3">
     <div class="card-body py-2">
         <form method="GET"
             action="{{ route('admin.audit-log.index') }}"
@@ -69,15 +67,15 @@
                 </select>
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-sm btn-primary">
-                    <i class="bi bi-search me-1"></i>Filter
+                <button type="submit" class="btn btn-sm" style="background:#1B4332;color:#fff;font-weight:600;">
+                    <i data-lucide="search" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Filter
                 </button>
             </div>
             @if(request('log_search') || request('log_action'))
             <div class="col-auto">
                 <a href="{{ route('admin.audit-log.index', ['tab' => 'log']) }}"
                     class="btn btn-sm btn-outline-secondary">
-                    <i class="bi bi-x-circle me-1"></i>Clear
+                    <i data-lucide="x-circle" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Clear
                 </a>
             </div>
             @endif
@@ -85,18 +83,18 @@
     </div>
 </div>
 
-<div class="card border-0 shadow">
+<div class="card">
     <div class="card-body p-0">
         <table class="table table-hover mb-0">
-            <thead class="table-light">
+            <thead style="background:#1B4332;">
                 <tr>
-                    <th>#</th>
-                    <th>User</th>
-                    <th>Role</th>
-                    <th>Action</th>
-                    <th>IP Address</th>
-                    <th>Date</th>
-                    <th>Time</th>
+                    <th style="color:#EAB308;">#</th>
+                    <th style="color:#EAB308;">User</th>
+                    <th style="color:#EAB308;">Role</th>
+                    <th style="color:#EAB308;">Action</th>
+                    <th style="color:#EAB308;">IP Address</th>
+                    <th style="color:#EAB308;">Date</th>
+                    <th style="color:#EAB308;">Time</th>
                 </tr>
             </thead>
             <tbody>
@@ -112,11 +110,11 @@
                     <td>
                         @if($log->action === 'login')
                         <span class="badge bg-success">
-                            <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                            <i data-lucide="log-in" style="width:11px;height:11px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Login
                         </span>
                         @else
                         <span class="badge bg-secondary">
-                            <i class="bi bi-box-arrow-right me-1"></i>Logout
+                            <i data-lucide="log-out" style="width:11px;height:11px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Logout
                         </span>
                         @endif
                     </td>
@@ -130,8 +128,8 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="text-center text-muted py-4">
-                        <i class="bi bi-shield-lock d-block mb-2" style="font-size:1.5rem;"></i>
+                    <td colspan="7" class="text-center text-muted py-5">
+                        <i data-lucide="shield" style="width:2rem;height:2rem;display:block;margin:0 auto .5rem;stroke:#9ca3af;"></i>
                         No login / logout records found.
                     </td>
                 </tr>
@@ -148,7 +146,7 @@
 
 {{-- ── TRAIL TAB ───────────────────────────────────────────────────────────── --}}
 @if($activeTab === 'trail')
-<div class="card border-0 shadow mb-3">
+<div class="card mb-3">
     <div class="card-body py-2">
         <form method="GET"
             action="{{ route('admin.audit-log.index') }}"
@@ -183,15 +181,15 @@
                 </select>
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-sm btn-primary">
-                    <i class="bi bi-search me-1"></i>Filter
+                <button type="submit" class="btn btn-sm" style="background:#1B4332;color:#fff;font-weight:600;">
+                    <i data-lucide="search" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Filter
                 </button>
             </div>
             @if(request('trail_search') || request('trail_action') || request('trail_table'))
             <div class="col-auto">
                 <a href="{{ route('admin.audit-log.index', ['tab' => 'trail']) }}"
                     class="btn btn-sm btn-outline-secondary">
-                    <i class="bi bi-x-circle me-1"></i>Clear
+                    <i data-lucide="x-circle" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Clear
                 </a>
             </div>
             @endif
@@ -199,19 +197,19 @@
     </div>
 </div>
 
-<div class="card border-0 shadow">
+<div class="card">
     <div class="card-body p-0">
         <table class="table table-hover mb-0">
-            <thead class="table-light">
+            <thead style="background:#1B4332;">
                 <tr>
-                    <th>#</th>
-                    <th>User</th>
-                    <th>Role</th>
-                    <th>Action</th>
-                    <th>Module</th>
-                    <th>Details</th>
-                    <th>Date</th>
-                    <th>Time</th>
+                    <th style="color:#EAB308;">#</th>
+                    <th style="color:#EAB308;">User</th>
+                    <th style="color:#EAB308;">Role</th>
+                    <th style="color:#EAB308;">Action</th>
+                    <th style="color:#EAB308;">Module</th>
+                    <th style="color:#EAB308;">Details</th>
+                    <th style="color:#EAB308;">Date</th>
+                    <th style="color:#EAB308;">Time</th>
                 </tr>
             </thead>
             <tbody>
@@ -251,8 +249,8 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8" class="text-center text-muted py-4">
-                        <i class="bi bi-clock-history d-block mb-2" style="font-size:1.5rem;"></i>
+                    <td colspan="8" class="text-center text-muted py-5">
+                        <i data-lucide="history" style="width:2rem;height:2rem;display:block;margin:0 auto .5rem;stroke:#9ca3af;"></i>
                         No activity trail records found.
                     </td>
                 </tr>

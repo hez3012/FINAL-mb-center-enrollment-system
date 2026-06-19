@@ -3,15 +3,15 @@
 @section('content')
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0">Enrollment Management</h5>
+    <h5 class="fw-bold mb-0" style="color:var(--hope-green,#1B4332);">Enrollment Management</h5>
     @if(Auth::user()->hasPermission('create_walkin_enrollment'))
-    <a href="{{ route('admin.enrollments.create') }}" class="btn btn-primary btn-sm">
-        <i class="bi bi-plus-circle me-1"></i>Add Walk-in Enrollment
+    <a href="{{ route('admin.enrollments.create') }}" class="btn btn-sm" style="background:#1B4332;color:#fff;font-weight:600;border-radius:8px;">
+        <i data-lucide="plus-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>Add Walk-in Enrollment
     </a>
     @endif
 </div>
 
-<div class="card border-0 shadow mb-3">
+<div class="card mb-3">
     <div class="card-body py-2">
         <div class="row g-2 align-items-center">
             <div class="col-md-3">
@@ -58,26 +58,26 @@
             <div class="col-md-1">
                 <button class="btn btn-sm btn-outline-secondary w-100"
                     onclick="clearFilters()" title="Clear">
-                    <i class="bi bi-x-circle"></i>
+                    <i data-lucide="x-circle" style="width:13px;height:13px;"></i>
                 </button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="card border-0 shadow">
+<div class="card">
     <div class="card-body p-0">
         <table class="table table-hover mb-0" id="enrollmentsTable">
-            <thead class="table-light">
+            <thead style="background:#1B4332;">
                 <tr>
-                    <th>#</th>
-                    <th>Student</th>
-                    <th>School Year</th>
-                    <th>Program</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th>Actions</th>
+                    <th style="color:#EAB308;">#</th>
+                    <th style="color:#EAB308;">Student</th>
+                    <th style="color:#EAB308;">School Year</th>
+                    <th style="color:#EAB308;">Program</th>
+                    <th style="color:#EAB308;">Type</th>
+                    <th style="color:#EAB308;">Status</th>
+                    <th style="color:#EAB308;">Date</th>
+                    <th style="color:#EAB308;">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -88,7 +88,7 @@
                 [
                 'key' => 'digital_pending',
                 'label' => 'Pending Review — Digital Enrollment',
-                'icon' => 'bi-globe',
+                'icon' => 'globe',
                 'class' => 'table-warning',
                 'items' => $enrollments->filter(
                 fn($e) => $e->status === 'pending'
@@ -98,7 +98,7 @@
                 [
                 'key' => 'active',
                 'label' => 'Active Enrollments',
-                'icon' => 'bi-clipboard-check',
+                'icon' => 'clipboard-check',
                 'class' => 'table-success',
                 'items' => $enrollments->filter(function ($e) {
                 return in_array($e->status, ['pending', 'pending_payment', 'enrolled'])
@@ -108,21 +108,21 @@
                 [
                 'key' => 'completed',
                 'label' => 'Completed',
-                'icon' => 'bi-patch-check',
+                'icon' => 'check-circle-2',
                 'class' => 'table-primary',
                 'items' => $enrollments->filter(fn($e) => $e->status === 'completed'),
                 ],
                 [
                 'key' => 'withdrawn',
                 'label' => 'Withdrawn — History',
-                'icon' => 'bi-clipboard-x',
+                'icon' => 'clipboard-x',
                 'class' => 'table-warning',
                 'items' => $enrollments->filter(fn($e) => $e->status === 'withdrawn'),
                 ],
                 [
                 'key' => 'rejected',
                 'label' => 'Rejected — History',
-                'icon' => 'bi-x-circle',
+                'icon' => 'x-circle',
                 'class' => 'table-danger',
                 'items' => $enrollments->filter(fn($e) => $e->status === 'rejected'),
                 ],
@@ -131,9 +131,8 @@
 
                 @if($enrollments->isEmpty())
                 <tr id="noDataRow">
-                    <td colspan="8" class="text-center text-muted py-4">
-                        <i class="bi bi-clipboard-x d-block mb-2"
-                            style="font-size:1.5rem;"></i>
+                    <td colspan="8" class="text-center text-muted py-5">
+                        <i data-lucide="clipboard-x" style="width:2rem;height:2rem;display:block;margin:0 auto .5rem;stroke:#9ca3af;"></i>
                         No enrollments found.
                     </td>
                 </tr>
@@ -144,7 +143,7 @@
                 <tr class="category-header {{ $group['class'] }}"
                     data-category="{{ $group['key'] }}">
                     <td colspan="8" class="py-2 px-3 fw-semibold small">
-                        <i class="bi {{ $group['icon'] }} me-1"></i>
+                        <i data-lucide="{{ $group['icon'] }}" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>
                         {{ $group['label'] }}
                     </td>
                 </tr>
@@ -192,7 +191,7 @@
                         <div class="d-flex gap-1">
                             <a href="{{ route('admin.enrollments.show', ['id' => $enrollment->enrollment_id]) }}"
                                 class="btn btn-sm btn-outline-info" title="View">
-                                <i class="bi bi-eye"></i>
+                                <i data-lucide="eye" style="width:14px;height:14px;"></i>
                             </a>
 
                             @if(in_array($enrollment->status, $editableStatuses)
@@ -200,7 +199,7 @@
                             && !$isOnlinePending)
                             <a href="{{ route('admin.enrollments.edit', ['id' => $enrollment->enrollment_id]) }}"
                                 class="btn btn-sm btn-outline-primary" title="Edit">
-                                <i class="bi bi-pencil"></i>
+                                <i data-lucide="pencil" style="width:14px;height:14px;"></i>
                             </a>
                             @endif
 
@@ -209,7 +208,7 @@
                                 title="Delete"
                                 data-url="{{ route('admin.enrollments.destroy', ['id' => $enrollment->enrollment_id]) }}"
                                 onclick="confirmDelete(this.dataset.url)">
-                                <i class="bi bi-trash"></i>
+                                <i data-lucide="trash-2" style="width:14px;height:14px;"></i>
                             </button>
                             @endif
                         </div>
@@ -225,7 +224,7 @@
         </table>
 
         <div id="noResults" class="text-center text-muted py-4" style="display:none;">
-            <i class="bi bi-search d-block mb-2" style="font-size:1.5rem;"></i>
+            <i data-lucide="search" style="width:1.5rem;height:1.5rem;display:block;margin:0 auto .5rem;stroke:#9ca3af;"></i>
             No enrollments match your search.
         </div>
     </div>
@@ -236,7 +235,7 @@
         <div class="modal-content">
             <div class="modal-header border-0 pb-0">
                 <h6 class="modal-title text-danger fw-bold">
-                    <i class="bi bi-trash me-1"></i>Delete Enrollment
+                    <i data-lucide="trash-2" style="width:15px;height:15px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>Delete Enrollment
                 </h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -252,7 +251,7 @@
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-sm btn-danger">
-                        <i class="bi bi-trash me-1"></i>Delete
+                        <i data-lucide="trash-2" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Delete
                     </button>
                 </form>
             </div>
@@ -376,5 +375,6 @@
     });
 
     applyFilters();
+    setTimeout(function() { lucide.createIcons(); }, 100);
 </script>
 @endsection

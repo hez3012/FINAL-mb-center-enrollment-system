@@ -3,16 +3,16 @@
 @section('content')
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0">User Management</h5>
+    <h5 class="fw-bold mb-0" style="color:var(--hope-green,#1B4332);">User Management</h5>
     @if(Auth::user()->hasPermission('create_user'))
-    <a href="{{ route('admin.users.create') }}" class="btn btn-primary btn-sm">
-        <i class="bi bi-person-plus me-1"></i>
+    <a href="{{ route('admin.users.create') }}" class="btn btn-sm" style="background:#1B4332;color:#fff;font-weight:600;border-radius:8px;">
+        <i data-lucide="user-plus" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>
         {{ Auth::user()->role?->role_name === 'staff' ? 'Add Guardian' : 'Add New User' }}
     </a>
     @endif
 </div>
 
-<div class="card border-0 shadow mb-3">
+<div class="card mb-3">
     <div class="card-body py-2">
         <div class="row g-2 align-items-center">
             <div class="col-md-4">
@@ -47,25 +47,25 @@
             </div>
             <div class="col-md-2">
                 <button class="btn btn-sm btn-outline-secondary w-100" onclick="clearFilters()">
-                    <i class="bi bi-x-circle me-1"></i>Clear
+                    <i data-lucide="x-circle" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Clear
                 </button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="card border-0 shadow">
+<div class="card">
     <div class="card-body p-0">
         <table class="table table-hover mb-0" id="usersTable">
-            <thead class="table-light">
+            <thead style="background:#1B4332;">
                 <tr>
-                    <th>#</th>
-                    <th>Full Name</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th style="color:#EAB308;">#</th>
+                    <th style="color:#EAB308;">Full Name</th>
+                    <th style="color:#EAB308;">Username</th>
+                    <th style="color:#EAB308;">Email</th>
+                    <th style="color:#EAB308;">Role</th>
+                    <th style="color:#EAB308;">Status</th>
+                    <th style="color:#EAB308;">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,25 +74,25 @@
                 $currentUserId = Auth::user()->user_id;
 
                 $categoryGroups = [
-                ['key'=>'you', 'label'=>'You', 'icon'=>'bi-person-check', 'class'=>'table-primary',
+                ['key'=>'you', 'label'=>'You', 'icon'=>'user-check', 'class'=>'table-primary',
                 'users'=>$users->filter(fn($u)=>$u->user_id===$currentUserId)],
-                ['key'=>'guardian', 'label'=>'Guardians', 'icon'=>'bi-person-heart', 'class'=>'table-secondary',
+                ['key'=>'guardian', 'label'=>'Guardians', 'icon'=>'heart-handshake', 'class'=>'table-secondary',
                 'users'=>$users->filter(fn($u)=>$u->user_id!==$currentUserId && $u->role?->role_name==='guardian')],
-                ['key'=>'directress', 'label'=>'Directress', 'icon'=>'bi-award', 'class'=>'table-danger',
+                ['key'=>'directress', 'label'=>'Directress', 'icon'=>'award', 'class'=>'table-danger',
                 'users'=>$users->filter(fn($u)=>$u->user_id!==$currentUserId && $u->role?->role_name==='directress')],
-                ['key'=>'admin', 'label'=>'Admins', 'icon'=>'bi-person-gear', 'class'=>'table-primary',
+                ['key'=>'admin', 'label'=>'Admins', 'icon'=>'user-cog', 'class'=>'table-primary',
                 'users'=>$users->filter(fn($u)=>$u->user_id!==$currentUserId && $u->role?->role_name==='admin')],
-                ['key'=>'teacher', 'label'=>'Teachers', 'icon'=>'bi-mortarboard', 'class'=>'table-success',
+                ['key'=>'teacher', 'label'=>'Teachers', 'icon'=>'graduation-cap', 'class'=>'table-success',
                 'users'=>$users->filter(fn($u)=>$u->user_id!==$currentUserId && $u->role?->role_name==='teacher')],
-                ['key'=>'staff', 'label'=>'Staff', 'icon'=>'bi-person-badge', 'class'=>'table-info',
+                ['key'=>'staff', 'label'=>'Staff', 'icon'=>'badge', 'class'=>'table-info',
                 'users'=>$users->filter(fn($u)=>$u->user_id!==$currentUserId && $u->role?->role_name==='staff')],
                 ];
                 @endphp
 
                 @if($users->isEmpty())
                 <tr id="noDataRow">
-                    <td colspan="7" class="text-center text-muted py-4">
-                        <i class="bi bi-people d-block mb-2" style="font-size:1.5rem;"></i>
+                    <td colspan="7" class="text-center text-muted py-5">
+                        <i data-lucide="users" style="width:2rem;height:2rem;display:block;margin:0 auto .5rem;stroke:#9ca3af;"></i>
                         No users found.
                     </td>
                 </tr>
@@ -103,7 +103,7 @@
                 <tr class="category-header {{ $group['class'] }}"
                     data-category="{{ $group['key'] }}">
                     <td colspan="7" class="py-2 px-3 fw-semibold small">
-                        <i class="bi {{ $group['icon'] }} me-1"></i>{{ $group['label'] }}
+                        <i data-lucide="{{ $group['icon'] }}" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>{{ $group['label'] }}
                     </td>
                 </tr>
                 @foreach($group['users'] as $user)
@@ -170,13 +170,13 @@
                             @if(Auth::user()->hasPermission('view_user'))
                             <a href="{{ route('admin.users.show',$user->user_id) }}"
                                 class="btn btn-sm btn-outline-info" title="View">
-                                <i class="bi bi-eye"></i>
+                                <i data-lucide="eye" style="width:14px;height:14px;"></i>
                             </a>
                             @endif
                             @if($canEdit)
                             <a href="{{ route('admin.users.edit',$user->user_id) }}"
                                 class="btn btn-sm btn-outline-primary" title="Edit">
-                                <i class="bi bi-pencil"></i>
+                                <i data-lucide="pencil" style="width:14px;height:14px;"></i>
                             </a>
                             @endif
                             @if($canToggle)
@@ -188,7 +188,7 @@
                                 <button type="submit"
                                     class="btn btn-sm btn-outline-{{ $user->is_active ? 'warning':'success' }}"
                                     title="{{ $user->is_active ? 'Deactivate':'Activate' }}">
-                                    <i class="bi bi-{{ $user->is_active ? 'person-x':'person-check' }}"></i>
+                                    <i data-lucide="{{ $user->is_active ? 'user-x':'user-check' }}" style="width:14px;height:14px;"></i>
                                 </button>
                             </form>
                             @endif
@@ -197,7 +197,7 @@
                                 data-id="{{ $user->user_id }}"
                                 data-name="{{ $user->list_name }}"
                                 onclick="confirmDelete(this.dataset.id,this.dataset.name)">
-                                <i class="bi bi-trash"></i>
+                                <i data-lucide="trash-2" style="width:14px;height:14px;"></i>
                             </button>
                             @endif
                         </div>
@@ -212,7 +212,7 @@
             </tbody>
         </table>
         <div id="noResults" class="text-center text-muted py-4" style="display:none;">
-            <i class="bi bi-search d-block mb-2" style="font-size:1.5rem;"></i>
+            <i data-lucide="search" style="width:1.5rem;height:1.5rem;display:block;margin:0 auto .5rem;stroke:#9ca3af;"></i>
             No users match your search.
         </div>
     </div>
@@ -223,7 +223,7 @@
         <div class="modal-content">
             <div class="modal-header border-0 pb-0">
                 <h6 class="modal-title text-danger fw-bold">
-                    <i class="bi bi-trash me-1"></i>Delete User
+                    <i data-lucide="trash-2" style="width:15px;height:15px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>Delete User
                 </h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -236,7 +236,7 @@
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-sm btn-danger">
-                        <i class="bi bi-trash me-1"></i>Delete
+                        <i data-lucide="trash-2" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Delete
                     </button>
                 </form>
             </div>
@@ -345,5 +345,8 @@
     });
 
     applyFilters();
+
+    // Re-init Lucide after dynamic re-renders
+    setTimeout(function() { lucide.createIcons(); }, 100);
 </script>
 @endsection

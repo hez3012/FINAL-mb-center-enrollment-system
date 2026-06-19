@@ -3,16 +3,16 @@
 @section('content')
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0">Guardian Management</h5>
+    <h5 class="fw-bold mb-0" style="color:var(--hope-green,#1B4332);">Guardian Management</h5>
     @if(Auth::user()->hasPermission('create_user'))
     <a href="{{ route('admin.users.create', ['role' => 'guardian']) }}"
-        class="btn btn-primary btn-sm">
-        <i class="bi bi-person-plus me-1"></i>Add Guardian via User Management
+        class="btn btn-sm" style="background:#1B4332;color:#fff;font-weight:600;border-radius:8px;">
+        <i data-lucide="user-plus" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>Add Guardian via User Management
     </a>
     @endif
 </div>
 
-<div class="card border-0 shadow mb-3">
+<div class="card mb-3">
     <div class="card-body py-2">
         <div class="row g-2 align-items-center">
             <div class="col-md-5">
@@ -35,25 +35,25 @@
             </div>
             <div class="col-md-2">
                 <button class="btn btn-sm btn-outline-secondary w-100" onclick="clearFilters()">
-                    <i class="bi bi-x-circle me-1"></i>Clear
+                    <i data-lucide="x-circle" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Clear
                 </button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="card border-0 shadow">
+<div class="card">
     <div class="card-body p-0">
         <table class="table table-hover mb-0" id="guardiansTable">
-            <thead class="table-light">
+            <thead style="background:#1B4332;">
                 <tr>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Contact</th>
-                    <th>Relationship</th>
-                    <th>Students</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th style="color:#EAB308;">Full Name</th>
+                    <th style="color:#EAB308;">Email</th>
+                    <th style="color:#EAB308;">Contact</th>
+                    <th style="color:#EAB308;">Relationship</th>
+                    <th style="color:#EAB308;">Students</th>
+                    <th style="color:#EAB308;">Status</th>
+                    <th style="color:#EAB308;">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -93,13 +93,13 @@
                             @if(Auth::user()->hasPermission('view_guardian'))
                             <a href="{{ route('admin.guardians.show',$guardian->guardian_id) }}"
                                 class="btn btn-sm btn-outline-info" title="View">
-                                <i class="bi bi-eye"></i>
+                                <i data-lucide="eye" style="width:14px;height:14px;"></i>
                             </a>
                             @endif
                             @if(Auth::user()->hasPermission('edit_guardian'))
                             <a href="{{ route('admin.guardians.edit',$guardian->guardian_id) }}"
                                 class="btn btn-sm btn-outline-primary" title="Edit">
-                                <i class="bi bi-pencil"></i>
+                                <i data-lucide="pencil" style="width:14px;height:14px;"></i>
                             </a>
                             @endif
                         </div>
@@ -107,8 +107,8 @@
                 </tr>
                 @empty
                 <tr id="noDataRow">
-                    <td colspan="7" class="text-center text-muted py-4">
-                        <i class="bi bi-person-heart d-block mb-2" style="font-size:1.5rem;"></i>
+                    <td colspan="7" class="text-center text-muted py-5">
+                        <i data-lucide="heart-handshake" style="width:2rem;height:2rem;display:block;margin:0 auto .5rem;stroke:#9ca3af;"></i>
                         No guardians found.
                     </td>
                 </tr>
@@ -116,7 +116,7 @@
             </tbody>
         </table>
         <div id="noResults" class="text-center text-muted py-4" style="display:none;">
-            <i class="bi bi-search d-block mb-2" style="font-size:1.5rem;"></i>
+            <i data-lucide="search" style="width:1.5rem;height:1.5rem;display:block;margin:0 auto .5rem;stroke:#9ca3af;"></i>
             No guardians match your search.
         </div>
     </div>
@@ -180,5 +180,6 @@
     });
 
     applyFilters();
+    setTimeout(function() { lucide.createIcons(); }, 100);
 </script>
 @endsection
