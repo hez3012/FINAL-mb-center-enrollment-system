@@ -274,10 +274,70 @@
         }
         .p-footer strong { color: var(--gld); }
 
+        /* ─── Icon utilities ─────────────────────────────── */
+        .s-btns .btn svg          { width: 12px; height: 12px; vertical-align: middle; }
+        .s-close svg              { width: 18px; height: 18px; }
+        .hamburger-icon           { display: flex; flex-direction: column; justify-content: center; gap: 4.5px; width: 20px; }
+        .hamburger-icon span      { display: block; height: 2px; background: var(--txt2); border-radius: 2px; transition: .22s; }
+
+        /* Form section containers */
+        .form-section        { background: #fff; border: 1px solid #e8e3d8; border-radius: var(--r); padding: 1.25rem 1.35rem; margin-bottom: 1rem; }
+        .form-section-tinted { background: #f9f7f3; border: 1px solid #e8e3d8; border-radius: var(--r); padding: 1.25rem 1.35rem; margin-bottom: 1rem; }
+        .form-section-label  { font-size: .84rem; font-weight: 700; color: var(--g); display: flex; align-items: center; gap: .4rem; margin-bottom: .85rem; }
+        .form-section-label svg { width: 14px; height: 14px; }
+
+        /* ─── Mobile sidebar overlay ─────────────────────── */
+        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.48); z-index: 199; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
+        .sidebar-overlay.show { display: block; }
+
+        .s-close {
+            display: none; position: absolute; top: .75rem; right: .75rem;
+            background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14);
+            border-radius: 7px; width: 32px; height: 32px;
+            align-items: center; justify-content: center;
+            color: rgba(255,255,255,.7); cursor: pointer; z-index: 5;
+        }
+        .s-close:hover { background: rgba(255,255,255,.16); color: #fff; }
+
+        .hamburger {
+            display: none; align-items: center; justify-content: center;
+            width: 38px; height: 38px;
+            background: #F8FAFC; border: 1px solid var(--bdr);
+            border-radius: 9px; cursor: pointer; flex-shrink: 0; transition: background .15s;
+        }
+        .hamburger:hover { background: rgba(27,67,50,.07); }
+        .hamburger.open .hamburger-icon span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
+        .hamburger.open .hamburger-icon span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .hamburger.open .hamburger-icon span:nth-child(3) { transform: rotate(-45deg) translate(4.5px, -4.5px); }
+
+        .s-bar { transition: transform .26s cubic-bezier(.4, 0, .2, 1); }
+
         /* ─── Responsive ─────────────────────────────────── */
         @media (max-width: 991px) {
-            .s-bar { transform: translateX(-100%); }
+            :root { --sw: 260px; }
+            .s-bar { transform: translateX(-100%); position: fixed; }
+            .s-bar.open { transform: translateX(0); }
+            .s-close { display: flex; }
             .pw { margin-left: 0; }
+            .hamburger { display: flex; }
+            .topbar { padding: 0 1rem; }
+            .p-body { padding: 1.1rem 1rem; }
+            .p-footer { flex-direction: column; text-align: center; gap: .25rem; }
+            .topbar-date { font-size: .72rem; padding: .22rem .6rem; }
+        }
+
+        @media (max-width: 767px) {
+            .topbar-date { display: none; }
+            .p-body { padding: .9rem .85rem; }
+            .table-scroll-wrap { overflow-x: auto; }
+            .filter-bar { padding: .75rem .9rem; }
+            .page-heading { flex-wrap: wrap; gap: .5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .btn-primary-app { font-size: .8rem; padding: .45rem 1rem; }
+            .card { border-radius: 10px; }
+            .card-header { border-radius: 10px 10px 0 0; }
         }
 
         @yield('extra-styles')
@@ -285,7 +345,12 @@
 </head>
 <body>
 
-<aside class="s-bar">
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="s-bar" id="sidebar">
+    <button class="s-close" id="sidebarClose" aria-label="Close menu">
+        <i data-lucide="x"></i>
+    </button>
     <div class="s-brand">
         <img src="{{ asset('HOPE-LOGO.png') }}" alt="H.O.P.E." class="s-logo">
         <div class="s-badge">
@@ -319,12 +384,12 @@
         </div>
         <div class="s-btns">
             <a href="{{ route('portal.profile.edit') }}" class="btn btn-sp">
-                <i data-lucide="settings" style="width:12px;height:12px;display:inline;vertical-align:text-bottom;"></i> Profile
+                <i data-lucide="settings"></i> Profile
             </a>
             <form method="POST" action="{{ route('logout') }}" style="display:contents;">
                 @csrf
                 <button type="submit" class="btn btn-sl flex-1">
-                    <i data-lucide="log-out" style="width:12px;height:12px;display:inline;vertical-align:text-bottom;"></i> Logout
+                    <i data-lucide="log-out"></i> Logout
                 </button>
             </form>
         </div>
@@ -333,9 +398,16 @@
 
 <div class="pw">
     <div class="topbar">
-        <div class="topbar-title">
-            <i data-lucide="layout-grid"></i>
-            @yield('title', 'Dashboard')
+        <div class="d-flex align-items-center gap-2 gap-sm-3">
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle sidebar">
+                <div class="hamburger-icon">
+                    <span></span><span></span><span></span>
+                </div>
+            </button>
+            <div class="topbar-title">
+                <i data-lucide="layout-grid"></i>
+                @yield('title', 'Dashboard')
+            </div>
         </div>
         <div class="topbar-date">
             <i data-lucide="calendar-days"></i>
@@ -374,6 +446,41 @@
     @if(session('error'))    toastr.error(@json(session('error'))); @endif
     @if(session('warning'))  toastr.warning(@json(session('warning'))); @endif
     @if(session('info'))     toastr.info(@json(session('info'))); @endif
+
+    // ─── Mobile sidebar toggle ────────────────────────
+    (function () {
+        var sidebar   = document.getElementById('sidebar');
+        var overlay   = document.getElementById('sidebarOverlay');
+        var hamburger = document.getElementById('hamburgerBtn');
+        var closeBtn  = document.getElementById('sidebarClose');
+
+        function openSidebar() {
+            sidebar.classList.add('open');
+            overlay.classList.add('show');
+            hamburger.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+            hamburger.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        if (hamburger) hamburger.addEventListener('click', openSidebar);
+        if (closeBtn)  closeBtn.addEventListener('click', closeSidebar);
+        if (overlay)   overlay.addEventListener('click', closeSidebar);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeSidebar();
+        });
+
+        document.querySelectorAll('.s-link').forEach(function (link) {
+            link.addEventListener('click', function () {
+                if (window.innerWidth <= 991) closeSidebar();
+            });
+        });
+    }());
 </script>
 
 @yield('scripts')
