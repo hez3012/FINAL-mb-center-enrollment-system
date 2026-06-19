@@ -1,124 +1,121 @@
-﻿@extends('portal.layouts.app')
+@extends('portal.layouts.app')
 @section('title', 'Dashboard')
-@section('content')
 
+@section('extra-styles')
 <style>
-    .dashboard-card {
-        position: relative;
-        overflow: hidden;
-        border: 1px solid rgba(34, 197, 94, 0.5);
-        border-radius: 16px;
-        background: linear-gradient(135deg, #fffdef 0%, #f2ffec 100%);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    .portal-stat {
+        background: #fff;
+        border-radius: 14px;
+        border: 1px solid #e8e3d8;
+        box-shadow: 0 2px 8px rgba(0,0,0,.05);
+        padding: 1.3rem 1.4rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        transition: transform .2s ease, box-shadow .2s ease;
     }
-
-    .dashboard-card:hover {
-        transform: translateY(-2px);
-        filter: drop-shadow(0 10px 24px rgba(22, 163, 74, 0.12));
+    .portal-stat:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(27,67,50,.1);
     }
-
-    .dashboard-card .card-body {
-        position: relative;
-        z-index: 1;
-    }
-
-    .dashboard-card .icon-badge {
-        width: 4rem;
-        height: 4rem;
-        display: inline-flex;
+    .portal-stat-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.8);
-        box-shadow: inset 0 0 0 1px rgba(34, 197, 94, 0.3);
-        margin-bottom: 0.75rem;
+        flex-shrink: 0;
+        background: rgba(27,67,50,.08);
     }
-
-    .dashboard-card .view-link {
-        margin-top: 0.75rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.3rem;
-        padding: 0.4rem 0.75rem;
-        border-radius: 999px;
-        font-size: 0.8rem;
+    .portal-stat-icon svg { width: 26px; height: 26px; stroke: #1B4332; }
+    .portal-stat-icon.gold { background: rgba(234,179,8,.12); }
+    .portal-stat-icon.gold svg { stroke: #B45309; }
+    .portal-stat-value {
+        font-family: 'Playfair Display', serif;
+        font-size: 2rem;
         font-weight: 700;
-        color: #15803d;
-        background: linear-gradient(135deg, #f0fdf4 0%, #fefce8 100%);
-        border: 1px solid rgba(34, 197, 94, 0.35);
-        text-decoration: none;
-        transition: all 0.2s ease;
+        color: #1B4332;
+        line-height: 1;
+        margin-bottom: .2rem;
     }
-
-    .dashboard-card .view-link:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 6px 14px rgba(22, 163, 74, 0.12);
-        color: #166534;
+    .portal-stat-label { font-size: .8rem; color: #6b7280; font-weight: 500; }
+    .portal-welcome {
+        background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
+        border-radius: 14px;
+        padding: 1.4rem 1.75rem;
+        color: #fff;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 18px rgba(27,67,50,.22);
     }
-
-    .portal-table-card {
-        border: 1px solid rgba(34, 197, 94, 0.45);
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 10px 24px rgba(22, 163, 74, 0.1);
-        background: linear-gradient(135deg, #fffef5 0%, #f4ffef 100%);
+    .portal-welcome h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.4rem;
+        margin: 0 0 .25rem;
+        color: #fff;
     }
-
-    .portal-table-card .card-header {
-        background: rgba(255, 255, 255, 0.8);
-        border-bottom: 1px solid rgba(34, 197, 94, 0.2);
-    }
+    .portal-welcome p { margin: 0; color: rgba(255,255,255,.7); font-size: .875rem; }
+    .portal-welcome a { color: #EAB308; font-weight: 700; text-decoration: none; }
+    .portal-welcome a:hover { text-decoration: underline; }
 </style>
+@endsection
 
-<h5 class="fw-bold mb-4">Welcome, <u><a href="{{ route('portal.profile.edit') }}" class="text-decoration-none text-success fw-bold">{{ Auth::user()->first_name }}</a></u>!</h5>
+@section('content')
+
+{{-- Welcome banner --}}
+<div class="portal-welcome" data-aos="fade-down">
+    <h2>Welcome, <a href="{{ route('portal.profile.edit') }}">{{ Auth::user()->first_name }}</a>!</h2>
+    <p>Manage your children's enrollment through the H.O.P.E. Guardian Portal.</p>
+</div>
 
 @if($guardian)
+
+{{-- Stat cards --}}
 <div class="row g-3 mb-4">
-    <div class="col-md-6">
-        <div class="card dashboard-card shadow text-center py-3">
-            <div class="card-body">
-                <div class="icon-badge">
-                    <i data-lucide="graduation-cap" style="width:2rem;height:2rem;stroke:#1B4332;display:block;margin:0 auto;"></i>
-                </div>
-                <h3 class="fw-bold mt-2 mb-0">{{ $students->count() }}</h3>
-                <small class="text-muted">Linked Students</small>
+    <div class="col-md-6" data-aos="fade-up" data-aos-delay="0">
+        <div class="portal-stat">
+            <div class="portal-stat-icon">
+                <i data-lucide="graduation-cap"></i>
+            </div>
+            <div>
+                <div class="portal-stat-value">{{ $students->count() }}</div>
+                <div class="portal-stat-label">Linked Students</div>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="card dashboard-card shadow text-center py-3">
-            <div class="card-body">
-                <div class="icon-badge">
-                    <i data-lucide="check-circle" style="width:2rem;height:2rem;stroke:#EAB308;display:block;margin:0 auto;"></i>
-                </div>
-                <h3 class="fw-bold mt-2 mb-0">
-                    {{ $students->where('status', 'active')->count() }}
-                </h3>
-                <small class="text-muted">Active Students</small>
+    <div class="col-md-6" data-aos="fade-up" data-aos-delay="60">
+        <div class="portal-stat">
+            <div class="portal-stat-icon gold">
+                <i data-lucide="user-check"></i>
+            </div>
+            <div>
+                <div class="portal-stat-value">{{ $students->where('status', 'active')->count() }}</div>
+                <div class="portal-stat-label">Active Students</div>
             </div>
         </div>
     </div>
 </div>
 
+{{-- Students table --}}
 @if($students->count() > 0)
-<div class="card portal-table-card">
-    <div class="card-header bg-white fw-semibold border-0 py-3">
-        <i data-lucide="users" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>My Students
+<div class="card" data-aos="fade-up" data-aos-delay="120">
+    <div class="card-header fw-semibold py-3" style="background:#1B4332;color:#EAB308;border-radius:11px 11px 0 0;">
+        <i data-lucide="users" style="width:15px;height:15px;display:inline;vertical-align:text-bottom;margin-right:.4rem;"></i>My Students
     </div>
     <div class="card-body p-0">
         <table class="table table-hover mb-0">
-            <thead class="table-light">
+            <thead style="background:#f9f7f3;">
                 <tr>
                     <th>Full Name</th>
                     <th>Service Type</th>
-                    <th>Status</th>
+                    <th>Enrollment Status</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($students as $student)
                 @php $latestEnrollment = $student->enrollments->first(); @endphp
                 <tr>
-                    <td>{{ $student->list_name }}</td>
+                    <td class="fw-semibold">{{ $student->list_name }}</td>
                     <td>
                         @if($student->serviceType)
                             <span class="badge bg-info text-dark">
@@ -143,13 +140,24 @@
         </table>
     </div>
 </div>
+@else
+<div class="card text-center py-5" data-aos="fade-up">
+    <div class="card-body">
+        <i data-lucide="graduation-cap" style="width:3rem;height:3rem;display:block;margin:0 auto 1rem;stroke:#d1cfc8;"></i>
+        <p class="text-muted mb-2">No students linked to your account yet.</p>
+        <p class="text-muted small mb-0">Contact our staff to link your child's student record.</p>
+    </div>
+</div>
 @endif
 
 @else
-<div class="alert alert-warning">
-    <i data-lucide="triangle-alert" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
-    Your guardian profile is not fully set up yet.
-    Please contact the administrator.
+<div class="alert alert-warning d-flex align-items-center gap-2">
+    <i data-lucide="triangle-alert" style="width:18px;height:18px;flex-shrink:0;"></i>
+    <div>
+        Your guardian profile is not fully set up yet.
+        Please contact the administrator.
+    </div>
 </div>
 @endif
+
 @endsection

@@ -22,10 +22,10 @@ $meAge = $me->age !== null ? $me->age . ' years old' : '';
             @method('PUT')
 
             {{-- Profile Picture --}}
-            <div class="border rounded-4 p-4 mb-4" style="background: linear-gradient(135deg, #f9fdf8 0%, #f2fff4 100%); border-color: rgba(34, 197, 94, 0.2);">
+            <div class="border rounded-4 p-4 mb-4" style="background: #f9f7f3; border-color: #e8e3d8;">
                 <div class="d-flex flex-column flex-md-row align-items-md-center gap-3">
                     <div class="flex-shrink-0">
-                        <div id="avatarWrapper" class="d-inline-flex align-items-center justify-content-center rounded-circle border border-2 border-success-subtle shadow-sm" style="background: white; width: 96px; height: 96px; cursor: pointer;">
+                        <div id="avatarWrapper" class="d-inline-flex align-items-center justify-content-center rounded-circle border border-2 shadow-sm" style="background: white; width: 96px; height: 96px; cursor: pointer;">
                             @include('partials.avatar',[
                             'name' => $meName ?: '?',
                             'image' => $me->profile_picture,
@@ -34,15 +34,15 @@ $meAge = $me->age !== null ? $me->age . ' years old' : '';
                         </div>
                     </div>
                     <div class="flex-grow-1">
-                        <p class="fw-semibold text-primary small mb-2 d-flex align-items-center gap-2">
+                        <p class="fw-semibold small mb-2 d-flex align-items-center gap-2" style="color:#1B4332;">
                             <i data-lucide="user-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Profile Picture
                         </p>
                         <div class="d-flex flex-column flex-md-row align-items-md-center gap-2 mb-2">
                             <label for="profilePicInput"
-                                class="btn btn-sm btn-outline-success mb-0 px-3">
+                                class="btn btn-sm mb-0 px-3" style="border:1px solid #1B4332;color:#1B4332;background:#fff;">
                                 <i data-lucide="image" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Choose Picture
                             </label>
-                            <button type="button" class="btn btn-sm btn-outline-success mb-0 px-3"
+                            <button type="button" class="btn btn-sm mb-0 px-3" style="border:1px solid #1B4332;color:#1B4332;background:#fff;"
                                 onclick="openCameraCapture('profilePicInput')">
                                 <i data-lucide="camera" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Take Photo
                             </button>
@@ -69,7 +69,7 @@ $meAge = $me->age !== null ? $me->age . ' years old' : '';
             </div>
 
             {{-- Personal Information --}}
-            <p class="fw-semibold text-primary small mb-2">
+            <p class="fw-semibold small mb-2" style="color:#1B4332;">
                 <i data-lucide="user" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Personal Information
             </p>
             <div class="row g-3 mb-4">
@@ -176,7 +176,7 @@ $meAge = $me->age !== null ? $me->age . ' years old' : '';
             </div>
 
             {{-- Address --}}
-            <p class="fw-semibold text-primary small mb-2">
+            <p class="fw-semibold small mb-2" style="color:#1B4332;">
                 <i data-lucide="map-pin" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Address
             </p>
             <div class="mb-4">
@@ -195,7 +195,7 @@ $meAge = $me->age !== null ? $me->age . ' years old' : '';
             </div>
 
             {{-- Account Credentials --}}
-            <p class="fw-semibold text-primary small mb-2">
+            <p class="fw-semibold small mb-2" style="color:#1B4332;">
                 <i data-lucide="shield" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Account Credentials
             </p>
             <div class="row g-3 mb-4">
@@ -317,3 +317,4 @@ $meAge = $me->age !== null ? $me->age . ' years old' : '';
 
 @include('partials.camera-capture')
 @endsection
+

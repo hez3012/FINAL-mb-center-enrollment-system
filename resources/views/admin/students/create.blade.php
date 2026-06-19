@@ -16,29 +16,29 @@
     </a>
 </div>
 
-<div class="card border-0 shadow" style="border-radius: 18px; background: linear-gradient(135deg, #fffef5 0%, #f4ffef 100%);">
+<div class="card border-0 shadow" style="border-radius: 14px; background: #fff;">
     <div class="card-body p-4 p-lg-5">
         <form method="POST" action="{{ route('admin.students.store') }}"
               enctype="multipart/form-data">
             @csrf
 
             {{-- Profile Picture --}}
-            <div class="border rounded-4 p-4 mb-4" style="background: linear-gradient(135deg, #f9fdf8 0%, #f2fff4 100%); border-color: rgba(34, 197, 94, 0.2);">
-                <p class="fw-semibold text-success small mb-3">
+            <div class="border rounded-4 p-4 mb-4" style="background: #f9f7f3; border-color: #e8e3d8;">
+                <p class="fw-semibold small mb-3" style="color:#1B4332;">
                     <i data-lucide="user-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Profile Picture
                 </p>
                 <div class="row g-3 align-items-center">
                     <div class="col-md-4 text-center text-md-start">
-                        <div id="avatarWrapper" class="d-inline-flex align-items-center justify-content-center p-2 rounded-circle border border-2 border-success-subtle shadow-sm" style="background: white; width: 96px; height: 96px;">
+                        <div id="avatarWrapper" class="d-inline-flex align-items-center justify-content-center p-2 rounded-circle border border-2 shadow-sm" style="background: white; width: 96px; height: 96px;">
                             @include('partials.avatar', ['name' => '?', 'image' => null, 'size' => 72])
                         </div>
                     </div>
                     <div class="col-md-8">
                         <div class="d-flex flex-column flex-md-row align-items-md-center gap-2 mb-2">
-                            <label for="profilePicInput" class="btn btn-sm btn-outline-success mb-0 px-3">
+                            <label for="profilePicInput" class="btn btn-sm mb-0 px-3" style="border:1px solid #1B4332;color:#1B4332;background:#fff;">
                                 <i data-lucide="image" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Choose Picture
                             </label>
-                            <button type="button" class="btn btn-sm btn-outline-success mb-0 px-3"
+                            <button type="button" class="btn btn-sm mb-0 px-3" style="border:1px solid #1B4332;color:#1B4332;background:#fff;"
                                 onclick="openCameraCapture('profilePicInput')">
                                 <i data-lucide="camera" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Take Photo
                             </button>
@@ -61,8 +61,8 @@
             </div>
 
             {{-- Personal Information --}}
-            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
-                <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
+            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: #fff; border-color: #e8e3d8;">
+                <p class="fw-semibold small mb-3 d-flex align-items-center gap-2" style="color:#1B4332;">
                     <i data-lucide="user" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Personal Information
                 </p>
                 <div class="row g-3 mb-0">
@@ -169,8 +169,8 @@
             </div>
 
             {{-- Address --}}
-            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
-                <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
+            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: #fff; border-color: #e8e3d8;">
+                <p class="fw-semibold small mb-3 d-flex align-items-center gap-2" style="color:#1B4332;">
                     <i data-lucide="map-pin" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Address
                 </p>
                 <div class="row g-3 mb-0">
@@ -189,8 +189,8 @@
             </div>
 
             {{-- Guardian & Dev Ped --}}
-            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
-                <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
+            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: #fff; border-color: #e8e3d8;">
+                <p class="fw-semibold small mb-3 d-flex align-items-center gap-2" style="color:#1B4332;">
                     <i data-lucide="users" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Guardian & Developmental Pediatrician
                 </p>
                 <div class="row g-3 mb-0">
@@ -256,8 +256,8 @@
             </div>
 
             {{-- Service & Disability --}}
-            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
-                <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
+            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: #fff; border-color: #e8e3d8;">
+                <p class="fw-semibold small mb-3 d-flex align-items-center gap-2" style="color:#1B4332;">
                     <i data-lucide="heart" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Service & Disability
                 </p>
                 <div class="row g-3 mb-0">
@@ -473,3 +473,5 @@ disabilitySelect.addEventListener('change', onDisabilityChange);
 
 @include('partials.camera-capture')
 @endsection
+
+

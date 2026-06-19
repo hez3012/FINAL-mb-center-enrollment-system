@@ -17,7 +17,7 @@ $meAge = $me->age !== null ? $me->age . ' years old' : '';
     </div>
 </div>
 
-<div class="card border-0 shadow" style="border-radius: 18px; background: linear-gradient(135deg, #fffef5 0%, #f4ffef 100%);">
+<div class="card border-0 shadow-sm" style="border-radius: 14px;">
     <div class="card-body p-4 p-lg-5">
         <form method="POST" action="{{ route('admin.profile.update') }}"
             enctype="multipart/form-data">
@@ -25,10 +25,10 @@ $meAge = $me->age !== null ? $me->age . ' years old' : '';
             @method('PUT')
 
             {{-- Profile Picture --}}
-            <div class="border rounded-4 p-4 mb-4" style="background: linear-gradient(135deg, #f9fdf8 0%, #f2fff4 100%); border-color: rgba(34, 197, 94, 0.2);">
+            <div class="border rounded-4 p-4 mb-4" style="background: #f9f7f3; border-color: #e8e3d8;">
                 <div class="d-flex flex-column flex-md-row align-items-md-center gap-3">
                     <div class="flex-shrink-0">
-                        <div id="avatarWrapper" class="d-inline-flex align-items-center justify-content-center rounded-circle border border-2 border-success-subtle shadow-sm" style="background: white; width: 96px; height: 96px; cursor: pointer;">
+                        <div id="avatarWrapper" class="d-inline-flex align-items-center justify-content-center rounded-circle border border-2 shadow-sm" style="background: white; width: 96px; height: 96px; cursor: pointer; border-color: #1B4332 !important;">
                             @include('partials.avatar',[
                             'name' => $meName ?: '?',
                             'image' => $me->profile_picture,
@@ -37,15 +37,15 @@ $meAge = $me->age !== null ? $me->age . ' years old' : '';
                         </div>
                     </div>
                     <div class="flex-grow-1">
-                        <p class="fw-semibold text-success small mb-2 d-flex align-items-center gap-2">
+                        <p class="fw-semibold small mb-2 d-flex align-items-center gap-2" style="color:#1B4332;">
                             <i data-lucide="user-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Profile Picture
                         </p>
                         <div class="d-flex flex-column flex-md-row align-items-md-center gap-2 mb-2">
                             <label for="profilePicInput"
-                                class="btn btn-sm btn-outline-success mb-0 px-3">
+                                class="btn btn-sm mb-0 px-3" style="border:1px solid #1B4332;color:#1B4332;background:#fff;">
                                 <i data-lucide="image" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Choose Picture
                             </label>
-                            <button type="button" class="btn btn-sm btn-outline-success mb-0 px-3"
+                            <button type="button" class="btn btn-sm mb-0 px-3" style="border:1px solid #1B4332;color:#1B4332;background:#fff;"
                                 onclick="openCameraCapture('profilePicInput')">
                                 <i data-lucide="camera" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Take Photo
                             </button>
@@ -72,8 +72,8 @@ $meAge = $me->age !== null ? $me->age . ' years old' : '';
             </div>
 
             {{-- Personal Information --}}
-            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
-                <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
+            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: #fff; border-color: #e8e3d8;">
+                <p class="fw-semibold small mb-3 d-flex align-items-center gap-2" style="color:#1B4332;">
                     <i data-lucide="user" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Personal Information
                 </p>
             <div class="row g-3 mb-4">
@@ -181,8 +181,8 @@ $meAge = $me->age !== null ? $me->age . ' years old' : '';
             </div>
 
             {{-- Address --}}
-            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
-                <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
+            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: #fff; border-color: #e8e3d8;">
+                <p class="fw-semibold small mb-3 d-flex align-items-center gap-2" style="color:#1B4332;">
                     <i data-lucide="map-pin" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Address
                 </p>
                 <div class="mb-0">
@@ -202,8 +202,8 @@ $meAge = $me->age !== null ? $me->age . ' years old' : '';
             </div>
 
             {{-- Account Credentials --}}
-            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
-                <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
+            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: #fff; border-color: #e8e3d8;">
+                <p class="fw-semibold small mb-3 d-flex align-items-center gap-2" style="color:#1B4332;">
                     <i data-lucide="shield" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Account Credentials
                 </p>
                 <div class="row g-3 mb-0">
@@ -236,7 +236,7 @@ $meAge = $me->age !== null ? $me->age . ' years old' : '';
             </div>
 
             <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-success px-4">
+                <button type="submit" class="btn px-4 text-white fw-semibold" style="background:#1B4332;">
                     <i data-lucide="save" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Save Changes
                 </button>
             </div>
