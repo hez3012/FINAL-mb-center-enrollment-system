@@ -336,9 +336,9 @@
                 @endif
 
                 @if(Auth::user()->hasPermission('create_guardian'))
-                <a href="{{ route('admin.guardians.create') }}" class="qa-btn">
+                <a href="{{ route('admin.guardians.index') }}" class="qa-btn">
                     <div class="qa-icon"><i data-lucide="user-plus"></i></div>
-                    Add Guardian
+                    View Guardians
                 </a>
                 @endif
 
