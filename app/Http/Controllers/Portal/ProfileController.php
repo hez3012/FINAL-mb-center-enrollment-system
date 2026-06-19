@@ -54,6 +54,9 @@ class ProfileController extends Controller
             if ($picturePath) Storage::disk('public')->delete($picturePath);
             $picturePath = $request->file('profile_picture')
                 ->store('profile_pictures/users', 'public');
+        } elseif ($request->boolean('remove_profile_picture') && $picturePath) {
+            Storage::disk('public')->delete($picturePath);
+            $picturePath = null;
         }
 
         $data = [

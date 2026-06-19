@@ -66,6 +66,15 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
                                 class="btn btn-sm btn-outline-success mb-0 px-3">
                                 <i class="bi bi-image me-1"></i>Choose Picture
                             </label>
+                            <button type="button" class="btn btn-sm btn-outline-success mb-0 px-3"
+                                onclick="openCameraCapture('profilePicInput')">
+                                <i class="bi bi-camera me-1"></i>Take Photo
+                            </button>
+                            <button type="button" id="removePicBtn"
+                                class="btn btn-sm btn-outline-danger mb-0 px-3 {{ $user->profile_picture ? '' : 'd-none' }}">
+                                <i class="bi bi-trash me-1"></i>Remove Photo
+                            </button>
+                            <input type="hidden" name="remove_profile_picture" id="removeProfilePictureFlag" value="0">
                             <input type="file" name="profile_picture" id="profilePicInput"
                                 class="d-none @error('profile_picture') is-invalid @enderror"
                                 accept=".jpg,.jpeg,.png">
@@ -407,6 +416,8 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
         var file = this.files[0];
         if (!file) return;
         document.getElementById('picFileName').textContent = file.name;
+        document.getElementById('removeProfilePictureFlag').value = '0';
+        document.getElementById('removePicBtn').classList.remove('d-none');
         var reader = new FileReader();
         reader.onload = function(e) {
             var w = document.getElementById('avatarWrapper');
@@ -414,6 +425,14 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
             w.querySelector('img').addEventListener('click', openFullscreen);
         };
         reader.readAsDataURL(file);
+    });
+
+    document.getElementById('removePicBtn').addEventListener('click', function() {
+        document.getElementById('profilePicInput').value = '';
+        document.getElementById('removeProfilePictureFlag').value = '1';
+        document.getElementById('picFileName').textContent = 'No file chosen';
+        document.getElementById('avatarWrapper').innerHTML = `@include('partials.avatar', ['name' => $user->list_name, 'image' => null, 'size' => 72])`;
+        this.classList.add('d-none');
     });
 
     (function() {
@@ -430,4 +449,6 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
         new bootstrap.Modal(document.getElementById('fullscreenModal')).show();
     }
 </script>
+
+@include('partials.camera-capture')
 @endsection

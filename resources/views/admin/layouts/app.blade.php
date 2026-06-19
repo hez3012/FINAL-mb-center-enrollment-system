@@ -100,6 +100,19 @@
             gap: 0.5rem;
         }
 
+        .sidebar .nav-section-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #9ca3af;
+            padding: 0.9rem 1rem 0.3rem 1rem;
+        }
+
+        .sidebar .nav-section-title:first-child {
+            padding-top: 0.4rem;
+        }
+
         .sidebar .nav-link {
             color: #6b7280 !important;
             font-weight: 600;
@@ -347,40 +360,47 @@
         </div>
 
         <nav class="nav flex-column pt-2">
+            <div class="nav-section-title">Overview</div>
             <a href="{{ route('admin.dashboard') }}"
                 class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                 <i class="bi bi-speedometer2 me-2"></i>Dashboard
             </a>
 
+            @if(Auth::user()->hasPermission('view_user') || Auth::user()->hasPermission('view_guardian') || Auth::user()->hasPermission('view_student'))
+            <div class="nav-section-title">People</div>
+            @endif
+
             @if(Auth::user()->hasPermission('view_user'))
             <a href="{{ route('admin.users.index') }}"
                 class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                <i class="bi bi-people me-2"></i>User Management
+                <i class="bi bi-people me-2"></i>Users
             </a>
             @endif
 
             @if(Auth::user()->hasPermission('view_guardian'))
             <a href="{{ route('admin.guardians.index') }}"
                 class="nav-link {{ request()->routeIs('admin.guardians.*') ? 'active' : '' }}">
-                <i class="bi bi-person-heart me-2"></i>Guardian Management
+                <i class="bi bi-person-heart me-2"></i>Guardians
             </a>
             @endif
 
             @if(Auth::user()->hasPermission('view_student'))
             <a href="{{ route('admin.students.index') }}"
                 class="nav-link {{ request()->routeIs('admin.students.*') ? 'active' : '' }}">
-                <i class="bi bi-mortarboard me-2"></i>Student Management
+                <i class="bi bi-mortarboard me-2"></i>Students
             </a>
             @endif
 
             @if(Auth::user()->hasPermission('view_enrollment'))
+            <div class="nav-section-title">Enrollment</div>
             <a href="{{ route('admin.enrollments.index') }}"
                 class="nav-link {{ request()->routeIs('admin.enrollments.*') ? 'active' : '' }}">
-                <i class="bi bi-clipboard-check me-2"></i>Enrollment Management
+                <i class="bi bi-clipboard-check me-2"></i>Enrollment
             </a>
             @endif
 
             @if(Auth::user()->hasPermission('view_audit_log'))
+            <div class="nav-section-title">System</div>
             <a href="{{ route('admin.audit-log.index') }}"
                 class="nav-link {{ request()->routeIs('admin.audit-log.*') ? 'active' : '' }}">
                 <i class="bi bi-journal-text me-2"></i>Audit Log

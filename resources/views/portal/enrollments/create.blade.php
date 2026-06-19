@@ -55,6 +55,13 @@ $currentSex = old('student_sex');
                             <label for="studentPicInput" class="btn btn-sm btn-outline-primary mb-0">
                                 <i class="bi bi-image me-1"></i>Choose Picture
                             </label>
+                            <button type="button" class="btn btn-sm btn-outline-primary mb-0"
+                                onclick="openCameraCapture('studentPicInput')">
+                                <i class="bi bi-camera me-1"></i>Take Photo
+                            </button>
+                            <button type="button" id="removeStudentPicBtn" class="btn btn-sm btn-outline-danger mb-0 d-none">
+                                <i class="bi bi-trash me-1"></i>Remove Photo
+                            </button>
                             <input type="file" name="student_profile_picture" id="studentPicInput"
                                 class="d-none @error('student_profile_picture') is-invalid @enderror"
                                 accept=".jpg,.jpeg,.png">
@@ -515,8 +522,10 @@ $currentSex = old('student_sex');
         var file = this.files[0];
         var nameSpan = document.getElementById('studentPicName');
         var preview  = document.getElementById('studentAvatarPreview');
+        var removeBtn = document.getElementById('removeStudentPicBtn');
         if (file) {
             nameSpan.textContent = file.name;
+            removeBtn.classList.remove('d-none');
             var reader = new FileReader();
             reader.onload = function(e) {
                 preview.innerHTML = '<img src="' + e.target.result + '" style="width:76px;height:76px;object-fit:cover;border-radius:50%;">';
@@ -525,7 +534,17 @@ $currentSex = old('student_sex');
         } else {
             nameSpan.textContent = 'No file chosen';
             preview.innerHTML = '<i class="bi bi-person fs-1 text-muted"></i>';
+            removeBtn.classList.add('d-none');
         }
     });
+
+    document.getElementById('removeStudentPicBtn').addEventListener('click', function() {
+        document.getElementById('studentPicInput').value = '';
+        document.getElementById('studentPicName').textContent = 'No file chosen';
+        document.getElementById('studentAvatarPreview').innerHTML = '<i class="bi bi-person fs-1 text-muted"></i>';
+        this.classList.add('d-none');
+    });
 </script>
+
+@include('partials.camera-capture')
 @endsection

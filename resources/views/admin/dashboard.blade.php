@@ -10,6 +10,7 @@
         border-radius: 16px;
         background: linear-gradient(135deg, #fffdef 0%, #f2ffec 100%);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
+        height: 100%;
     }
 
     .dashboard-card:hover {
@@ -20,6 +21,10 @@
     .dashboard-card .card-body {
         position: relative;
         z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
     .dashboard-card .icon-badge {
@@ -77,7 +82,7 @@
 
 <h5 class="fw-bold mb-4">Welcome, {{ Auth::user()->first_name }}!</h5>
 
-<div class="row g-3">
+<div class="row g-3 align-items-stretch">
     <div class="col-md-3">
         @if($isTeacherOrStaff)
         <div class="card dashboard-card shadow text-center py-3">
@@ -144,7 +149,7 @@
                 <h3 class="fw-bold mt-2 mb-0">{{ $activeStudents }}</h3>
                 <small class="text-muted">Active Students</small>
                 <a href="{{ route('admin.students.index') }}" class="view-link">
-                    View Active Students <i class="bi bi-arrow-right-short"></i>
+                    View Students <i class="bi bi-arrow-right-short"></i>
                 </a>
             </div>
         </div>

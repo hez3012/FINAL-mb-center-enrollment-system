@@ -21,7 +21,20 @@ class UserController extends Controller
     public function index()
     {
         Log::info('User Management: index accessed', ['by' => Auth::user()->username]);
-        $users = User::with('role')->whereNull('deleted_at')->get();
+
+        $currentRole  = Auth::user()->role?->role_name;
+        $visibleRoles = match ($currentRole) {
+            'staff'   => ['staff', 'guardian'],
+            'teacher' => ['teacher', 'guardian'],
+            default   => null,
+        };
+
+        $query = User::with('role')->whereNull('deleted_at');
+        if ($visibleRoles) {
+            $query->whereHas('role', fn($q) => $q->whereIn('role_name', $visibleRoles));
+        }
+        $users = $query->get();
+
         return view('admin.users.index', compact('users'));
     }
 
@@ -202,7 +215,7 @@ class UserController extends Controller
         $preselectedRole = $userRoleName === 'guardian' ? 'guardian' : '';
 
         $allowedRoleNames = match ($currentRole) {
-            'directress' => ['directress', 'admin', 'teacher', 'staff', 'guardian'],
+            'directress' => ['admin', 'teacher', 'staff', 'guardian'],
             'admin'      => ['admin', 'teacher', 'staff', 'guardian'],
             'teacher'    => ['staff', 'guardian'],
             default      => ['guardian'],
@@ -254,6 +267,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         $request->validate([
+            'role_id'          => 'required|exists:roles,role_id',
             'first_name'       => 'required|string|min:2|max:100',
             'middle_name'      => 'nullable|string|max:100',
             'last_name'        => 'required|string|min:2|max:100',
@@ -277,8 +291,10 @@ class UserController extends Controller
             'permissions'      => 'nullable|array',
         ]);
 
-        $role = $user->role;
-        if ($role && $role->role_name === 'guardian') {
+        $newRole = Role::find($request->role_id);
+        $oldRole = $user->role;
+
+        if ($oldRole && $oldRole->role_name === 'guardian') {
             $request->validate(['relationship' => 'required|string']);
         }
 
@@ -287,9 +303,13 @@ class UserController extends Controller
             if ($picturePath) Storage::disk('public')->delete($picturePath);
             $picturePath = $request->file('profile_picture')
                 ->store('profile_pictures/users', 'public');
+        } elseif ($request->boolean('remove_profile_picture') && $picturePath) {
+            Storage::disk('public')->delete($picturePath);
+            $picturePath = null;
         }
 
         $data = [
+            'role_id'          => $request->role_id,
             'first_name'       => $request->first_name,
             'middle_name'      => $request->middle_name,
             'last_name'        => $request->last_name,
@@ -317,11 +337,11 @@ class UserController extends Controller
 
         $user->update($data);
 
-        if ($role && $role->role_name === 'guardian' && $user->guardian) {
+        if ($oldRole && $oldRole->role_name === 'guardian' && $user->guardian) {
             $user->guardian->update(['relationship' => $request->relationship]);
         }
 
-        if ($role && $role->role_name !== 'guardian' && $request->has('permissions')) {
+        if ($newRole && $newRole->role_name !== 'guardian' && $request->has('permissions')) {
             DB::table('user_permissions')->where('user_id', $user->user_id)->delete();
             foreach ($request->input('permissions', []) as $permId) {
                 DB::table('user_permissions')->insertOrIgnore([

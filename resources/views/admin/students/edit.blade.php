@@ -27,10 +27,10 @@
             @method('PUT')
 
             {{-- Profile Picture --}}
-            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
+            <div class="border rounded-4 p-4 mb-4" style="background: linear-gradient(135deg, #f9fdf8 0%, #f2fff4 100%); border-color: rgba(34, 197, 94, 0.2);">
                 <div class="d-flex flex-column flex-md-row align-items-md-center gap-3">
                     <div class="flex-shrink-0">
-                        <div id="avatarWrapper" class="d-inline-flex align-items-center justify-content-center rounded-circle border border-2 border-success-subtle shadow-sm" style="background: white; width: 96px; height: 96px;">
+                        <div id="avatarWrapper" class="d-inline-flex align-items-center justify-content-center rounded-circle border border-2 border-success-subtle shadow-sm" style="background: white; width: 96px; height: 96px; cursor: pointer;">
                             @include('partials.avatar', [
                                 'name'  => $student->full_name,
                                 'image' => $student->profile_picture,
@@ -44,9 +44,18 @@
                         </p>
                         <div class="d-flex flex-column flex-md-row align-items-md-center gap-2 mb-2">
                             <label for="profilePicInput"
-                                   class="btn btn-sm btn-outline-success mb-0">
+                                   class="btn btn-sm btn-outline-success mb-0 px-3">
                                 <i class="bi bi-image me-1"></i>Choose Picture
                             </label>
+                            <button type="button" class="btn btn-sm btn-outline-success mb-0 px-3"
+                                onclick="openCameraCapture('profilePicInput')">
+                                <i class="bi bi-camera me-1"></i>Take Photo
+                            </button>
+                            <button type="button" id="removePicBtn"
+                                class="btn btn-sm btn-outline-danger mb-0 px-3 {{ $student->profile_picture ? '' : 'd-none' }}">
+                                <i class="bi bi-trash me-1"></i>Remove Photo
+                            </button>
+                            <input type="hidden" name="remove_profile_picture" id="removeProfilePictureFlag" value="0">
                             <input type="file" name="profile_picture" id="profilePicInput"
                                    class="d-none @error('profile_picture') is-invalid @enderror"
                                    accept=".jpg,.jpeg,.png">
@@ -54,10 +63,12 @@
                                 {{ $student->profile_picture ? 'Current photo on file' : 'No file chosen' }}
                             </span>
                         </div>
+                        <div class="small text-muted">
+                            JPG or PNG only · Max 50MB · Leave blank to keep current
+                        </div>
                         @error('profile_picture')
-                            <div class="text-danger small mt-1">{{ $message }}</div>
+                            <div class="text-danger small mt-2">{{ $message }}</div>
                         @enderror
-                        <small class="text-muted">JPG or PNG only · Max 50MB · Leave blank to keep current</small>
                     </div>
                 </div>
             </div>
@@ -390,15 +401,25 @@ document.getElementById('profilePicInput').addEventListener('change', function (
     var file = this.files[0];
     if (!file) return;
     document.getElementById('picFileName').textContent = file.name;
+    document.getElementById('removeProfilePictureFlag').value = '0';
+    document.getElementById('removePicBtn').classList.remove('d-none');
     var reader = new FileReader();
     reader.onload = function (e) {
         var w = document.getElementById('avatarWrapper');
         w.innerHTML = '<img src="' + e.target.result + '"'
-            + ' style="width:48px;height:48px;border-radius:50%;'
+            + ' style="width:72px;height:72px;border-radius:50%;'
             + 'object-fit:cover;cursor:pointer;flex-shrink:0;">';
         w.querySelector('img').addEventListener('click', openFullscreen);
     };
     reader.readAsDataURL(file);
+});
+
+document.getElementById('removePicBtn').addEventListener('click', function() {
+    document.getElementById('profilePicInput').value = '';
+    document.getElementById('removeProfilePictureFlag').value = '1';
+    document.getElementById('picFileName').textContent = 'No file chosen';
+    document.getElementById('avatarWrapper').innerHTML = `@include('partials.avatar', ['name' => $student->full_name, 'image' => null, 'size' => 72])`;
+    this.classList.add('d-none');
 });
 
 function openFullscreen(e) {
@@ -507,4 +528,6 @@ function onDisabilityChange() {
 serviceSelect.addEventListener('change', onServiceChange);
 disabilitySelect.addEventListener('change', onDisabilityChange);
 </script>
+
+@include('partials.camera-capture')
 @endsection

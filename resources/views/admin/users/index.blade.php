@@ -6,7 +6,8 @@
     <h5 class="fw-bold mb-0">User Management</h5>
     @if(Auth::user()->hasPermission('create_user'))
     <a href="{{ route('admin.users.create') }}" class="btn btn-primary btn-sm">
-        <i class="bi bi-person-plus me-1"></i>Add New User
+        <i class="bi bi-person-plus me-1"></i>
+        {{ Auth::user()->role?->role_name === 'staff' ? 'Add Guardian' : 'Add New User' }}
     </a>
     @endif
 </div>

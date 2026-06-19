@@ -18,7 +18,10 @@ class DashboardController extends Controller
 
         if ($guardian) {
             $students = Student::where('guardian_id', $guardian->guardian_id)
-                ->with(['serviceType', 'disability', 'programLevel'])
+                ->with([
+                    'serviceType', 'disability', 'programLevel',
+                    'enrollments' => fn($q) => $q->orderByDesc('enrollment_date')->orderByDesc('enrollment_id'),
+                ])
                 ->get();
         }
 

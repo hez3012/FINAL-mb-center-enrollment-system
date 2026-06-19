@@ -210,6 +210,9 @@ class StudentController extends Controller
             }
             $validated['profile_picture'] = $request->file('profile_picture')
                 ->store('profile_pictures/students', 'public');
+        } elseif ($request->boolean('remove_profile_picture') && $student->profile_picture) {
+            Storage::disk('public')->delete($student->profile_picture);
+            $validated['profile_picture'] = null;
         }
 
         if ($request->hasFile('dev_ped_document')) {

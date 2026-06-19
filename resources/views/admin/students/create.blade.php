@@ -23,33 +23,41 @@
             @csrf
 
             {{-- Profile Picture --}}
-            <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
-                <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-person-circle"></i>Profile Picture
+            <div class="border rounded-4 p-4 mb-4" style="background: linear-gradient(135deg, #f9fdf8 0%, #f2fff4 100%); border-color: rgba(34, 197, 94, 0.2);">
+                <p class="fw-semibold text-success small mb-3">
+                    <i class="bi bi-person-circle me-1"></i>Profile Picture
                 </p>
-                <div class="row g-3 mb-0">
-                <div class="col-md-6">
-                    <div class="d-flex align-items-center gap-2 mb-2">
-                        <div id="avatarWrapper">
-                            @include('partials.avatar', ['name' => '?', 'image' => null, 'size' => 48])
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-4 text-center text-md-start">
+                        <div id="avatarWrapper" class="d-inline-flex align-items-center justify-content-center p-2 rounded-circle border border-2 border-success-subtle shadow-sm" style="background: white; width: 96px; height: 96px;">
+                            @include('partials.avatar', ['name' => '?', 'image' => null, 'size' => 72])
                         </div>
                     </div>
-                    <div class="d-flex align-items-center gap-2 mb-1">
-                        <label for="profilePicInput"
-                               class="btn btn-sm btn-outline-secondary mb-0">
-                            <i class="bi bi-image me-1"></i>Choose Picture
-                        </label>
-                        <input type="file" name="profile_picture" id="profilePicInput"
-                               class="d-none @error('profile_picture') is-invalid @enderror"
-                               accept=".jpg,.jpeg,.png">
-                        <span id="picFileName" class="text-muted small">No file chosen</span>
+                    <div class="col-md-8">
+                        <div class="d-flex flex-column flex-md-row align-items-md-center gap-2 mb-2">
+                            <label for="profilePicInput" class="btn btn-sm btn-outline-success mb-0 px-3">
+                                <i class="bi bi-image me-1"></i>Choose Picture
+                            </label>
+                            <button type="button" class="btn btn-sm btn-outline-success mb-0 px-3"
+                                onclick="openCameraCapture('profilePicInput')">
+                                <i class="bi bi-camera me-1"></i>Take Photo
+                            </button>
+                            <button type="button" id="removePicBtn" class="btn btn-sm btn-outline-danger mb-0 px-3 d-none">
+                                <i class="bi bi-trash me-1"></i>Remove Photo
+                            </button>
+                            <input type="file" name="profile_picture" id="profilePicInput"
+                                   class="d-none @error('profile_picture') is-invalid @enderror"
+                                   accept=".jpg,.jpeg,.png">
+                            <span id="picFileName" class="text-muted small fw-semibold">No file chosen</span>
+                        </div>
+                        <div class="small text-muted">
+                            JPG or PNG only · Max 50MB · Optional
+                        </div>
+                        @error('profile_picture')
+                        <div class="text-danger small mt-2">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('profile_picture')
-                        <div class="text-danger small">{{ $message }}</div>
-                    @enderror
-                    <small class="text-muted">JPG or PNG only · Max 50MB · Optional</small>
                 </div>
-            </div>
             </div>
 
             {{-- Personal Information --}}
@@ -365,15 +373,23 @@ document.getElementById('profilePicInput').addEventListener('change', function (
     var file = this.files[0];
     if (!file) return;
     document.getElementById('picFileName').textContent = file.name;
+    document.getElementById('removePicBtn').classList.remove('d-none');
     var reader = new FileReader();
     reader.onload = function (e) {
         var w = document.getElementById('avatarWrapper');
         w.innerHTML = '<img src="' + e.target.result + '"'
-            + ' style="width:48px;height:48px;border-radius:50%;'
+            + ' style="width:72px;height:72px;border-radius:50%;'
             + 'object-fit:cover;cursor:pointer;flex-shrink:0;">';
         w.querySelector('img').addEventListener('click', openFullscreen);
     };
     reader.readAsDataURL(file);
+});
+
+document.getElementById('removePicBtn').addEventListener('click', function() {
+    document.getElementById('profilePicInput').value = '';
+    document.getElementById('picFileName').textContent = 'No file chosen';
+    document.getElementById('avatarWrapper').innerHTML = `@include('partials.avatar', ['name' => '?', 'image' => null, 'size' => 72])`;
+    this.classList.add('d-none');
 });
 
 function openFullscreen(e) {
@@ -454,4 +470,6 @@ function onDisabilityChange() {
 serviceSelect.addEventListener('change', onServiceChange);
 disabilitySelect.addEventListener('change', onDisabilityChange);
 </script>
+
+@include('partials.camera-capture')
 @endsection

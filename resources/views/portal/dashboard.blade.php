@@ -116,6 +116,7 @@
             </thead>
             <tbody>
                 @foreach($students as $student)
+                @php $latestEnrollment = $student->enrollments->first(); @endphp
                 <tr>
                     <td>{{ $student->list_name }}</td>
                     <td>
@@ -128,17 +129,13 @@
                         @endif
                     </td>
                     <td>
-                        @php
-                            $sc = [
-                                'active'    => 'success',
-                                'inactive'  => 'secondary',
-                                'withdrawn' => 'warning',
-                                'completed' => 'primary',
-                            ];
-                        @endphp
-                        <span class="badge bg-{{ $sc[$student->status] ?? 'secondary' }}">
-                            {{ ucfirst($student->status) }}
+                        @if($latestEnrollment)
+                        <span class="badge bg-{{ $latestEnrollment->status_badge }}">
+                            {{ $latestEnrollment->status_label }}
                         </span>
+                        @else
+                        <span class="badge bg-secondary">No Enrollment Yet</span>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

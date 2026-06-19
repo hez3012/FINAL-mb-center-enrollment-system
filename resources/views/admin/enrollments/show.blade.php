@@ -22,13 +22,6 @@ $canRecord = $enrollment->status === 'pending_payment'
     </a>
 </div>
 
-@if(session('success'))
-<div class="alert alert-success">{{ session('success') }}</div>
-@endif
-@if(session('error'))
-<div class="alert alert-danger">{{ session('error') }}</div>
-@endif
-
 {{-- Approve / Reject for online pending — Directress and Admin only --}}
 @if($hasPending && Auth::user()->hasPermission('approve_enrollment'))
     <div class="card border-warning border mb-3">

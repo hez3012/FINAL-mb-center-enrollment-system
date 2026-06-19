@@ -47,7 +47,6 @@
         <table class="table table-hover mb-0" id="guardiansTable">
             <thead class="table-light">
                 <tr>
-                    <th>#</th>
                     <th>Full Name</th>
                     <th>Email</th>
                     <th>Contact</th>
@@ -64,7 +63,6 @@
                     data-created="{{ optional($user)->created_at?->timestamp ?? 0 }}"
                     data-status="{{ optional($user)->is_active ? 'active' : 'inactive' }}"
                     data-search="{{ strtolower(optional($user)->list_name.' '.optional($user)->email) }}">
-                    <td>{{ $guardian->guardian_id }}</td>
                     <td>
                         <div class="d-flex align-items-center gap-2">
                             @include('partials.avatar',[
@@ -78,7 +76,13 @@
                     <td>{{ optional($user)->email ?? '—' }}</td>
                     <td>{{ optional($user)->contact_number_1 ?? '—' }}</td>
                     <td>{{ $guardian->relationship ?? '—' }}</td>
-                    <td>{{ $guardian->students->count() }}</td>
+                    <td>
+                        @forelse($guardian->students as $student)
+                            <div class="small {{ !$loop->last ? 'mb-1' : '' }}">{{ $student->list_name }}</div>
+                        @empty
+                            <span class="text-muted">—</span>
+                        @endforelse
+                    </td>
                     <td>
                         <span class="badge bg-{{ optional($user)->is_active ? 'success' : 'secondary' }}">
                             {{ optional($user)->is_active ? 'Active' : 'Inactive' }}
@@ -103,7 +107,7 @@
                 </tr>
                 @empty
                 <tr id="noDataRow">
-                    <td colspan="8" class="text-center text-muted py-4">
+                    <td colspan="7" class="text-center text-muted py-4">
                         <i class="bi bi-person-heart d-block mb-2" style="font-size:1.5rem;"></i>
                         No guardians found.
                     </td>
