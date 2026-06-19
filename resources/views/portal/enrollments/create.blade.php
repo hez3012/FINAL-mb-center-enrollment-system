@@ -12,9 +12,8 @@ $currentSex = old('student_sex');
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Submit New Enrollment</h5>
-    <a href="{{ route('portal.enrollments.index') }}"
-        class="btn btn-sm btn-outline-secondary">
-        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
+    <a href="{{ route('portal.enrollments.index') }}" class="btn-act btn-act-view" style="text-decoration:none;">
+        <i data-lucide="arrow-left"></i>Back
     </a>
 </div>
 
@@ -410,8 +409,8 @@ $currentSex = old('student_sex');
                 contact you via <strong>Messenger</strong> once your application is reviewed.
             </div>
 
-            <button type="submit" class="btn btn-primary mt-2">
-                <i data-lucide="send" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>Submit Enrollment
+            <button type="submit" class="btn-primary-app mt-2">
+                <i data-lucide="send"></i>Submit Enrollment
             </button>
         </form>
     </div>

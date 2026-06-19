@@ -4,8 +4,8 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Enrollment Details</h5>
-    <a href="{{ route('portal.enrollments.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
+    <a href="{{ route('portal.enrollments.index') }}" class="btn-act btn-act-view" style="text-decoration:none;">
+        <i data-lucide="arrow-left"></i>Back
     </a>
 </div>
 
@@ -126,7 +126,7 @@
                         <td class="text-muted">Waiver</td>
                         <td>
                             @if($enrollment->waiver_signed)
-                                <span class="text-success">
+                                <span style="color:#166534;font-weight:600;">
                                     <i data-lucide="check-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Signed
                                 </span>
                             @else
@@ -162,8 +162,9 @@
                             @foreach($doc->file_paths as $i => $path)
                                 <a href="{{ Storage::url($path) }}"
                                    target="_blank"
-                                   class="btn btn-sm btn-outline-secondary"
-                                   title="View File{{ count($doc->file_paths) > 1 ? ' ' . ($i + 1) : '' }}">
+                                   class="btn-act btn-act-view"
+                                   title="View File{{ count($doc->file_paths) > 1 ? ' ' . ($i + 1) : '' }}"
+                                   style="text-decoration:none;">
                                     <i data-lucide="file" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                                     @if(count($doc->file_paths) > 1)
                                     <span class="small">{{ $i + 1 }}</span>

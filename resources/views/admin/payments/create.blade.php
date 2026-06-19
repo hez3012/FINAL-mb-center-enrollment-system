@@ -5,8 +5,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Record Payment</h5>
     <a href="{{ route('admin.enrollments.show', $enrollment->enrollment_id) }}"
-        class="btn btn-sm btn-outline-secondary">
-        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back to Enrollment
+        class="btn-act btn-act-view" style="text-decoration:none;"><i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back to Enrollment
     </a>
 </div>
 
@@ -102,10 +101,11 @@
                 This action cannot be undone without manually editing the enrollment.
             </div>
 
-            <button type="submit" class="btn btn-success">
+            <button type="submit" class="btn-primary-app">
                 <i data-lucide="banknote" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Confirm & Record Payment
             </button>
         </form>
     </div>
 </div>
 @endsection
+

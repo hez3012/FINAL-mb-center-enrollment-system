@@ -4,8 +4,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Add Walk-in Enrollment</h5>
-    <a href="{{ route('admin.enrollments.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
+    <a href="{{ route('admin.enrollments.index') }}" class="btn-act btn-act-view" style="text-decoration:none;"><i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
 </div>
 
@@ -273,7 +272,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn-primary-app">
                     <i data-lucide="clipboard-check" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Create Enrollment
                 </button>
         </form>
@@ -415,3 +414,5 @@
 @include('partials.camera-capture')
 @include('partials.doc-multi-file')
 @endsection
+
+

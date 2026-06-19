@@ -2,97 +2,93 @@
 @section('title', 'User Management')
 @section('content')
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0" style="color:var(--hope-green,#1B4332);">User Management</h5>
+<div class="page-heading">
+    <h5>User Management</h5>
     @if(Auth::user()->hasPermission('create_user'))
-    <a href="{{ route('admin.users.create') }}" class="btn btn-sm" style="background:#1B4332;color:#fff;font-weight:600;border-radius:8px;">
-        <i data-lucide="user-plus" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>
+    <a href="{{ route('admin.users.create') }}" class="btn-primary-app">
+        <i data-lucide="user-plus"></i>
         {{ Auth::user()->role?->role_name === 'staff' ? 'Add Guardian' : 'Add New User' }}
     </a>
     @endif
 </div>
 
-<div class="card mb-3">
-    <div class="card-body py-2">
-        <div class="row g-2 align-items-center">
-            <div class="col-md-4">
-                <input type="text" id="searchInput" class="form-control form-control-sm"
-                    placeholder="Search by name, email, username...">
-            </div>
-            <div class="col-md-2">
-                <select id="sortSelect" class="form-select form-select-sm">
-                    <option value="default">Default (by Role)</option>
-                    <option value="az">A–Z Name</option>
-                    <option value="za">Z–A Name</option>
-                    <option value="created">Date Created</option>
-                    <option value="modified">Date Modified</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <select id="roleFilter" class="form-select form-select-sm">
-                    <option value="">All Roles</option>
-                    <option value="guardian">Guardian</option>
-                    <option value="directress">Directress</option>
-                    <option value="admin">Admin</option>
-                    <option value="teacher">Teacher</option>
-                    <option value="staff">Staff</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <select id="statusFilter" class="form-select form-select-sm">
-                    <option value="">All Status</option>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-sm btn-outline-secondary w-100" onclick="clearFilters()">
-                    <i data-lucide="x-circle" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Clear
-                </button>
-            </div>
+{{-- Filters --}}
+<div class="filter-bar">
+    <div class="row g-2 align-items-center">
+        <div class="col-md-4">
+            <input type="text" id="searchInput" class="form-control"
+                placeholder="Search by name, email, username…">
+        </div>
+        <div class="col-md-2">
+            <select id="sortSelect" class="form-select">
+                <option value="default">Sort: Default (by Role)</option>
+                <option value="az">A–Z Name</option>
+                <option value="za">Z–A Name</option>
+                <option value="created">Date Created</option>
+                <option value="modified">Date Modified</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select id="roleFilter" class="form-select">
+                <option value="">All Roles</option>
+                <option value="guardian">Guardian</option>
+                <option value="directress">Directress</option>
+                <option value="admin">Admin</option>
+                <option value="teacher">Teacher</option>
+                <option value="staff">Staff</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select id="statusFilter" class="form-select">
+                <option value="">All Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-outline-secondary w-100" onclick="clearFilters()" style="height:38px;font-size:13.5px;">
+                <i data-lucide="x" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.25rem;"></i>Clear Filters
+            </button>
         </div>
     </div>
 </div>
 
+{{-- Table --}}
 <div class="card">
-    <div class="card-body p-0">
-        <table class="table table-hover mb-0" id="usersTable">
-            <thead style="background:#1B4332;">
+    <div class="table-scroll-wrap">
+        <table class="table table-hover" id="usersTable">
+            <thead>
                 <tr>
-                    <th style="color:#EAB308;">#</th>
-                    <th style="color:#EAB308;">Full Name</th>
-                    <th style="color:#EAB308;">Username</th>
-                    <th style="color:#EAB308;">Email</th>
-                    <th style="color:#EAB308;">Role</th>
-                    <th style="color:#EAB308;">Status</th>
-                    <th style="color:#EAB308;">Actions</th>
+                    <th>#</th>
+                    <th>Full Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @php
                 $currentRoleName = Auth::user()->role?->role_name;
-                $currentUserId = Auth::user()->user_id;
+                $currentUserId   = Auth::user()->user_id;
+
+                $roleColors = ['directress'=>'danger','admin'=>'primary','teacher'=>'success','staff'=>'info','guardian'=>'secondary'];
 
                 $categoryGroups = [
-                ['key'=>'you', 'label'=>'You', 'icon'=>'user-check', 'class'=>'table-primary',
-                'users'=>$users->filter(fn($u)=>$u->user_id===$currentUserId)],
-                ['key'=>'guardian', 'label'=>'Guardians', 'icon'=>'heart-handshake', 'class'=>'table-secondary',
-                'users'=>$users->filter(fn($u)=>$u->user_id!==$currentUserId && $u->role?->role_name==='guardian')],
-                ['key'=>'directress', 'label'=>'Directress', 'icon'=>'award', 'class'=>'table-danger',
-                'users'=>$users->filter(fn($u)=>$u->user_id!==$currentUserId && $u->role?->role_name==='directress')],
-                ['key'=>'admin', 'label'=>'Admins', 'icon'=>'user-cog', 'class'=>'table-primary',
-                'users'=>$users->filter(fn($u)=>$u->user_id!==$currentUserId && $u->role?->role_name==='admin')],
-                ['key'=>'teacher', 'label'=>'Teachers', 'icon'=>'graduation-cap', 'class'=>'table-success',
-                'users'=>$users->filter(fn($u)=>$u->user_id!==$currentUserId && $u->role?->role_name==='teacher')],
-                ['key'=>'staff', 'label'=>'Staff', 'icon'=>'badge', 'class'=>'table-info',
-                'users'=>$users->filter(fn($u)=>$u->user_id!==$currentUserId && $u->role?->role_name==='staff')],
+                    ['key'=>'you',        'label'=>'You',        'icon'=>'user-check',    'bg'=>'#EFF6FF','users'=>$users->filter(fn($u)=>$u->user_id===$currentUserId)],
+                    ['key'=>'guardian',   'label'=>'Guardians',  'icon'=>'heart-handshake','bg'=>'#F8FAFC','users'=>$users->filter(fn($u)=>$u->user_id!==$currentUserId && $u->role?->role_name==='guardian')],
+                    ['key'=>'directress', 'label'=>'Directress', 'icon'=>'award',          'bg'=>'#FFF1F2','users'=>$users->filter(fn($u)=>$u->user_id!==$currentUserId && $u->role?->role_name==='directress')],
+                    ['key'=>'admin',      'label'=>'Admins',     'icon'=>'user-cog',       'bg'=>'#EFF6FF','users'=>$users->filter(fn($u)=>$u->user_id!==$currentUserId && $u->role?->role_name==='admin')],
+                    ['key'=>'teacher',    'label'=>'Teachers',   'icon'=>'graduation-cap', 'bg'=>'#F0FDF4','users'=>$users->filter(fn($u)=>$u->user_id!==$currentUserId && $u->role?->role_name==='teacher')],
+                    ['key'=>'staff',      'label'=>'Staff',      'icon'=>'badge',          'bg'=>'#F0F9FF','users'=>$users->filter(fn($u)=>$u->user_id!==$currentUserId && $u->role?->role_name==='staff')],
                 ];
                 @endphp
 
                 @if($users->isEmpty())
                 <tr id="noDataRow">
-                    <td colspan="7" class="text-center text-muted py-5">
-                        <i data-lucide="users" style="width:2rem;height:2rem;display:block;margin:0 auto .5rem;stroke:#9ca3af;"></i>
+                    <td colspan="7" class="text-center py-5" style="color:#94A3B8;">
+                        <i data-lucide="users" style="width:2rem;height:2rem;display:block;margin:0 auto .5rem;stroke:#CBD5E1;"></i>
                         No users found.
                     </td>
                 </tr>
@@ -100,39 +96,19 @@
 
                 @foreach($categoryGroups as $group)
                 @if($group['users']->isNotEmpty())
-                <tr class="category-header {{ $group['class'] }}"
-                    data-category="{{ $group['key'] }}">
-                    <td colspan="7" class="py-2 px-3 fw-semibold small">
-                        <i data-lucide="{{ $group['icon'] }}" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>{{ $group['label'] }}
+                <tr class="category-header" data-category="{{ $group['key'] }}"
+                    style="background:{{ $group['bg'] }};">
+                    <td colspan="7" style="padding:.55rem 1rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#64748B;border-bottom:1px solid #E2E8F0;">
+                        <i data-lucide="{{ $group['icon'] }}" style="width:13px;height:13px;display:inline;vertical-align:middle;margin-right:.4rem;stroke:#1B4332;"></i>{{ $group['label'] }}
                     </td>
                 </tr>
                 @foreach($group['users'] as $user)
                 @php
                 $isMe = $currentUserId === $user->user_id;
                 $targetRoleName = $user->role?->role_name;
-
-                $canEdit = !$isMe && Auth::user()->hasPermission('edit_user')
-                && match($currentRoleName) {
-                'directress' => true,
-                'admin' => $targetRoleName !== 'directress',
-                'teacher' => in_array($targetRoleName,['staff','guardian']),
-                default => false,
-                };
-
-                $canToggle = !$isMe && Auth::user()->hasPermission('edit_user')
-                && match($currentRoleName) {
-                'directress' => true,
-                'admin' => $targetRoleName !== 'directress',
-                'teacher' => in_array($targetRoleName,['staff','guardian']),
-                default => false,
-                };
-
-                $canDelete = !$isMe && Auth::user()->hasPermission('delete_user')
-                && match($currentRoleName) {
-                'directress' => true,
-                'admin' => $targetRoleName !== 'directress',
-                default => false,
-                };
+                $canEdit   = !$isMe && Auth::user()->hasPermission('edit_user')   && match($currentRoleName){'directress'=>true,'admin'=>$targetRoleName!=='directress','teacher'=>in_array($targetRoleName,['staff','guardian']),default=>false};
+                $canToggle = !$isMe && Auth::user()->hasPermission('edit_user')   && match($currentRoleName){'directress'=>true,'admin'=>$targetRoleName!=='directress','teacher'=>in_array($targetRoleName,['staff','guardian']),default=>false};
+                $canDelete = !$isMe && Auth::user()->hasPermission('delete_user') && match($currentRoleName){'directress'=>true,'admin'=>$targetRoleName!=='directress',default=>false};
                 @endphp
                 <tr data-name="{{ strtolower($user->last_name) }}"
                     data-created="{{ $user->created_at?->timestamp ?? 0 }}"
@@ -140,104 +116,89 @@
                     data-role="{{ $targetRoleName }}"
                     data-status="{{ $user->is_active ? 'active' : 'inactive' }}"
                     data-search="{{ strtolower($user->list_name.' '.$user->email.' '.$user->username) }}">
-                    <td>{{ $user->user_id }}</td>
+                    <td style="color:#94A3B8;font-size:12px;">{{ $user->user_id }}</td>
                     <td>
                         <div class="d-flex align-items-center gap-2">
                             @include('partials.avatar',['name'=>$user->list_name,'image'=>$user->profile_picture,'size'=>32])
                             <div>
-                                {{ $user->list_name }}
-                                @if($isMe)
-                                <span class="badge bg-primary ms-1">You</span>
-                                @endif
+                                <div class="fw-semibold" style="font-size:13.5px;">{{ $user->list_name }}</div>
+                                @if($isMe)<span class="badge bg-primary" style="font-size:10px;">You</span>@endif
                             </div>
                         </div>
                     </td>
-                    <td>{{ $user->username }}</td>
-                    <td>{{ $user->email }}</td>
+                    <td style="color:#374151;">{{ $user->username }}</td>
+                    <td style="color:#374151;">{{ $user->email }}</td>
                     <td>
-                        @php $roleColors=['directress'=>'danger','admin'=>'primary','teacher'=>'success','staff'=>'info','guardian'=>'secondary']; @endphp
                         <span class="badge bg-{{ $roleColors[$targetRoleName] ?? 'secondary' }}">
                             {{ ucfirst($targetRoleName) }}
                         </span>
                     </td>
                     <td>
-                        <span class="badge bg-{{ $user->is_active ? 'success' : 'secondary' }}">
+                        <span class="badge" style="background:{{ $user->is_active ? '#DCFCE7' : '#F1F5F9' }};color:{{ $user->is_active ? '#166534' : '#64748B' }};">
                             {{ $user->is_active ? 'Active' : 'Inactive' }}
                         </span>
                     </td>
                     <td>
-                        <div class="d-flex gap-1">
+                        <div class="d-flex gap-1 flex-wrap">
                             @if(Auth::user()->hasPermission('view_user'))
-                            <a href="{{ route('admin.users.show',$user->user_id) }}"
-                                class="btn btn-sm btn-outline-info" title="View">
-                                <i data-lucide="eye" style="width:14px;height:14px;"></i>
+                            <a href="{{ route('admin.users.show',$user->user_id) }}" class="btn-act btn-act-view">
+                                <i data-lucide="eye"></i>View
                             </a>
                             @endif
                             @if($canEdit)
-                            <a href="{{ route('admin.users.edit',$user->user_id) }}"
-                                class="btn btn-sm btn-outline-primary" title="Edit">
-                                <i data-lucide="pencil" style="width:14px;height:14px;"></i>
+                            <a href="{{ route('admin.users.edit',$user->user_id) }}" class="btn-act btn-act-edit">
+                                <i data-lucide="pencil"></i>Edit
                             </a>
                             @endif
                             @if($canToggle)
-                            <form method="POST"
-                                action="{{ route('admin.users.toggle',$user->user_id) }}"
-                                class="d-inline">
-                                @csrf
-                                @method('PATCH')
-                                <button type="submit"
-                                    class="btn btn-sm btn-outline-{{ $user->is_active ? 'warning':'success' }}"
-                                    title="{{ $user->is_active ? 'Deactivate':'Activate' }}">
-                                    <i data-lucide="{{ $user->is_active ? 'user-x':'user-check' }}" style="width:14px;height:14px;"></i>
+                            <form method="POST" action="{{ route('admin.users.toggle',$user->user_id) }}" style="display:contents;">
+                                @csrf @method('PATCH')
+                                <button type="submit" class="btn-act {{ $user->is_active ? 'btn-act-warn' : 'btn-act-ok' }}">
+                                    <i data-lucide="{{ $user->is_active ? 'user-x' : 'user-check' }}"></i>
+                                    {{ $user->is_active ? 'Deactivate' : 'Activate' }}
                                 </button>
                             </form>
                             @endif
                             @if($canDelete)
-                            <button class="btn btn-sm btn-outline-danger" title="Delete"
-                                data-id="{{ $user->user_id }}"
-                                data-name="{{ $user->list_name }}"
+                            <button type="button" class="btn-act btn-act-del"
+                                data-id="{{ $user->user_id }}" data-name="{{ $user->list_name }}"
                                 onclick="confirmDelete(this.dataset.id,this.dataset.name)">
-                                <i data-lucide="trash-2" style="width:14px;height:14px;"></i>
+                                <i data-lucide="trash-2"></i>Delete
                             </button>
                             @endif
                         </div>
                     </td>
                 </tr>
                 @endforeach
-                <tr class="category-spacer">
-                    <td colspan="7" style="height:10px;border:none;padding:0;"></td>
-                </tr>
                 @endif
                 @endforeach
             </tbody>
         </table>
-        <div id="noResults" class="text-center text-muted py-4" style="display:none;">
-            <i data-lucide="search" style="width:1.5rem;height:1.5rem;display:block;margin:0 auto .5rem;stroke:#9ca3af;"></i>
-            No users match your search.
-        </div>
+    </div>
+    <div id="noResults" class="text-center py-5" style="display:none;color:#94A3B8;">
+        <i data-lucide="search" style="width:1.5rem;height:1.5rem;display:block;margin:0 auto .5rem;stroke:#CBD5E1;"></i>
+        No users match your filters.
     </div>
 </div>
 
+{{-- Delete modal --}}
 <div class="modal fade" id="deleteModal" tabindex="-1">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
             <div class="modal-header border-0 pb-0">
-                <h6 class="modal-title text-danger fw-bold">
-                    <i data-lucide="trash-2" style="width:15px;height:15px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>Delete User
+                <h6 class="modal-title fw-bold" style="color:#DC2626;">
+                    <i data-lucide="trash-2" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>Delete User
                 </h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body small text-muted">
-                Are you sure you want to delete <strong id="deleteUserName"></strong>?
+            <div class="modal-body" style="font-size:13.5px;color:#64748B;">
+                Delete <strong id="deleteUserName"></strong>? This cannot be undone.
             </div>
             <div class="modal-footer border-0 pt-0">
-                <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form id="deleteForm" method="POST" class="d-inline">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-sm btn-danger">
-                        <i data-lucide="trash-2" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Delete
-                    </button>
+                <button class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="POST" style="display:inline;">
+                    @csrf @method('DELETE')
+                    <button class="btn btn-sm btn-danger">Delete</button>
                 </form>
             </div>
         </div>
@@ -245,108 +206,70 @@
 </div>
 
 <script>
-    var searchInput = document.getElementById('searchInput');
-    var sortSelect = document.getElementById('sortSelect');
-    var roleFilter = document.getElementById('roleFilter');
+    var searchInput  = document.getElementById('searchInput');
+    var sortSelect   = document.getElementById('sortSelect');
+    var roleFilter   = document.getElementById('roleFilter');
     var statusFilter = document.getElementById('statusFilter');
     var tbody = document.querySelector('#usersTable tbody');
 
-    Array.from(tbody.querySelectorAll('tr')).forEach(function(el, i) {
-        el.dataset.originalOrder = i;
-    });
+    Array.from(tbody.querySelectorAll('tr')).forEach(function(el,i){ el.dataset.originalOrder = i; });
 
     function applyFilters() {
         var search = searchInput.value.toLowerCase().trim();
-        var sort = sortSelect.value;
-        var role = roleFilter.value;
+        var sort   = sortSelect.value;
+        var role   = roleFilter.value;
         var status = statusFilter.value;
-        var hasFilter = search !== '' || role !== '' || status !== '' || sort !== 'default';
+        var hasFilter = search||role||status||sort!=='default';
 
-        var categoryHeaders = Array.from(tbody.querySelectorAll('tr.category-header'));
-        var categorySpacers = Array.from(tbody.querySelectorAll('tr.category-spacer'));
+        var headers  = Array.from(tbody.querySelectorAll('tr.category-header'));
         var dataRows = Array.from(tbody.querySelectorAll('tr[data-search]'));
-        var noResultsDiv = document.getElementById('noResults');
+        var noRes    = document.getElementById('noResults');
 
         if (!hasFilter) {
             Array.from(tbody.querySelectorAll('tr'))
-                .sort(function(a, b) {
-                    return parseInt(a.dataset.originalOrder || 0) - parseInt(b.dataset.originalOrder || 0);
-                })
-                .forEach(function(el) {
-                    tbody.appendChild(el);
-                });
-            categoryHeaders.forEach(function(h) {
-                h.style.display = '';
-            });
-            categorySpacers.forEach(function(s) {
-                s.style.display = '';
-            });
-            dataRows.forEach(function(r) {
-                r.style.display = '';
-            });
-            noResultsDiv.style.display = 'none';
+                .sort((a,b)=>parseInt(a.dataset.originalOrder||0)-parseInt(b.dataset.originalOrder||0))
+                .forEach(el=>tbody.appendChild(el));
+            headers.forEach(h=>h.style.display='');
+            dataRows.forEach(r=>r.style.display='');
+            noRes.style.display='none';
             return;
         }
 
-        categoryHeaders.forEach(function(h) {
-            h.style.display = 'none';
-        });
-        categorySpacers.forEach(function(s) {
-            s.style.display = 'none';
-        });
+        headers.forEach(h=>h.style.display='none');
 
-        dataRows.forEach(function(row) {
+        dataRows.forEach(function(row){
             var show = true;
-            if (search && !(row.dataset.search || '').includes(search)) {
-                show = false;
-            }
-            if (role && row.dataset.role !== role) {
-                show = false;
-            }
-            if (status && row.dataset.status !== status) {
-                show = false;
-            }
+            if (search && !(row.dataset.search||'').includes(search)) show=false;
+            if (role   && row.dataset.role!==role)    show=false;
+            if (status && row.dataset.status!==status) show=false;
             row.style.display = show ? '' : 'none';
         });
 
-        var visible = dataRows.filter(function(r) {
-            return r.style.display !== 'none';
-        });
-        noResultsDiv.style.display = (visible.length === 0) ? '' : 'none';
+        var visible = dataRows.filter(r=>r.style.display!=='none');
+        noRes.style.display = visible.length===0 ? '' : 'none';
 
-        visible.sort(function(a, b) {
-            if (sort === 'az') return (a.dataset.name || '').localeCompare(b.dataset.name || '');
-            if (sort === 'za') return (b.dataset.name || '').localeCompare(a.dataset.name || '');
-            if (sort === 'created') return (b.dataset.created || 0) - (a.dataset.created || 0);
-            if (sort === 'modified') return (b.dataset.modified || 0) - (a.dataset.modified || 0);
+        visible.sort(function(a,b){
+            if (sort==='az') return (a.dataset.name||'').localeCompare(b.dataset.name||'');
+            if (sort==='za') return (b.dataset.name||'').localeCompare(a.dataset.name||'');
+            if (sort==='created')  return (b.dataset.created||0)-(a.dataset.created||0);
+            if (sort==='modified') return (b.dataset.modified||0)-(a.dataset.modified||0);
             return 0;
-        });
-        visible.forEach(function(r) {
-            tbody.appendChild(r);
-        });
+        }).forEach(r=>tbody.appendChild(r));
     }
 
     function clearFilters() {
-        searchInput.value = '';
-        sortSelect.value = 'default';
-        roleFilter.value = '';
-        statusFilter.value = '';
+        searchInput.value=''; sortSelect.value='default'; roleFilter.value=''; statusFilter.value='';
         applyFilters();
     }
 
     function confirmDelete(id, name) {
         document.getElementById('deleteUserName').textContent = name;
-        document.getElementById('deleteForm').action = '/admin/users/' + id;
+        document.getElementById('deleteForm').action = '/admin/users/'+id;
         new bootstrap.Modal(document.getElementById('deleteModal')).show();
     }
 
-    [searchInput, sortSelect, roleFilter, statusFilter].forEach(function(el) {
-        el.addEventListener('input', applyFilters);
-    });
-
+    [searchInput,sortSelect,roleFilter,statusFilter].forEach(el=>el.addEventListener('input',applyFilters));
     applyFilters();
-
-    // Re-init Lucide after dynamic re-renders
-    setTimeout(function() { lucide.createIcons(); }, 100);
+    setTimeout(()=>lucide.createIcons(), 100);
 </script>
 @endsection

@@ -227,8 +227,8 @@ $meAge = $me->age !== null ? $me->age . ' years old' : '';
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">
-                <i data-lucide="save" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Save Changes
+            <button type="submit" class="btn-primary-app">
+                <i data-lucide="save"></i>Save Changes
             </button>
         </form>
     </div>

@@ -12,12 +12,10 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Add New User</h5>
     @if(($preselectedRole ?? '') === 'guardian')
-    <a href="{{ route('admin.guardians.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
+    <a href="{{ route('admin.guardians.index') }}" class="btn-act btn-act-view" style="text-decoration:none;"><i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
     @else
-    <a href="{{ route('admin.users.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
+    <a href="{{ route('admin.users.index') }}" class="btn-act btn-act-view" style="text-decoration:none;"><i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
     @endif
 </div>
@@ -472,5 +470,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
 
 @include('partials.camera-capture')
 @endsection
+
+
 
 

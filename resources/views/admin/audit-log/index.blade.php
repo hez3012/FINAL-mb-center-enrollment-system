@@ -3,133 +3,136 @@
 
 @section('extra-styles')
 <style>
-    .pagination svg {
-        width: 0.8rem !important;
-        height: 0.8rem !important;
+    .audit-tabs { display:flex; gap:.3rem; border-bottom:2px solid #E2E8F0; margin-bottom:1.25rem; }
+    .audit-tab {
+        display:inline-flex; align-items:center; gap:.45rem;
+        padding:.6rem 1.1rem; font-size:.84rem; font-weight:600;
+        color:#64748B; text-decoration:none;
+        border-bottom:2px solid transparent; margin-bottom:-2px;
+        transition:.15s;
     }
-    .pagination { font-size: 0.875rem; flex-wrap: wrap; }
-    .pagination .page-link { padding: 0.3rem 0.6rem; }
-    .nav-tabs .nav-link { color: #6b7280; font-weight: 600; }
-    .nav-tabs .nav-link.active { color: #1B4332; border-bottom: 2px solid #1B4332; background: transparent; font-weight: 700; }
-    .nav-tabs .nav-link:hover { color: #1B4332; }
+    .audit-tab:hover { color:#1B4332; text-decoration:none; }
+    .audit-tab.active { color:#1B4332; border-bottom-color:#1B4332; }
+    .audit-tab .tab-count {
+        background:#E2E8F0; color:#374151;
+        font-size:11px; font-weight:700;
+        padding:.15em .5em; border-radius:20px;
+    }
+    .audit-tab.active .tab-count { background:#1B4332; color:#EAB308; }
 </style>
 @endsection
 
 @section('content')
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h5 class="fw-bold mb-0" style="color:var(--hope-green,#1B4332);">Audit Log</h5>
+<div class="page-heading">
+    <h5>Audit Log</h5>
     @if($isDirectress)
-    <span class="badge" style="background:#1B4332;color:#EAB308;font-weight:700;">Viewing: All Users</span>
+    <span class="badge" style="background:#1B4332;color:#EAB308;font-weight:700;font-size:12px;">Viewing: All Users</span>
     @elseif($isAdmin)
-    <span class="badge bg-info text-dark">Viewing: All Users (except Directress)</span>
+    <span class="badge" style="background:#E0F2FE;color:#0369A1;font-size:12px;font-weight:600;">Viewing: All Users (except Directress)</span>
     @else
-    <span class="badge bg-secondary">Viewing: Your Activity Only</span>
+    <span class="badge" style="background:#F1F5F9;color:#64748B;font-size:12px;font-weight:600;">Viewing: Your Activity Only</span>
     @endif
 </div>
 
-<ul class="nav nav-tabs mb-3" id="auditTabs">
-    <li class="nav-item">
-        <a class="nav-link {{ $activeTab === 'log' ? 'active' : '' }}"
-            href="{{ route('admin.audit-log.index', array_merge(request()->query(), ['tab' => 'log'])) }}">
-            <i data-lucide="shield" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>Login / Logout History
-            <span class="badge bg-secondary ms-1">{{ $logs->total() }}</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link {{ $activeTab === 'trail' ? 'active' : '' }}"
-            href="{{ route('admin.audit-log.index', array_merge(request()->query(), ['tab' => 'trail'])) }}">
-            <i data-lucide="history" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>Audit Trails
-            <span class="badge bg-secondary ms-1">{{ $trails->total() }}</span>
-        </a>
-    </li>
-</ul>
+{{-- Tab nav --}}
+<div class="audit-tabs">
+    <a class="audit-tab {{ $activeTab === 'log' ? 'active' : '' }}"
+        href="{{ route('admin.audit-log.index', array_merge(request()->query(), ['tab' => 'log'])) }}">
+        <i data-lucide="shield" style="width:14px;height:14px;display:inline;"></i>
+        Login / Logout History
+        <span class="tab-count">{{ $logs->total() }}</span>
+    </a>
+    <a class="audit-tab {{ $activeTab === 'trail' ? 'active' : '' }}"
+        href="{{ route('admin.audit-log.index', array_merge(request()->query(), ['tab' => 'trail'])) }}">
+        <i data-lucide="history" style="width:14px;height:14px;display:inline;"></i>
+        Audit Trails
+        <span class="tab-count">{{ $trails->total() }}</span>
+    </a>
+</div>
 
-{{-- ── LOG TAB ─────────────────────────────────────────────────────────────── --}}
+@php
+$actionBadgeBg = ['create'=>'#DBEAFE','update'=>'#FEF3C7','delete'=>'#FEE2E2','approve'=>'#DCFCE7','reject'=>'#FEE2E2'];
+$actionBadgeTx = ['create'=>'#1E40AF','update'=>'#92400E','delete'=>'#B91C1C','approve'=>'#166534','reject'=>'#B91C1C'];
+$roleBg = ['directress'=>'#FEE2E2','admin'=>'#DBEAFE','teacher'=>'#DCFCE7','staff'=>'#E0F2FE','guardian'=>'#F1F5F9'];
+$roleTx = ['directress'=>'#B91C1C','admin'=>'#1E40AF','teacher'=>'#166534','staff'=>'#0369A1','guardian'=>'#64748B'];
+@endphp
+
+{{-- ── LOG TAB ─────────────────────────────────────────── --}}
 @if($activeTab === 'log')
-<div class="card mb-3">
-    <div class="card-body py-2">
-        <form method="GET"
-            action="{{ route('admin.audit-log.index') }}"
-            class="row g-2 align-items-center">
-            <input type="hidden" name="tab" value="log">
-            <div class="col-md-4">
-                <input type="text" name="log_search"
-                    class="form-control form-control-sm"
-                    placeholder="Search by name..."
-                    value="{{ request('log_search') }}">
-            </div>
-            <div class="col-md-2">
-                <select name="log_action" class="form-select form-select-sm">
-                    <option value="">All Actions</option>
-                    <option value="login" {{ request('log_action') === 'login'  ? 'selected' : '' }}>Login</option>
-                    <option value="logout" {{ request('log_action') === 'logout' ? 'selected' : '' }}>Logout</option>
-                </select>
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-sm" style="background:#1B4332;color:#fff;font-weight:600;">
-                    <i data-lucide="search" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Filter
-                </button>
-            </div>
-            @if(request('log_search') || request('log_action'))
-            <div class="col-auto">
-                <a href="{{ route('admin.audit-log.index', ['tab' => 'log']) }}"
-                    class="btn btn-sm btn-outline-secondary">
-                    <i data-lucide="x-circle" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Clear
-                </a>
-            </div>
-            @endif
-        </form>
-    </div>
+<div class="filter-bar">
+    <form method="GET" action="{{ route('admin.audit-log.index') }}" class="row g-2 align-items-center">
+        <input type="hidden" name="tab" value="log">
+        <div class="col-md-5">
+            <input type="text" name="log_search" class="form-control" placeholder="Search by name…" value="{{ request('log_search') }}">
+        </div>
+        <div class="col-md-3">
+            <select name="log_action" class="form-select">
+                <option value="">All Actions</option>
+                <option value="login"  {{ request('log_action')==='login'  ? 'selected' : '' }}>Login</option>
+                <option value="logout" {{ request('log_action')==='logout' ? 'selected' : '' }}>Logout</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn-primary-app">
+                <i data-lucide="search"></i>Filter
+            </button>
+        </div>
+        @if(request('log_search') || request('log_action'))
+        <div class="col-auto">
+            <a href="{{ route('admin.audit-log.index', ['tab' => 'log']) }}"
+                class="btn btn-outline-secondary" style="height:38px;display:inline-flex;align-items:center;font-size:13.5px;">
+                <i data-lucide="x" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.25rem;"></i>Clear
+            </a>
+        </div>
+        @endif
+    </form>
 </div>
 
 <div class="card">
-    <div class="card-body p-0">
-        <table class="table table-hover mb-0">
-            <thead style="background:#1B4332;">
+    <div class="table-scroll-wrap">
+        <table class="table table-hover">
+            <thead>
                 <tr>
-                    <th style="color:#EAB308;">#</th>
-                    <th style="color:#EAB308;">User</th>
-                    <th style="color:#EAB308;">Role</th>
-                    <th style="color:#EAB308;">Action</th>
-                    <th style="color:#EAB308;">IP Address</th>
-                    <th style="color:#EAB308;">Date</th>
-                    <th style="color:#EAB308;">Time</th>
+                    <th>#</th>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                    <th>IP Address</th>
+                    <th>Date</th>
+                    <th>Time</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($logs as $log)
                 <tr>
-                    <td class="text-muted small">{{ $log->auth_log_id }}</td>
-                    <td class="fw-semibold small">{{ $log->user?->full_name ?? '—' }}</td>
+                    <td style="color:#94A3B8;font-size:12px;">{{ $log->auth_log_id }}</td>
+                    <td class="fw-semibold">{{ $log->user?->full_name ?? '—' }}</td>
                     <td>
-                        <span class="badge bg-light text-dark border small">
-                            {{ ucfirst($log->user?->role?->role_name ?? '—') }}
+                        @php $rn = $log->user?->role?->role_name ?? ''; @endphp
+                        <span class="badge" style="background:{{ $roleBg[$rn] ?? '#F1F5F9' }};color:{{ $roleTx[$rn] ?? '#64748B' }};">
+                            {{ ucfirst($rn ?: '—') }}
                         </span>
                     </td>
                     <td>
                         @if($log->action === 'login')
-                        <span class="badge bg-success">
+                        <span class="badge" style="background:#DCFCE7;color:#166534;">
                             <i data-lucide="log-in" style="width:11px;height:11px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Login
                         </span>
                         @else
-                        <span class="badge bg-secondary">
+                        <span class="badge" style="background:#F1F5F9;color:#64748B;">
                             <i data-lucide="log-out" style="width:11px;height:11px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Logout
                         </span>
                         @endif
                     </td>
-                    <td class="small text-muted">{{ $log->ip_address ?? '—' }}</td>
-                    <td class="small text-muted">
-                        {{ $log->logged_at?->format('m/d/Y') }}
-                    </td>
-                    <td class="small text-muted">
-                        {{ $log->logged_at?->format('h:i:s A') }}
-                    </td>
+                    <td style="color:#64748B;font-size:12.5px;">{{ $log->ip_address ?? '—' }}</td>
+                    <td style="color:#64748B;font-size:12.5px;">{{ $log->logged_at?->format('m/d/Y') }}</td>
+                    <td style="color:#64748B;font-size:12.5px;">{{ $log->logged_at?->format('h:i:s A') }}</td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="text-center text-muted py-5">
-                        <i data-lucide="shield" style="width:2rem;height:2rem;display:block;margin:0 auto .5rem;stroke:#9ca3af;"></i>
+                    <td colspan="7" class="text-center py-5" style="color:#94A3B8;">
+                        <i data-lucide="shield" style="width:2rem;height:2rem;display:block;margin:0 auto .5rem;stroke:#CBD5E1;"></i>
                         No login / logout records found.
                     </td>
                 </tr>
@@ -138,119 +141,91 @@
         </table>
     </div>
 </div>
-
 @if($logs->hasPages())
 <div class="mt-3">{{ $logs->withQueryString()->links('pagination::bootstrap-5') }}</div>
 @endif
 @endif
 
-{{-- ── TRAIL TAB ───────────────────────────────────────────────────────────── --}}
+{{-- ── TRAIL TAB ─────────────────────────────────────────── --}}
 @if($activeTab === 'trail')
-<div class="card mb-3">
-    <div class="card-body py-2">
-        <form method="GET"
-            action="{{ route('admin.audit-log.index') }}"
-            class="row g-2 align-items-center">
-            <input type="hidden" name="tab" value="trail">
-            <div class="col-md-3">
-                <input type="text" name="trail_search"
-                    class="form-control form-control-sm"
-                    placeholder="Search by name or details..."
-                    value="{{ request('trail_search') }}">
-            </div>
-            <div class="col-md-2">
-                <select name="trail_action" class="form-select form-select-sm">
-                    <option value="">All Actions</option>
-                    @foreach(['create','update','delete','approve','reject'] as $act)
-                    <option value="{{ $act }}"
-                        {{ request('trail_action') === $act ? 'selected' : '' }}>
-                        {{ ucfirst($act) }}
-                    </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-2">
-                <select name="trail_table" class="form-select form-select-sm">
-                    <option value="">All Modules</option>
-                    @foreach(['student','enrollment','users','guardian','payment'] as $tbl)
-                    <option value="{{ $tbl }}"
-                        {{ request('trail_table') === $tbl ? 'selected' : '' }}>
-                        {{ ucfirst($tbl) }}
-                    </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-sm" style="background:#1B4332;color:#fff;font-weight:600;">
-                    <i data-lucide="search" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Filter
-                </button>
-            </div>
-            @if(request('trail_search') || request('trail_action') || request('trail_table'))
-            <div class="col-auto">
-                <a href="{{ route('admin.audit-log.index', ['tab' => 'trail']) }}"
-                    class="btn btn-sm btn-outline-secondary">
-                    <i data-lucide="x-circle" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.2rem;"></i>Clear
-                </a>
-            </div>
-            @endif
-        </form>
-    </div>
+<div class="filter-bar">
+    <form method="GET" action="{{ route('admin.audit-log.index') }}" class="row g-2 align-items-center">
+        <input type="hidden" name="tab" value="trail">
+        <div class="col-md-3">
+            <input type="text" name="trail_search" class="form-control" placeholder="Search by name or details…" value="{{ request('trail_search') }}">
+        </div>
+        <div class="col-md-2">
+            <select name="trail_action" class="form-select">
+                <option value="">All Actions</option>
+                @foreach(['create','update','delete','approve','reject'] as $act)
+                <option value="{{ $act }}" {{ request('trail_action')===$act ? 'selected' : '' }}>{{ ucfirst($act) }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select name="trail_table" class="form-select">
+                <option value="">All Modules</option>
+                @foreach(['student','enrollment','users','guardian','payment'] as $tbl)
+                <option value="{{ $tbl }}" {{ request('trail_table')===$tbl ? 'selected' : '' }}>{{ ucfirst($tbl) }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn-primary-app">
+                <i data-lucide="search"></i>Filter
+            </button>
+        </div>
+        @if(request('trail_search') || request('trail_action') || request('trail_table'))
+        <div class="col-auto">
+            <a href="{{ route('admin.audit-log.index', ['tab' => 'trail']) }}"
+                class="btn btn-outline-secondary" style="height:38px;display:inline-flex;align-items:center;font-size:13.5px;">
+                <i data-lucide="x" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.25rem;"></i>Clear
+            </a>
+        </div>
+        @endif
+    </form>
 </div>
 
 <div class="card">
-    <div class="card-body p-0">
-        <table class="table table-hover mb-0">
-            <thead style="background:#1B4332;">
+    <div class="table-scroll-wrap">
+        <table class="table table-hover">
+            <thead>
                 <tr>
-                    <th style="color:#EAB308;">#</th>
-                    <th style="color:#EAB308;">User</th>
-                    <th style="color:#EAB308;">Role</th>
-                    <th style="color:#EAB308;">Action</th>
-                    <th style="color:#EAB308;">Module</th>
-                    <th style="color:#EAB308;">Details</th>
-                    <th style="color:#EAB308;">Date</th>
-                    <th style="color:#EAB308;">Time</th>
+                    <th>#</th>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                    <th>Module</th>
+                    <th>Details</th>
+                    <th>Date</th>
+                    <th>Time</th>
                 </tr>
             </thead>
             <tbody>
-                @php
-                $actionBadge = [
-                'create' => 'primary',
-                'update' => 'warning',
-                'delete' => 'danger',
-                'approve' => 'success',
-                'reject' => 'danger',
-                ];
-                @endphp
                 @forelse($trails as $trail)
+                @php $rn = $trail->user?->role?->role_name ?? ''; $act = strtolower($trail->action); @endphp
                 <tr>
-                    <td class="text-muted small">{{ $trail->log_id }}</td>
-                    <td class="fw-semibold small">{{ $trail->user?->full_name ?? '—' }}</td>
+                    <td style="color:#94A3B8;font-size:12px;">{{ $trail->log_id }}</td>
+                    <td class="fw-semibold">{{ $trail->user?->full_name ?? '—' }}</td>
                     <td>
-                        <span class="badge bg-light text-dark border small">
-                            {{ ucfirst($trail->user?->role?->role_name ?? '—') }}
+                        <span class="badge" style="background:{{ $roleBg[$rn] ?? '#F1F5F9' }};color:{{ $roleTx[$rn] ?? '#64748B' }};">
+                            {{ ucfirst($rn ?: '—') }}
                         </span>
                     </td>
                     <td>
-                        <span class="badge bg-{{ $actionBadge[strtolower($trail->action)] ?? 'secondary' }}">
+                        <span class="badge" style="background:{{ $actionBadgeBg[$act] ?? '#F1F5F9' }};color:{{ $actionBadgeTx[$act] ?? '#64748B' }};">
                             {{ ucfirst($trail->action) }}
                         </span>
                     </td>
-                    <td class="small fw-semibold">{{ $trail->record_label }}</td>
-                    <td class="small text-muted" style="max-width:280px;">
-                        {{ $trail->formatted_changes }}
-                    </td>
-                    <td class="small text-muted">
-                        {{ $trail->timestamp?->format('m/d/Y') }}
-                    </td>
-                    <td class="small text-muted">
-                        {{ $trail->timestamp?->format('h:i:s A') }}
-                    </td>
+                    <td class="fw-semibold" style="font-size:12.5px;">{{ $trail->record_label }}</td>
+                    <td style="max-width:260px;font-size:12px;color:#64748B;">{{ $trail->formatted_changes }}</td>
+                    <td style="color:#64748B;font-size:12.5px;">{{ $trail->timestamp?->format('m/d/Y') }}</td>
+                    <td style="color:#64748B;font-size:12.5px;">{{ $trail->timestamp?->format('h:i:s A') }}</td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8" class="text-center text-muted py-5">
-                        <i data-lucide="history" style="width:2rem;height:2rem;display:block;margin:0 auto .5rem;stroke:#9ca3af;"></i>
+                    <td colspan="8" class="text-center py-5" style="color:#94A3B8;">
+                        <i data-lucide="history" style="width:2rem;height:2rem;display:block;margin:0 auto .5rem;stroke:#CBD5E1;"></i>
                         No activity trail records found.
                     </td>
                 </tr>
@@ -259,7 +234,6 @@
         </table>
     </div>
 </div>
-
 @if($trails->hasPages())
 <div class="mt-3">{{ $trails->withQueryString()->links('pagination::bootstrap-5') }}</div>
 @endif

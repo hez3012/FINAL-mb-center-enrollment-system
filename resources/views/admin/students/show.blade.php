@@ -10,13 +10,11 @@
     <h5 class="fw-bold mb-0">Student Details</h5>
     @if($fromGuardian)
         <a href="{{ route('admin.guardians.show', ['id' => $fromGuardian]) }}"
-           class="btn btn-sm btn-outline-secondary">
-            <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back to Guardian
+           class="btn-act btn-act-view" style="text-decoration:none;"><i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back to Guardian
         </a>
     @else
         <a href="{{ route('admin.students.index') }}"
-           class="btn btn-sm btn-outline-secondary">
-            <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
+           class="btn-act btn-act-view" style="text-decoration:none;"><i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
         </a>
     @endif
 </div>

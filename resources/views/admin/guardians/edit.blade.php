@@ -4,8 +4,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Edit Guardian</h5>
-    <a href="{{ route('admin.guardians.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
+    <a href="{{ route('admin.guardians.index') }}" class="btn-act btn-act-view" style="text-decoration:none;"><i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
 </div>
 
@@ -104,3 +103,5 @@
     </div>
 </div>
 @endsection
+
+

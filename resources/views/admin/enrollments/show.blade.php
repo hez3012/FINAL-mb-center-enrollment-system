@@ -17,8 +17,7 @@ $canRecord = $enrollment->status === 'pending_payment'
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Enrollment Details</h5>
     <a href="{{ route('admin.enrollments.index') }}"
-        class="btn btn-sm btn-outline-secondary">
-        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
+        class="btn-act btn-act-view" style="text-decoration:none;"><i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
 </div>
 
@@ -41,8 +40,8 @@ $canRecord = $enrollment->status === 'pending_payment'
                           action="{{ route('admin.enrollments.approve', ['id' => $enrollment->enrollment_id]) }}">
                         @csrf
                         @method('PATCH')
-                        <button type="submit" class="btn btn-success px-4">
-                            <i data-lucide="check-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Approve
+                        <button type="submit" class="btn-primary-app">
+                            <i data-lucide="check-circle"></i>Approve
                         </button>
                     </form>
                     <button type="button" class="btn btn-danger px-4"
@@ -64,8 +63,8 @@ $canRecord = $enrollment->status === 'pending_payment'
         All required documents are submitted. Ready to record payment.
     </div>
     <a href="{{ route('admin.enrollments.payment.create', ['id' => $enrollment->enrollment_id]) }}"
-        class="btn btn-success btn-sm">
-        <i data-lucide="banknote" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Record Payment
+        class="btn-primary-app" style="text-decoration:none;">
+        <i data-lucide="banknote"></i>Record Payment
     </a>
 </div>
 @else

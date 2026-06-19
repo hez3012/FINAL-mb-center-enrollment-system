@@ -3,362 +3,214 @@
 
 @section('extra-styles')
 <style>
-    /* ── Stat cards ──────────────────────────────── */
-    .stat-card {
+    /* Stat cards */
+    .kpi {
         background: #fff;
-        border-radius: 14px;
-        border: 1px solid #e8e3d8;
-        box-shadow: 0 2px 8px rgba(0,0,0,.05);
-        padding: 1.3rem 1.4rem;
-        display: flex;
-        align-items: flex-start;
-        gap: 1rem;
-        transition: transform .2s ease, box-shadow .2s ease;
-    }
-
-    .stat-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 24px rgba(27,67,50,.10);
-    }
-
-    .stat-icon {
-        width: 52px;
-        height: 52px;
+        border: 1px solid #E2E8F0;
         border-radius: 12px;
+        padding: 1.25rem 1.35rem;
         display: flex;
         align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-    }
-
-    .stat-icon svg {
-        width: 26px;
-        height: 26px;
-    }
-
-    .stat-icon-green {
-        background: rgba(27,67,50,.1);
-    }
-
-    .stat-icon-green svg { stroke: #1B4332; }
-
-    .stat-icon-gold {
-        background: rgba(234,179,8,.12);
-    }
-
-    .stat-icon-gold svg { stroke: #B45309; }
-
-    .stat-icon-teal {
-        background: rgba(20,184,166,.1);
-    }
-
-    .stat-icon-teal svg { stroke: #0F766E; }
-
-    .stat-icon-blue {
-        background: rgba(59,130,246,.1);
-    }
-
-    .stat-icon-blue svg { stroke: #1D4ED8; }
-
-    .stat-body { flex: 1; }
-
-    .stat-value {
-        font-family: 'Playfair Display', serif;
-        font-size: 2rem;
-        font-weight: 700;
-        color: #1B4332;
-        line-height: 1;
-        margin-bottom: .2rem;
-    }
-
-    .stat-label {
-        font-size: .8rem;
-        color: #6b7280;
-        font-weight: 500;
-    }
-
-    .stat-link {
-        font-size: .75rem;
-        font-weight: 600;
-        color: #1B4332;
-        display: inline-flex;
-        align-items: center;
-        gap: .25rem;
-        margin-top: .4rem;
+        gap: 1rem;
+        box-shadow: 0 1px 4px rgba(0,0,0,.05);
+        transition: box-shadow .2s, transform .2s;
         text-decoration: none;
-        opacity: .7;
-        transition: opacity .15s;
+        color: inherit;
     }
-
-    .stat-link:hover { opacity: 1; color: #1B4332; }
-    .stat-link svg { width: 13px; height: 13px; }
-
-    /* ── Chart cards ─────────────────────────────── */
-    .chart-card {
-        background: #fff;
-        border-radius: 14px;
-        border: 1px solid #e8e3d8;
-        box-shadow: 0 2px 8px rgba(0,0,0,.05);
-        padding: 1.4rem;
+    .kpi:hover {
+        box-shadow: 0 6px 20px rgba(0,0,0,.1);
+        transform: translateY(-3px);
+        color: inherit;
+        text-decoration: none;
     }
-
-    .chart-card-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 1rem;
-        font-weight: 700;
-        color: #1B4332;
-        margin-bottom: 1rem;
-        display: flex;
-        align-items: center;
-        gap: .5rem;
-    }
-
-    .chart-card-title svg { width: 18px; height: 18px; stroke: #EAB308; }
-
-    /* ── Quick actions ───────────────────────────── */
-    .qa-btn {
-        background: #fff;
-        border: 1px solid #e8e3d8;
+    .kpi-icon {
+        width: 50px; height: 50px;
         border-radius: 10px;
-        padding: .9rem 1rem;
-        display: flex;
-        align-items: center;
-        gap: .75rem;
-        text-decoration: none;
-        color: #1B4332;
-        font-weight: 600;
-        font-size: .85rem;
-        transition: all .18s ease;
-        box-shadow: 0 1px 4px rgba(0,0,0,.04);
-    }
-
-    .qa-btn:hover {
-        background: #1B4332;
-        color: #fff;
-        border-color: #1B4332;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 18px rgba(27,67,50,.2);
-    }
-
-    .qa-btn:hover svg { stroke: #EAB308; }
-
-    .qa-icon {
-        width: 38px;
-        height: 38px;
-        background: rgba(27,67,50,.08);
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: flex; align-items: center; justify-content: center;
         flex-shrink: 0;
-        transition: background .18s;
     }
+    .kpi-icon svg { width: 24px; height: 24px; }
+    .kpi-icon.g  { background: rgba(27,67,50,.09); }  .kpi-icon.g  svg { stroke: #1B4332; }
+    .kpi-icon.gd { background: rgba(234,179,8,.12); } .kpi-icon.gd svg { stroke: #92400e; }
+    .kpi-icon.b  { background: rgba(59,130,246,.1); } .kpi-icon.b  svg { stroke: #1d4ed8; }
+    .kpi-icon.t  { background: rgba(20,184,166,.1); } .kpi-icon.t  svg { stroke: #0f766e; }
+    .kpi-val {
+        font-size: 1.85rem; font-weight: 800; color: #0F172A;
+        line-height: 1; margin-bottom: .15rem;
+    }
+    .kpi-lbl { font-size: .78rem; color: #64748B; font-weight: 500; }
+    .kpi-sub { font-size: .72rem; color: #1B4332; font-weight: 600; margin-top: .25rem; display: flex; align-items: center; gap: .2rem; }
+    .kpi-sub svg { width: 11px; height: 11px; }
 
-    .qa-btn:hover .qa-icon { background: rgba(255,255,255,.12); }
-    .qa-icon svg { width: 18px; height: 18px; stroke: #1B4332; }
-    .qa-btn:hover .qa-icon svg { stroke: #EAB308; }
+    /* Chart/action panels */
+    .panel {
+        background: #fff;
+        border: 1px solid #E2E8F0;
+        border-radius: 12px;
+        padding: 1.25rem 1.35rem;
+        box-shadow: 0 1px 4px rgba(0,0,0,.05);
+        height: 100%;
+    }
+    .panel-title {
+        font-size: .84rem; font-weight: 700; color: #0F172A;
+        margin-bottom: 1.1rem;
+        display: flex; align-items: center; gap: .4rem;
+        text-transform: uppercase; letter-spacing: .04em;
+    }
+    .panel-title svg { width: 15px; height: 15px; stroke: #1B4332; }
 
-    /* ── Welcome banner ──────────────────────────── */
-    .welcome-banner {
-        background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
-        border-radius: 14px;
-        padding: 1.4rem 1.75rem;
-        color: #fff;
+    /* Welcome banner */
+    .dash-banner {
+        background: linear-gradient(120deg, #1B4332 0%, #2D6A4F 100%);
+        border-radius: 12px;
+        padding: 1.25rem 1.5rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.25rem;
         box-shadow: 0 4px 18px rgba(27,67,50,.22);
     }
-
-    .welcome-banner h2 {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.5rem;
-        margin: 0 0 .2rem;
-        color: #fff;
+    .dash-banner h2 { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 0 0 .2rem; }
+    .dash-banner p  { margin: 0; color: rgba(255,255,255,.65); font-size: .82rem; }
+    .dash-banner .role-pill {
+        background: #EAB308; color: #1B4332;
+        font-weight: 800; font-size: .7rem;
+        text-transform: uppercase; letter-spacing: .5px;
+        padding: .2rem .7rem; border-radius: 20px;
+        margin-bottom: .35rem; display: inline-block;
     }
+    .dash-banner .clock { font-size: .78rem; color: rgba(255,255,255,.5); }
 
-    .welcome-banner p { margin: 0; color: rgba(255,255,255,.7); font-size: .875rem; }
-    .welcome-banner-right { text-align: right; flex-shrink: 0; }
-    .welcome-banner-right .role-badge {
-        background: #EAB308;
-        color: #1B4332;
-        font-weight: 800;
-        font-size: .72rem;
-        text-transform: uppercase;
-        letter-spacing: .5px;
-        padding: .2rem .65rem;
-        border-radius: 6px;
-        display: inline-block;
-        margin-bottom: .4rem;
+    /* Quick actions */
+    .qa {
+        display: flex; align-items: center; gap: .75rem;
+        padding: .75rem .9rem;
+        border-radius: 8px;
+        border: 1px solid #E2E8F0;
+        text-decoration: none;
+        color: #0F172A;
+        font-size: .83rem; font-weight: 600;
+        transition: all .15s;
+        background: #fff;
     }
-
-    .welcome-banner-right .time-str {
-        color: rgba(255,255,255,.55);
-        font-size: .78rem;
-    }
+    .qa:hover { background: #1B4332; color: #fff; border-color: #1B4332; text-decoration: none; }
+    .qa-ic { width: 34px; height: 34px; background: rgba(27,67,50,.07); border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .15s; }
+    .qa-ic svg { width: 16px; height: 16px; stroke: #1B4332; transition: stroke .15s; }
+    .qa:hover .qa-ic { background: rgba(255,255,255,.12); }
+    .qa:hover .qa-ic svg { stroke: #EAB308; }
 </style>
 @endsection
 
 @section('content')
 
-{{-- Welcome banner --}}
-<div class="welcome-banner" data-aos="fade-down">
+{{-- Banner --}}
+<div class="dash-banner" data-aos="fade-down">
     <div>
         <h2>Welcome back, {{ Auth::user()->first_name }}!</h2>
-        <p>Here's an overview of the H.O.P.E. enrollment system.</p>
+        <p>Here's your overview for today.</p>
     </div>
-    <div class="welcome-banner-right">
-        <div class="role-badge">{{ ucfirst(Auth::user()->role?->role_name) }}</div>
-        <div class="time-str" id="liveClock"></div>
+    <div style="text-align:right;flex-shrink:0;">
+        <div class="role-pill">{{ ucfirst(Auth::user()->role?->role_name) }}</div>
+        <div class="clock" id="liveClock"></div>
     </div>
 </div>
 
-{{-- Stat cards --}}
+{{-- KPI row --}}
 <div class="row g-3 mb-4">
-
-    <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="0">
-        <div class="stat-card">
-            <div class="stat-icon stat-icon-green">
-                <i data-lucide="users"></i>
-            </div>
-            <div class="stat-body">
+    <div class="col-sm-6 col-xl-3" data-aos="fade-up" data-aos-delay="0">
+        <div class="kpi">
+            <div class="kpi-icon g"><i data-lucide="users"></i></div>
+            <div>
                 @if($isTeacherOrStaff)
-                <div class="stat-value">{{ $totalEnrollees }}</div>
-                <div class="stat-label">Total Enrollees (This A.Y.)</div>
-                <a href="{{ route('admin.enrollments.index') }}" class="stat-link">
-                    View <i data-lucide="arrow-right"></i>
-                </a>
+                <div class="kpi-val">{{ $totalEnrollees }}</div>
+                <div class="kpi-lbl">Total Enrollees (This A.Y.)</div>
                 @else
-                <div class="stat-value">{{ $totalUsers }}</div>
-                <div class="stat-label">Total Users</div>
-                <a href="{{ route('admin.users.index') }}" class="stat-link">
-                    View <i data-lucide="arrow-right"></i>
-                </a>
+                <div class="kpi-val">{{ $totalUsers }}</div>
+                <div class="kpi-lbl">Total Users</div>
                 @endif
             </div>
         </div>
     </div>
-
-    <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="60">
-        <div class="stat-card">
-            <div class="stat-icon stat-icon-gold">
-                <i data-lucide="heart-handshake"></i>
-            </div>
-            <div class="stat-body">
-                <div class="stat-value">{{ $totalGuardians }}</div>
-                <div class="stat-label">Total Guardians</div>
-                <a href="{{ route('admin.guardians.index') }}" class="stat-link">
-                    View <i data-lucide="arrow-right"></i>
-                </a>
+    <div class="col-sm-6 col-xl-3" data-aos="fade-up" data-aos-delay="60">
+        <div class="kpi">
+            <div class="kpi-icon gd"><i data-lucide="heart-handshake"></i></div>
+            <div>
+                <div class="kpi-val">{{ $totalGuardians }}</div>
+                <div class="kpi-lbl">Total Guardians</div>
             </div>
         </div>
     </div>
-
-    <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="120">
-        <div class="stat-card">
-            <div class="stat-icon stat-icon-teal">
-                <i data-lucide="graduation-cap"></i>
-            </div>
-            <div class="stat-body">
-                <div class="stat-value">{{ $totalStudents }}</div>
-                <div class="stat-label">Total Students</div>
-                <a href="{{ route('admin.students.index') }}" class="stat-link">
-                    View <i data-lucide="arrow-right"></i>
-                </a>
+    <div class="col-sm-6 col-xl-3" data-aos="fade-up" data-aos-delay="120">
+        <div class="kpi">
+            <div class="kpi-icon t"><i data-lucide="graduation-cap"></i></div>
+            <div>
+                <div class="kpi-val">{{ $totalStudents }}</div>
+                <div class="kpi-lbl">Total Students</div>
             </div>
         </div>
     </div>
-
-    <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="180">
-        <div class="stat-card">
-            <div class="stat-icon stat-icon-blue">
-                <i data-lucide="user-check"></i>
-            </div>
-            <div class="stat-body">
-                <div class="stat-value">{{ $activeStudents }}</div>
-                <div class="stat-label">Active Students</div>
-                <a href="{{ route('admin.students.index') }}" class="stat-link">
-                    View <i data-lucide="arrow-right"></i>
-                </a>
+    <div class="col-sm-6 col-xl-3" data-aos="fade-up" data-aos-delay="180">
+        <div class="kpi">
+            <div class="kpi-icon b"><i data-lucide="user-check"></i></div>
+            <div>
+                <div class="kpi-val">{{ $activeStudents }}</div>
+                <div class="kpi-lbl">Active Students</div>
             </div>
         </div>
     </div>
-
 </div>
 
-{{-- Charts + Quick Actions row --}}
-<div class="row g-3 mb-4">
-
-    {{-- Student status donut --}}
-    <div class="col-md-4" data-aos="fade-right">
-        <div class="chart-card h-100">
-            <div class="chart-card-title">
-                <i data-lucide="pie-chart"></i>
-                Student Status
-            </div>
-            <div style="position:relative;height:200px;">
+{{-- Charts + Actions --}}
+<div class="row g-3">
+    <div class="col-lg-4" data-aos="fade-right">
+        <div class="panel">
+            <div class="panel-title"><i data-lucide="pie-chart"></i>Student Status</div>
+            <div style="position:relative;height:190px;">
                 <canvas id="studentStatusChart"></canvas>
             </div>
-            <div class="d-flex justify-content-center gap-3 mt-2" style="font-size:.78rem;">
-                <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#1B4332;margin-right:4px;"></span>Active ({{ $activeStudents }})</span>
-                <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#d1d5db;margin-right:4px;"></span>Inactive ({{ $totalStudents - $activeStudents }})</span>
+            <div class="d-flex justify-content-center gap-4 mt-3" style="font-size:.78rem;color:#64748B;">
+                <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#1B4332;margin-right:5px;"></span>Active ({{ $activeStudents }})</span>
+                <span><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#CBD5E1;margin-right:5px;"></span>Inactive ({{ $totalStudents - $activeStudents }})</span>
             </div>
         </div>
     </div>
 
-    {{-- Enrollment vs Guardians bar --}}
-    <div class="col-md-4" data-aos="fade-up">
-        <div class="chart-card h-100">
-            <div class="chart-card-title">
-                <i data-lucide="bar-chart-2"></i>
-                People Overview
-            </div>
-            <div style="position:relative;height:200px;">
+    <div class="col-lg-4" data-aos="fade-up">
+        <div class="panel">
+            <div class="panel-title"><i data-lucide="bar-chart-3"></i>People Overview</div>
+            <div style="position:relative;height:220px;">
                 <canvas id="peopleChart"></canvas>
             </div>
         </div>
     </div>
 
-    {{-- Quick Actions --}}
-    <div class="col-md-4" data-aos="fade-left">
-        <div class="chart-card h-100">
-            <div class="chart-card-title">
-                <i data-lucide="zap"></i>
-                Quick Actions
-            </div>
+    <div class="col-lg-4" data-aos="fade-left">
+        <div class="panel">
+            <div class="panel-title"><i data-lucide="zap"></i>Quick Actions</div>
             <div class="d-flex flex-column gap-2">
                 @if(Auth::user()->hasPermission('create_enrollment'))
-                <a href="{{ route('admin.enrollments.create') }}" class="qa-btn">
-                    <div class="qa-icon"><i data-lucide="clipboard-plus"></i></div>
-                    Add Walk-in Enrollment
+                <a href="{{ route('admin.enrollments.create') }}" class="qa">
+                    <div class="qa-ic"><i data-lucide="clipboard-plus"></i></div>Add Walk-in Enrollment
                 </a>
                 @endif
-
                 @if(Auth::user()->hasPermission('create_guardian'))
-                <a href="{{ route('admin.guardians.index') }}" class="qa-btn">
-                    <div class="qa-icon"><i data-lucide="user-plus"></i></div>
-                    View Guardians
+                <a href="{{ route('admin.guardians.index') }}" class="qa">
+                    <div class="qa-ic"><i data-lucide="users"></i></div>View Guardians
                 </a>
                 @endif
-
                 @if(Auth::user()->hasPermission('create_student'))
-                <a href="{{ route('admin.students.create') }}" class="qa-btn">
-                    <div class="qa-icon"><i data-lucide="graduation-cap"></i></div>
-                    Add Student
+                <a href="{{ route('admin.students.create') }}" class="qa">
+                    <div class="qa-ic"><i data-lucide="graduation-cap"></i></div>Add Student
                 </a>
                 @endif
-
                 @if(Auth::user()->hasPermission('view_enrollment'))
-                <a href="{{ route('admin.enrollments.index') }}" class="qa-btn">
-                    <div class="qa-icon"><i data-lucide="list-checks"></i></div>
-                    View All Enrollments
+                <a href="{{ route('admin.enrollments.index') }}" class="qa">
+                    <div class="qa-ic"><i data-lucide="list-checks"></i></div>View All Enrollments
                 </a>
                 @endif
             </div>
         </div>
     </div>
-
 </div>
 
 @endsection
@@ -366,40 +218,39 @@
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
-    // Live clock
     function updateClock() {
-        var now = new Date();
         document.getElementById('liveClock').textContent =
-            now.toLocaleTimeString('en-PH', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+            new Date().toLocaleTimeString('en-PH', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
     }
-    updateClock();
-    setInterval(updateClock, 1000);
+    updateClock(); setInterval(updateClock, 1000);
 
-    // Student status donut
+    Chart.defaults.font.family = "'Inter', sans-serif";
+    Chart.defaults.font.size = 12;
+
     new Chart(document.getElementById('studentStatusChart'), {
         type: 'doughnut',
         data: {
             labels: ['Active', 'Inactive'],
             datasets: [{
                 data: [{{ $activeStudents }}, {{ $totalStudents - $activeStudents }}],
-                backgroundColor: ['#1B4332', '#e5e7eb'],
-                borderColor: ['#fff', '#fff'],
+                backgroundColor: ['#1B4332', '#CBD5E1'],
+                borderColor: '#fff',
                 borderWidth: 3,
-                hoverOffset: 6,
+                hoverOffset: 8,
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            cutout: '68%',
+            cutout: '70%',
             plugins: {
                 legend: { display: false },
                 tooltip: {
                     callbacks: {
                         label: function(ctx) {
-                            var total = ctx.dataset.data.reduce(function(a,b){return a+b;}, 0);
-                            var pct   = total > 0 ? Math.round(ctx.parsed / total * 100) : 0;
-                            return ' ' + ctx.label + ': ' + ctx.parsed + ' (' + pct + '%)';
+                            var t = ctx.dataset.data.reduce((a,b)=>a+b,0);
+                            var p = t > 0 ? Math.round(ctx.parsed/t*100) : 0;
+                            return ' '+ctx.label+': '+ctx.parsed+' ('+p+'%)';
                         }
                     }
                 }
@@ -407,22 +258,17 @@
         }
     });
 
-    // People overview bar
     new Chart(document.getElementById('peopleChart'), {
         type: 'bar',
         data: {
-            labels: ['Users', 'Guardians', 'Students', 'Enrollees\n(This A.Y.)'],
+            labels: ['Users','Guardians','Students','Enrollees'],
             datasets: [{
                 label: 'Count',
                 data: [{{ $totalUsers }}, {{ $totalGuardians }}, {{ $totalStudents }}, {{ $totalEnrollees }}],
-                backgroundColor: [
-                    'rgba(27,67,50,.75)',
-                    'rgba(234,179,8,.75)',
-                    'rgba(20,184,166,.65)',
-                    'rgba(59,130,246,.65)',
-                ],
+                backgroundColor: ['#1B4332','#EAB308','#0EA5E9','#8B5CF6'],
                 borderRadius: 6,
                 borderSkipped: false,
+                maxBarThickness: 44,
             }]
         },
         options: {
@@ -432,12 +278,14 @@
             scales: {
                 y: {
                     beginAtZero: true,
-                    ticks: { stepSize: 1, font: { size: 11 } },
-                    grid: { color: 'rgba(0,0,0,.05)' }
+                    ticks: { stepSize: 1, color: '#94A3B8' },
+                    grid: { color: '#F1F5F9' },
+                    border: { display: false }
                 },
                 x: {
-                    ticks: { font: { size: 11 } },
-                    grid: { display: false }
+                    ticks: { color: '#64748B' },
+                    grid: { display: false },
+                    border: { display: false }
                 }
             }
         }

@@ -4,59 +4,40 @@
 @section('extra-styles')
 <style>
     .portal-stat {
-        background: #fff;
-        border-radius: 14px;
-        border: 1px solid #e8e3d8;
-        box-shadow: 0 2px 8px rgba(0,0,0,.05);
-        padding: 1.3rem 1.4rem;
-        display: flex;
-        align-items: flex-start;
-        gap: 1rem;
-        transition: transform .2s ease, box-shadow .2s ease;
+        background: #fff; border-radius: 12px; border: 1px solid var(--bdr);
+        box-shadow: 0 1px 4px rgba(0,0,0,.05);
+        padding: 1.25rem 1.35rem;
+        display: flex; align-items: center; gap: 1rem;
+        transition: box-shadow .2s, transform .2s;
     }
-    .portal-stat:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 24px rgba(27,67,50,.1);
-    }
+    .portal-stat:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,.1); }
     .portal-stat-icon {
-        width: 52px;
-        height: 52px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        background: rgba(27,67,50,.08);
+        width: 50px; height: 50px; border-radius: 10px;
+        display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        background: var(--go);
     }
-    .portal-stat-icon svg { width: 26px; height: 26px; stroke: #1B4332; }
+    .portal-stat-icon svg { width: 24px; height: 24px; stroke: var(--g); }
     .portal-stat-icon.gold { background: rgba(234,179,8,.12); }
     .portal-stat-icon.gold svg { stroke: #B45309; }
     .portal-stat-value {
-        font-family: 'Playfair Display', serif;
-        font-size: 2rem;
-        font-weight: 700;
-        color: #1B4332;
-        line-height: 1;
-        margin-bottom: .2rem;
+        font-size: 1.85rem; font-weight: 800; color: var(--txt); line-height: 1; margin-bottom: .2rem;
     }
-    .portal-stat-label { font-size: .8rem; color: #6b7280; font-weight: 500; }
+    .portal-stat-label { font-size: .8rem; color: var(--txt2); font-weight: 500; }
     .portal-welcome {
-        background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
-        border-radius: 14px;
-        padding: 1.4rem 1.75rem;
-        color: #fff;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 4px 18px rgba(27,67,50,.22);
+        background: linear-gradient(120deg, #1B4332 0%, #2D6A4F 100%);
+        border-radius: 12px; padding: 1.25rem 1.5rem; color: #fff;
+        margin-bottom: 1.35rem; box-shadow: 0 4px 18px rgba(27,67,50,.2);
     }
-    .portal-welcome h2 {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.4rem;
-        margin: 0 0 .25rem;
-        color: #fff;
-    }
+    .portal-welcome h2 { font-size: 1.25rem; font-weight: 700; margin: 0 0 .2rem; color: #fff; }
     .portal-welcome p { margin: 0; color: rgba(255,255,255,.7); font-size: .875rem; }
     .portal-welcome a { color: #EAB308; font-weight: 700; text-decoration: none; }
     .portal-welcome a:hover { text-decoration: underline; }
+    .students-card-header {
+        background: var(--g); color: var(--gld);
+        border-radius: 10px 10px 0 0; padding: .85rem 1.1rem;
+        font-size: .84rem; font-weight: 700; display: flex; align-items: center; gap: .45rem;
+    }
+    .students-card-header svg { width: 15px; height: 15px; }
 </style>
 @endsection
 
@@ -69,6 +50,21 @@
 </div>
 
 @if($guardian)
+
+@php
+$statusBg = [
+    'pending'           => '#FEF3C7', 'pending_payment' => '#FFEDD5',
+    'payment_confirmed' => '#E0F2FE', 'enrolled'        => '#DCFCE7',
+    'completed'         => '#DBEAFE', 'withdrawn'       => '#F1F5F9',
+    'rejected'          => '#FEE2E2',
+];
+$statusTx = [
+    'pending'           => '#92400E', 'pending_payment' => '#9A3412',
+    'payment_confirmed' => '#0369A1', 'enrolled'        => '#166534',
+    'completed'         => '#1E40AF', 'withdrawn'       => '#64748B',
+    'rejected'          => '#B91C1C',
+];
+@endphp
 
 {{-- Stat cards --}}
 <div class="row g-3 mb-4">
@@ -99,12 +95,12 @@
 {{-- Students table --}}
 @if($students->count() > 0)
 <div class="card" data-aos="fade-up" data-aos-delay="120">
-    <div class="card-header fw-semibold py-3" style="background:#1B4332;color:#EAB308;border-radius:11px 11px 0 0;">
-        <i data-lucide="users" style="width:15px;height:15px;display:inline;vertical-align:text-bottom;margin-right:.4rem;"></i>My Students
+    <div class="students-card-header">
+        <i data-lucide="users"></i>My Students
     </div>
-    <div class="card-body p-0">
+    <div class="table-scroll-wrap" style="max-height:50vh;">
         <table class="table table-hover mb-0">
-            <thead style="background:#f9f7f3;">
+            <thead>
                 <tr>
                     <th>Full Name</th>
                     <th>Service Type</th>
@@ -118,20 +114,20 @@
                     <td class="fw-semibold">{{ $student->list_name }}</td>
                     <td>
                         @if($student->serviceType)
-                            <span class="badge bg-info text-dark">
-                                {{ $student->serviceType->service_name }}
-                            </span>
+                        <span class="badge" style="background:#E0F2FE;color:#0369A1;">
+                            {{ $student->serviceType->service_name }}
+                        </span>
                         @else
-                            <span class="text-muted">—</span>
+                        <span style="color:#94A3B8;">—</span>
                         @endif
                     </td>
                     <td>
                         @if($latestEnrollment)
-                        <span class="badge bg-{{ $latestEnrollment->status_badge }}">
+                        <span class="badge" style="background:{{ $statusBg[$latestEnrollment->status] ?? '#F1F5F9' }};color:{{ $statusTx[$latestEnrollment->status] ?? '#64748B' }};">
                             {{ $latestEnrollment->status_label }}
                         </span>
                         @else
-                        <span class="badge bg-secondary">No Enrollment Yet</span>
+                        <span class="badge" style="background:#F1F5F9;color:#64748B;">No Enrollment Yet</span>
                         @endif
                     </td>
                 </tr>
@@ -143,20 +139,17 @@
 @else
 <div class="card text-center py-5" data-aos="fade-up">
     <div class="card-body">
-        <i data-lucide="graduation-cap" style="width:3rem;height:3rem;display:block;margin:0 auto 1rem;stroke:#d1cfc8;"></i>
-        <p class="text-muted mb-2">No students linked to your account yet.</p>
-        <p class="text-muted small mb-0">Contact our staff to link your child's student record.</p>
+        <i data-lucide="graduation-cap" style="width:3rem;height:3rem;display:block;margin:0 auto 1rem;stroke:#CBD5E1;"></i>
+        <p style="color:var(--txt2);margin-bottom:.35rem;">No students linked to your account yet.</p>
+        <p style="color:var(--txt2);font-size:.82rem;margin:0;">Contact our staff to link your child's student record.</p>
     </div>
 </div>
 @endif
 
 @else
-<div class="alert alert-warning d-flex align-items-center gap-2">
+<div class="alert" style="background:#FFFBEB;border:1px solid #FDE68A;color:#92400E;border-radius:8px;display:flex;align-items:center;gap:.6rem;font-size:.875rem;">
     <i data-lucide="triangle-alert" style="width:18px;height:18px;flex-shrink:0;"></i>
-    <div>
-        Your guardian profile is not fully set up yet.
-        Please contact the administrator.
-    </div>
+    <div>Your guardian profile is not fully set up yet. Please contact the administrator.</div>
 </div>
 @endif
 
