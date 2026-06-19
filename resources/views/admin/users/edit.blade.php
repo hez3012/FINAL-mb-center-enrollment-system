@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 @section('title', 'Edit User')
 @section('content')
 
@@ -12,7 +12,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Edit User — {{ $user->username }}</h5>
     <a href="{{ route('admin.users.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left me-1"></i>Back
+        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
 </div>
 
@@ -59,20 +59,20 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
                     </div>
                     <div class="flex-grow-1">
                         <p class="fw-semibold text-success small mb-2 d-flex align-items-center gap-2">
-                            <i class="bi bi-person-circle"></i>Profile Picture
+                            <i data-lucide="user-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Profile Picture
                         </p>
                         <div class="d-flex flex-column flex-md-row align-items-md-center gap-2 mb-2">
                             <label for="profilePicInput"
                                 class="btn btn-sm btn-outline-success mb-0 px-3">
-                                <i class="bi bi-image me-1"></i>Choose Picture
+                                <i data-lucide="image" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Choose Picture
                             </label>
                             <button type="button" class="btn btn-sm btn-outline-success mb-0 px-3"
                                 onclick="openCameraCapture('profilePicInput')">
-                                <i class="bi bi-camera me-1"></i>Take Photo
+                                <i data-lucide="camera" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Take Photo
                             </button>
                             <button type="button" id="removePicBtn"
                                 class="btn btn-sm btn-outline-danger mb-0 px-3 {{ $user->profile_picture ? '' : 'd-none' }}">
-                                <i class="bi bi-trash me-1"></i>Remove Photo
+                                <i data-lucide="trash-2" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Remove Photo
                             </button>
                             <input type="hidden" name="remove_profile_picture" id="removeProfilePictureFlag" value="0">
                             <input type="file" name="profile_picture" id="profilePicInput"
@@ -93,7 +93,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
             {{-- Personal Information --}}
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-person"></i>Personal Information
+                    <i data-lucide="user" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Personal Information
                 </p>
                 <div class="row g-3 mb-0">
                     <div class="col-md-4">
@@ -203,7 +203,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
             {{-- Address --}}
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-geo-alt"></i>Address
+                    <i data-lucide="map-pin" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Address
                 </p>
                 <div class="mb-0">
                     @include('partials.address-fields',[
@@ -224,7 +224,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
             {{-- Account Credentials --}}
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-shield"></i>Account Credentials
+                    <i data-lucide="shield" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Account Credentials
                 </p>
                 <div class="row g-3 mb-0">
                     <div class="col-md-6">
@@ -269,7 +269,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
                 class="border rounded-4 p-3 p-md-4 mb-4 {{ ($preselectedRole ?? '') === 'guardian' ? '' : 'd-none' }}"
                 style="background: rgba(255,255,255,0.8); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-person-heart"></i>Guardian Information
+                    <i data-lucide="heart-handshake" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Guardian Information
                 </p>
                 <div class="row g-3">
                     <div class="col-md-6">
@@ -298,7 +298,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
                 @foreach($permissions->groupBy('category') as $category => $catPerms)
                 <div class="border rounded p-3 mb-2 bg-light">
                     <p class="fw-semibold text-primary mb-2 small">
-                        <i class="bi bi-folder me-1"></i>{{ $category }}
+                        <i data-lucide="folder" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>{{ $category }}
                     </p>
                     <div class="row g-2">
                         @foreach($catPerms as $permission)
@@ -324,7 +324,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
 
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-success px-4">
-                    <i class="bi bi-save me-1"></i>Save Changes
+                    <i data-lucide="save" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Save Changes
                 </button>
             </div>
         </form>

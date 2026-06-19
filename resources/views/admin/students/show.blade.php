@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 @section('title', 'Student Details')
 @section('content')
 
@@ -11,12 +11,12 @@
     @if($fromGuardian)
         <a href="{{ route('admin.guardians.show', ['id' => $fromGuardian]) }}"
            class="btn btn-sm btn-outline-secondary">
-            <i class="bi bi-arrow-left me-1"></i>Back to Guardian
+            <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back to Guardian
         </a>
     @else
         <a href="{{ route('admin.students.index') }}"
            class="btn btn-sm btn-outline-secondary">
-            <i class="bi bi-arrow-left me-1"></i>Back
+            <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
         </a>
     @endif
 </div>
@@ -35,7 +35,7 @@
         {{-- Student Information --}}
         <div class="card border-0 shadow-sm mb-3">
             <div class="card-header bg-white fw-semibold">
-                <i class="bi bi-person me-1"></i>Student Information
+                <i data-lucide="user" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Student Information
             </div>
             <div class="card-body">
                 <div class="d-flex align-items-center gap-3 mb-4">
@@ -94,7 +94,7 @@
         {{-- Service & Disability --}}
         <div class="card border-0 shadow-sm mb-3">
             <div class="card-header bg-white fw-semibold">
-                <i class="bi bi-heart-pulse me-1"></i>Service & Disability
+                <i data-lucide="heart" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Service & Disability
             </div>
             <div class="card-body">
                 <table class="table table-sm mb-0">
@@ -136,7 +136,7 @@
         {{-- Guardian --}}
         <div class="card border-0 shadow-sm mb-3">
             <div class="card-header bg-white fw-semibold">
-                <i class="bi bi-person-heart me-1"></i>Guardian Information
+                <i data-lucide="heart-handshake" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Guardian Information
             </div>
             <div class="card-body">
                 @if($student->guardian?->user)
@@ -182,7 +182,7 @@
         @if($student->developmentalPediatrician)
             <div class="card border-0 shadow-sm mb-3">
                 <div class="card-header bg-white fw-semibold">
-                    <i class="bi bi-hospital me-1"></i>Developmental Pediatrician
+                    <i data-lucide="hospital" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Developmental Pediatrician
                 </div>
                 <div class="card-body">
                     <table class="table table-sm mb-0">
@@ -195,7 +195,7 @@
                         <a href="{{ Storage::url($student->dev_ped_document) }}"
                            target="_blank"
                            class="btn btn-sm btn-outline-secondary mt-2">
-                            <i class="bi bi-file-earmark me-1"></i>
+                            <i data-lucide="file" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                             View Dev. Ped. Document
                         </a>
                     @endif

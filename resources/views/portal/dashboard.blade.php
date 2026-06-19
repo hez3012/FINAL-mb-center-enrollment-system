@@ -1,4 +1,4 @@
-@extends('portal.layouts.app')
+﻿@extends('portal.layouts.app')
 @section('title', 'Dashboard')
 @section('content')
 
@@ -78,7 +78,7 @@
         <div class="card dashboard-card shadow text-center py-3">
             <div class="card-body">
                 <div class="icon-badge">
-                    <i class="bi bi-mortarboard fs-2" style="color: var(--primary-green, #22c55e);"></i>
+                    <i data-lucide="graduation-cap" style="width:2rem;height:2rem;stroke:#1B4332;display:block;margin:0 auto;"></i>
                 </div>
                 <h3 class="fw-bold mt-2 mb-0">{{ $students->count() }}</h3>
                 <small class="text-muted">Linked Students</small>
@@ -89,7 +89,7 @@
         <div class="card dashboard-card shadow text-center py-3">
             <div class="card-body">
                 <div class="icon-badge">
-                    <i class="bi bi-check-circle fs-2" style="color: var(--yellowgreen, #84cc16);"></i>
+                    <i data-lucide="check-circle" style="width:2rem;height:2rem;stroke:#EAB308;display:block;margin:0 auto;"></i>
                 </div>
                 <h3 class="fw-bold mt-2 mb-0">
                     {{ $students->where('status', 'active')->count() }}
@@ -103,7 +103,7 @@
 @if($students->count() > 0)
 <div class="card portal-table-card">
     <div class="card-header bg-white fw-semibold border-0 py-3">
-        <i class="bi bi-people me-1"></i>My Students
+        <i data-lucide="users" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>My Students
     </div>
     <div class="card-body p-0">
         <table class="table table-hover mb-0">
@@ -147,7 +147,7 @@
 
 @else
 <div class="alert alert-warning">
-    <i class="bi bi-exclamation-triangle me-1"></i>
+    <i data-lucide="triangle-alert" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
     Your guardian profile is not fully set up yet.
     Please contact the administrator.
 </div>

@@ -1,11 +1,11 @@
-@extends('portal.layouts.app')
+﻿@extends('portal.layouts.app')
 @section('title', 'Enrollment Details')
 @section('content')
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Enrollment Details</h5>
     <a href="{{ route('portal.enrollments.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left me-1"></i>Back
+        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
 </div>
 
@@ -13,7 +13,7 @@
 @if($enrollment->status === 'pending')
     <div class="alert alert-warning">
         <p class="fw-semibold mb-1">
-            <i class="bi bi-hourglass-split me-2"></i>
+            <i data-lucide="hourglass" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.4rem;"></i>
             Your enrollment is <strong>pending review</strong> by our staff.
         </p>
         <p class="mb-1 small">
@@ -22,7 +22,7 @@
             to complete the enrollment process.
         </p>
         <p class="mb-0 small text-muted">
-            <i class="bi bi-chat-dots me-1"></i>
+            <i data-lucide="message-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>
             Our facilitator will reach out to you via <strong>Facebook Messenger</strong>
             or through your registered <strong>Contact Number</strong>
             to inform you of the result and guide you through the next steps.
@@ -32,7 +32,7 @@
 @elseif($enrollment->status === 'pending_payment')
     <div class="alert alert-info border-start border-4 border-info">
         <p class="fw-semibold mb-1">
-            <i class="bi bi-check-circle-fill me-2"></i>
+            <i data-lucide="check-circle-2" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
             Your enrollment has been <strong>approved!</strong>
         </p>
         <p class="mb-1">
@@ -41,7 +41,7 @@
             your child's enrollment.
         </p>
         <p class="mb-0 small text-muted">
-            <i class="bi bi-chat-dots me-1"></i>
+            <i data-lucide="message-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>
             Our facilitator will contact you via <strong>Facebook Messenger</strong>
             or through your registered <strong>Contact Number</strong>
             for the payment details, schedule, and further instructions.
@@ -51,21 +51,21 @@
 
 @elseif($enrollment->status === 'enrolled')
     <div class="alert alert-success">
-        <i class="bi bi-check-circle me-2"></i>
+        <i data-lucide="check-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
         Your child is now <strong>officially enrolled — payment confirmed</strong>.
         Welcome to M.B. Therapy Center!
     </div>
 
 @elseif($enrollment->status === 'payment_confirmed')
     <div class="alert alert-primary">
-        <i class="bi bi-check2-circle me-2"></i>
+        <i data-lucide="check" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
         Your payment has been <strong>confirmed</strong>.
         Your child will be officially enrolled shortly.
     </div>
 
 @elseif($enrollment->status === 'rejected')
     <div class="alert alert-danger">
-        <i class="bi bi-x-circle me-2"></i>
+        <i data-lucide="x-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
         Your enrollment was <strong>rejected</strong>.
         @if($enrollment->rejection_reason)
             Reason: <strong>{{ $enrollment->rejection_reason }}</strong>
@@ -74,7 +74,7 @@
 
 @elseif($enrollment->status === 'withdrawn')
     <div class="alert alert-secondary">
-        <i class="bi bi-clipboard-x me-2"></i>
+        <i data-lucide="clipboard-x" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
         This enrollment has been <strong>withdrawn</strong>.
     </div>
 @endif
@@ -83,7 +83,7 @@
     <div class="col-md-6">
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white fw-semibold">
-                <i class="bi bi-clipboard-check me-1"></i>Enrollment Summary
+                <i data-lucide="clipboard-check" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Enrollment Summary
             </div>
             <div class="card-body">
                 @if($enrollment->student)
@@ -127,11 +127,11 @@
                         <td>
                             @if($enrollment->waiver_signed)
                                 <span class="text-success">
-                                    <i class="bi bi-check-circle me-1"></i>Signed
+                                    <i data-lucide="check-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Signed
                                 </span>
                             @else
                                 <span class="text-danger">
-                                    <i class="bi bi-x-circle me-1"></i>Not signed
+                                    <i data-lucide="x-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Not signed
                                 </span>
                             @endif
                         </td>
@@ -144,7 +144,7 @@
     <div class="col-md-6">
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white fw-semibold">
-                <i class="bi bi-file-earmark-check me-1"></i>Submitted Documents
+                <i data-lucide="file" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Submitted Documents
             </div>
             <div class="card-body p-0">
                 @forelse($enrollment->documents as $doc)
@@ -164,7 +164,7 @@
                                    target="_blank"
                                    class="btn btn-sm btn-outline-secondary"
                                    title="View File{{ count($doc->file_paths) > 1 ? ' ' . ($i + 1) : '' }}">
-                                    <i class="bi bi-file-earmark"></i>
+                                    <i data-lucide="file" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                                     @if(count($doc->file_paths) > 1)
                                     <span class="small">{{ $i + 1 }}</span>
                                     @endif

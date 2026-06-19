@@ -21,7 +21,7 @@
             nameSpan.className = 'small text-truncate';
             nameSpan.style.maxWidth = '180px';
             nameSpan.title = file.name;
-            nameSpan.innerHTML = '<i class="bi bi-file-earmark-image me-1"></i>' + file.name;
+            nameSpan.innerHTML = '<i data-lucide="file-image" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;margin-right:.25rem;"></i>' + file.name;
 
             var btnGroup = document.createElement('div');
             btnGroup.className = 'd-flex gap-1 flex-shrink-0';
@@ -30,7 +30,7 @@
             viewBtn.type = 'button';
             viewBtn.className = 'btn btn-sm btn-outline-secondary py-0 px-2';
             viewBtn.title = 'View File';
-            viewBtn.innerHTML = '<i class="bi bi-eye"></i>';
+            viewBtn.innerHTML = '<i data-lucide="eye" style="width:13px;height:13px;"></i>';
             viewBtn.onclick = function() {
                 window.open(URL.createObjectURL(file), '_blank');
             };
@@ -39,7 +39,7 @@
             removeBtn.type = 'button';
             removeBtn.className = 'btn btn-sm btn-outline-danger py-0 px-2';
             removeBtn.title = 'Remove File / Photo';
-            removeBtn.innerHTML = '<i class="bi bi-trash"></i>';
+            removeBtn.innerHTML = '<i data-lucide="trash-2" style="width:13px;height:13px;"></i>';
             removeBtn.onclick = function() {
                 window.docFilesMap[key].splice(idx, 1);
                 syncDocInput(docTypeId);
@@ -51,6 +51,7 @@
             row.appendChild(btnGroup);
             container.appendChild(row);
         });
+        if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 
     function syncDocInput(docTypeId) {

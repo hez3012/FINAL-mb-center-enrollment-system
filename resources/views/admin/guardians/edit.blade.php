@@ -1,17 +1,17 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 @section('title', 'Edit Guardian')
 @section('content')
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Edit Guardian</h5>
     <a href="{{ route('admin.guardians.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left me-1"></i>Back
+        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
 </div>
 
 @if(session('success'))
     <div class="alert alert-success alert-dismissible fade show">
-        <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
+        <i data-lucide="check-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>{{ session('success') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 @endif
@@ -45,7 +45,7 @@
 
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-person-heart"></i>Guardian Information
+                    <i data-lucide="heart-handshake" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Guardian Information
                 </p>
                 <div class="row g-3 mb-0">
                     <div class="col-md-6">
@@ -88,7 +88,7 @@
             </div>
 
             <div class="alert alert-info small">
-                <i class="bi bi-info-circle me-1"></i>
+                <i data-lucide="info" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                 To edit the guardian's name, address, email, username, or password — use
                 <a href="{{ route('admin.users.edit', $guardian->user->user_id) }}" class="fw-semibold">
                     User Management
@@ -97,7 +97,7 @@
 
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-success px-4">
-                    <i class="bi bi-save me-1"></i>Save Changes
+                    <i data-lucide="save" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Save Changes
                 </button>
             </div>
         </form>

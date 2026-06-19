@@ -1,4 +1,4 @@
-@extends('portal.layouts.app')
+﻿@extends('portal.layouts.app')
 @section('title', 'My Enrollments')
 @section('content')
 
@@ -6,14 +6,14 @@
     <h5 class="fw-bold mb-0">My Enrollments</h5>
     @if($enrollments->isNotEmpty() && $hasEligibleStudents)
     <a href="{{ route('portal.enrollments.create') }}" class="btn btn-primary btn-sm">
-        <i class="bi bi-plus-circle me-1"></i>Submit New Enrollment
+        <i data-lucide="plus-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Submit New Enrollment
     </a>
     @endif
 </div>
 
 @if(session('success'))
 <div class="alert alert-success alert-dismissible fade show">
-    <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
+    <i data-lucide="check-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>{{ session('success') }}
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 </div>
 @endif
@@ -21,14 +21,14 @@
 @if($enrollments->isEmpty())
 <div class="card border-0 shadow-sm">
     <div class="card-body text-center py-5">
-        <i class="bi bi-clipboard-x text-muted d-block mb-3" style="font-size:2.5rem;"></i>
+        <i data-lucide="clipboard-x" style="width:2.5rem;height:2.5rem;display:block;margin:0 auto .75rem;stroke:#9ca3af;"></i>
         <p class="fw-semibold mb-1">No enrollment records yet.</p>
         @if($hasEligibleStudents)
         <p class="text-muted small mb-4">
             Submit an enrollment request for your child to get started.
         </p>
         <a href="{{ route('portal.enrollments.create') }}" class="btn btn-primary btn-sm">
-            <i class="bi bi-plus-circle me-1"></i>Submit New Enrollment
+            <i data-lucide="plus-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Submit New Enrollment
         </a>
         @else
         <p class="text-muted small mb-0">
@@ -114,13 +114,13 @@ $sections[] = ['label'=>'Rejected','icon'=>'bi-x-circle','color'=>'text-danger',
                 </table>
                 @if($enrollment->status === 'rejected' && $enrollment->rejection_reason)
                 <div class="alert alert-danger py-1 px-2 small mb-2">
-                    <i class="bi bi-x-circle me-1"></i>
+                    <i data-lucide="x-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                     {{ $enrollment->rejection_reason }}
                 </div>
                 @endif
                 <a href="{{ route('portal.enrollments.show',$enrollment->enrollment_id) }}"
                     class="btn btn-sm btn-outline-primary w-100">
-                    <i class="bi bi-eye me-1"></i>View Details
+                    <i data-lucide="eye" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>View Details
                 </a>
             </div>
         </div>

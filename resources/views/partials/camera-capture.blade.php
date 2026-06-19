@@ -3,7 +3,7 @@
         <div class="modal-content rounded-4 overflow-hidden">
             <div class="modal-header border-0 pb-0">
                 <h6 class="modal-title fw-semibold">
-                    <i class="bi bi-camera-fill me-2 text-success"></i>Take a Photo
+                    <i data-lucide="camera" style="width:16px;height:16px;display:inline;vertical-align:text-bottom;margin-right:.4rem;stroke:#22c55e;"></i>Take a Photo
                 </h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -18,13 +18,13 @@
 
                 <div class="d-flex justify-content-center gap-2">
                     <button type="button" id="cameraCaptureBtn" class="btn btn-success btn-sm px-4">
-                        <i class="bi bi-camera me-1"></i>Capture
+                        <i data-lucide="camera" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.25rem;"></i>Capture
                     </button>
                     <button type="button" id="cameraRetakeBtn" class="btn btn-outline-secondary btn-sm px-4 d-none">
-                        <i class="bi bi-arrow-counterclockwise me-1"></i>Retake
+                        <i data-lucide="rotate-ccw" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.25rem;"></i>Retake
                     </button>
                     <button type="button" id="cameraUseBtn" class="btn btn-success btn-sm px-4 d-none">
-                        <i class="bi bi-check-circle me-1"></i>Use Photo
+                        <i data-lucide="check-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.25rem;"></i>Use Photo
                     </button>
                 </div>
             </div>

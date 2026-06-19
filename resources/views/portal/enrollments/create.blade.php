@@ -1,4 +1,4 @@
-@extends('portal.layouts.app')
+﻿@extends('portal.layouts.app')
 @section('title', 'Submit Enrollment')
 @section('content')
 
@@ -14,19 +14,19 @@ $currentSex = old('student_sex');
     <h5 class="fw-bold mb-0">Submit New Enrollment</h5>
     <a href="{{ route('portal.enrollments.index') }}"
         class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left me-1"></i>Back
+        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
 </div>
 
 <div class="alert alert-info py-2 small mb-3">
-    <i class="bi bi-info-circle me-1"></i>
+    <i data-lucide="info" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
     Fill in your child's information and upload the required documents.
     Our staff will review your application and contact you via <strong>Messenger</strong>.
 </div>
 
 @if($errors->any())
 <div class="alert alert-danger alert-dismissible fade show">
-    <i class="bi bi-exclamation-circle me-2"></i>
+    <i data-lucide="alert-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
     Please review the fields below and correct any errors before resubmitting.
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 </div>
@@ -40,27 +40,27 @@ $currentSex = old('student_sex');
 
             {{-- Child's Profile Picture --}}
             <p class="fw-semibold text-primary small mb-2">
-                <i class="bi bi-person-circle me-1"></i>Child's Profile Picture
+                <i data-lucide="user-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Child's Profile Picture
                 <span class="text-muted fw-normal">(optional)</span>
             </p>
             <div class="border rounded p-3 mb-4">
                 <div class="row g-3 align-items-center">
                     <div class="col-md-3 text-center">
                         <div id="studentAvatarPreview" class="d-inline-flex align-items-center justify-content-center rounded-circle border border-2 border-primary-subtle shadow-sm" style="width:80px;height:80px;background:#f0f9ff;">
-                            <i class="bi bi-person fs-1 text-muted"></i>
+                            <i data-lucide="user" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                         </div>
                     </div>
                     <div class="col-md-9">
                         <div class="d-flex align-items-center gap-2 mb-1">
                             <label for="studentPicInput" class="btn btn-sm btn-outline-primary mb-0">
-                                <i class="bi bi-image me-1"></i>Choose Picture
+                                <i data-lucide="image" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Choose Picture
                             </label>
                             <button type="button" class="btn btn-sm btn-outline-primary mb-0"
                                 onclick="openCameraCapture('studentPicInput')">
-                                <i class="bi bi-camera me-1"></i>Take Photo
+                                <i data-lucide="camera" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Take Photo
                             </button>
                             <button type="button" id="removeStudentPicBtn" class="btn btn-sm btn-outline-danger mb-0 d-none">
-                                <i class="bi bi-trash me-1"></i>Remove Photo
+                                <i data-lucide="trash-2" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Remove Photo
                             </button>
                             <input type="file" name="student_profile_picture" id="studentPicInput"
                                 class="d-none @error('student_profile_picture') is-invalid @enderror"
@@ -77,7 +77,7 @@ $currentSex = old('student_sex');
 
             {{-- Child's Personal Information --}}
             <p class="fw-semibold text-primary small mb-2">
-                <i class="bi bi-person me-1"></i>Child's Personal Information
+                <i data-lucide="user" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Child's Personal Information
             </p>
             <div class="row g-3 mb-4">
                 <div class="col-md-4">
@@ -169,7 +169,7 @@ $currentSex = old('student_sex');
 
             {{-- Address --}}
             <p class="fw-semibold text-primary small mb-2">
-                <i class="bi bi-geo-alt me-1"></i>Child's Address
+                <i data-lucide="map-pin" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Child's Address
             </p>
             <div class="row g-3 mb-4">
                 @include('partials.address-fields', [
@@ -187,7 +187,7 @@ $currentSex = old('student_sex');
 
             {{-- Service & Condition --}}
             <p class="fw-semibold text-primary small mb-2">
-                <i class="bi bi-heart-pulse me-1"></i>Service & Condition
+                <i data-lucide="heart" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Service & Condition
             </p>
             <div class="row g-3 mb-4">
                 <div class="col-md-4">
@@ -271,7 +271,7 @@ $currentSex = old('student_sex');
 
             {{-- Required Documents --}}
             <p class="fw-semibold text-primary small mb-2">
-                <i class="bi bi-file-earmark-check me-1"></i>Required Documents
+                <i data-lucide="file" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Required Documents
             </p>
             <div class="border rounded p-3 mb-4">
                 <p class="text-muted small mb-3">
@@ -293,11 +293,11 @@ $currentSex = old('student_sex');
                             <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
                                 <label for="docFile{{ $docType->document_type_id }}"
                                     class="btn btn-sm btn-outline-secondary mb-0">
-                                    <i class="bi bi-paperclip me-1"></i>Choose File
+                                    <i data-lucide="paperclip" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Choose File
                                 </label>
                                 <button type="button" class="btn btn-sm btn-outline-secondary mb-0"
                                     onclick="openCameraCapture(function(file){ addDocFiles({{ $docType->document_type_id }}, [file]); })">
-                                    <i class="bi bi-camera me-1"></i>Take Photo
+                                    <i data-lucide="camera" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Take Photo
                                 </button>
                                 <input type="file"
                                     name="doc_file[{{ $docType->document_type_id }}][]"
@@ -358,11 +358,11 @@ $currentSex = old('student_sex');
                         data-bs-toggle="collapse"
                         data-bs-target="#dataPrivacyCollapse">
                         <span class="fw-semibold small">
-                            <i class="bi bi-shield-lock text-primary me-1"></i>
+                            <i data-lucide="shield" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                             Data Privacy Notice
                             <span class="fw-normal text-muted ms-1">(click to expand)</span>
                         </span>
-                        <i class="bi bi-chevron-down text-muted"></i>
+                        <i data-lucide="chevron-down" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                     </div>
                     <div class="collapse" id="dataPrivacyCollapse">
                         <div class="p-3 border-top small text-muted">
@@ -405,13 +405,13 @@ $currentSex = old('student_sex');
             </div>
 
             <div class="alert alert-warning py-2 small">
-                <i class="bi bi-exclamation-triangle me-1"></i>
+                <i data-lucide="triangle-alert" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                 By submitting, you confirm that all information is accurate. Our staff will
                 contact you via <strong>Messenger</strong> once your application is reviewed.
             </div>
 
             <button type="submit" class="btn btn-primary mt-2">
-                <i class="bi bi-send me-1"></i>Submit Enrollment
+                <i data-lucide="send" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;"></i>Submit Enrollment
             </button>
         </form>
     </div>
@@ -525,7 +525,7 @@ $currentSex = old('student_sex');
             reader.readAsDataURL(file);
         } else {
             nameSpan.textContent = 'No file chosen';
-            preview.innerHTML = '<i class="bi bi-person fs-1 text-muted"></i>';
+            preview.innerHTML = '<i data-lucide="user" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>';
             removeBtn.classList.add('d-none');
         }
     });
@@ -533,7 +533,7 @@ $currentSex = old('student_sex');
     document.getElementById('removeStudentPicBtn').addEventListener('click', function() {
         document.getElementById('studentPicInput').value = '';
         document.getElementById('studentPicName').textContent = 'No file chosen';
-        document.getElementById('studentAvatarPreview').innerHTML = '<i class="bi bi-person fs-1 text-muted"></i>';
+        document.getElementById('studentAvatarPreview').innerHTML = '<i data-lucide="user" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>';
         this.classList.add('d-none');
     });
 </script>

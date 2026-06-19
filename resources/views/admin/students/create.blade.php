@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 @section('title', 'Add New Student')
 @section('content')
 
@@ -12,7 +12,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Add New Student</h5>
     <a href="{{ route('admin.students.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left me-1"></i>Back
+        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
 </div>
 
@@ -25,7 +25,7 @@
             {{-- Profile Picture --}}
             <div class="border rounded-4 p-4 mb-4" style="background: linear-gradient(135deg, #f9fdf8 0%, #f2fff4 100%); border-color: rgba(34, 197, 94, 0.2);">
                 <p class="fw-semibold text-success small mb-3">
-                    <i class="bi bi-person-circle me-1"></i>Profile Picture
+                    <i data-lucide="user-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Profile Picture
                 </p>
                 <div class="row g-3 align-items-center">
                     <div class="col-md-4 text-center text-md-start">
@@ -36,14 +36,14 @@
                     <div class="col-md-8">
                         <div class="d-flex flex-column flex-md-row align-items-md-center gap-2 mb-2">
                             <label for="profilePicInput" class="btn btn-sm btn-outline-success mb-0 px-3">
-                                <i class="bi bi-image me-1"></i>Choose Picture
+                                <i data-lucide="image" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Choose Picture
                             </label>
                             <button type="button" class="btn btn-sm btn-outline-success mb-0 px-3"
                                 onclick="openCameraCapture('profilePicInput')">
-                                <i class="bi bi-camera me-1"></i>Take Photo
+                                <i data-lucide="camera" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Take Photo
                             </button>
                             <button type="button" id="removePicBtn" class="btn btn-sm btn-outline-danger mb-0 px-3 d-none">
-                                <i class="bi bi-trash me-1"></i>Remove Photo
+                                <i data-lucide="trash-2" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Remove Photo
                             </button>
                             <input type="file" name="profile_picture" id="profilePicInput"
                                    class="d-none @error('profile_picture') is-invalid @enderror"
@@ -63,7 +63,7 @@
             {{-- Personal Information --}}
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-person"></i>Personal Information
+                    <i data-lucide="user" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Personal Information
                 </p>
                 <div class="row g-3 mb-0">
                 <div class="col-md-4">
@@ -171,7 +171,7 @@
             {{-- Address --}}
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-geo-alt"></i>Address
+                    <i data-lucide="map-pin" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Address
                 </p>
                 <div class="row g-3 mb-0">
                 @include('partials.address-fields', [
@@ -191,7 +191,7 @@
             {{-- Guardian & Dev Ped --}}
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-people"></i>Guardian & Developmental Pediatrician
+                    <i data-lucide="users" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Guardian & Developmental Pediatrician
                 </p>
                 <div class="row g-3 mb-0">
                 <div class="col-md-6">
@@ -240,7 +240,7 @@
                     <div class="d-flex align-items-center gap-2 mb-1">
                         <label for="devPedDocInput"
                                class="btn btn-sm btn-outline-secondary mb-0">
-                            <i class="bi bi-file-earmark me-1"></i>Choose File
+                            <i data-lucide="file" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Choose File
                         </label>
                         <input type="file" name="dev_ped_document" id="devPedDocInput"
                                class="d-none @error('dev_ped_document') is-invalid @enderror"
@@ -258,7 +258,7 @@
             {{-- Service & Disability --}}
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-heart-pulse"></i>Service & Disability
+                    <i data-lucide="heart" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Service & Disability
                 </p>
                 <div class="row g-3 mb-0">
                 <div class="col-md-4">
@@ -341,7 +341,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary">
-                <i class="bi bi-person-plus me-1"></i>Add Student
+                <i data-lucide="user-plus" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Add Student
             </button>
         </form>
     </div>

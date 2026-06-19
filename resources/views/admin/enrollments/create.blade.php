@@ -1,11 +1,11 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 @section('title', 'Add Walk-in Enrollment')
 @section('content')
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Add Walk-in Enrollment</h5>
     <a href="{{ route('admin.enrollments.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left me-1"></i>Back
+        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
 </div>
 
@@ -23,7 +23,7 @@
             {{-- Enrollment Information --}}
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-clipboard-check"></i>Enrollment Information
+                    <i data-lucide="clipboard-check" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Enrollment Information
                 </p>
                 <div class="row g-3 mb-0">
                     <div class="col-md-6">
@@ -143,7 +143,7 @@
             {{-- Document Checklist --}}
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-file-earmark-check"></i>Document Checklist
+                    <i data-lucide="file" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Document Checklist
                 </p>
                 <div class="border rounded p-3 mb-0">
                     <p class="text-muted small mb-3">
@@ -188,11 +188,11 @@
                                 <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
                                     <label for="docFile{{ $docType->document_type_id }}"
                                         class="btn btn-sm btn-outline-secondary mb-0">
-                                        <i class="bi bi-paperclip me-1"></i>Choose File
+                                        <i data-lucide="paperclip" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Choose File
                                     </label>
                                     <button type="button" class="btn btn-sm btn-outline-secondary mb-0"
                                         onclick="openCameraCapture(function(file){ addDocFiles({{ $docType->document_type_id }}, [file]); })">
-                                        <i class="bi bi-camera me-1"></i>Take Photo
+                                        <i data-lucide="camera" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Take Photo
                                     </button>
                                     <input type="file"
                                         name="doc_file[{{ $docType->document_type_id }}][]"
@@ -227,13 +227,13 @@
                             data-bs-toggle="collapse"
                             data-bs-target="#dataPrivacyCollapse">
                             <span class="fw-semibold small">
-                                <i class="bi bi-shield-lock text-primary me-1"></i>
+                                <i data-lucide="shield" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                                 Data Privacy Notice
                                 <span class="fw-normal text-muted ms-1">
                                     (click to expand)
                                 </span>
                             </span>
-                            <i class="bi bi-chevron-down text-muted"></i>
+                            <i data-lucide="chevron-down" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                         </div>
                         <div class="collapse" id="dataPrivacyCollapse">
                             <div class="p-3 border-top small text-muted">
@@ -274,7 +274,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-clipboard-check me-1"></i>Create Enrollment
+                    <i data-lucide="clipboard-check" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Create Enrollment
                 </button>
         </form>
     </div>

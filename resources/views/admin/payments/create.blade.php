@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 @section('title', 'Record Payment')
 @section('content')
 
@@ -6,7 +6,7 @@
     <h5 class="fw-bold mb-0">Record Payment</h5>
     <a href="{{ route('admin.enrollments.show', $enrollment->enrollment_id) }}"
         class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left me-1"></i>Back to Enrollment
+        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back to Enrollment
     </a>
 </div>
 
@@ -41,7 +41,7 @@
             @csrf
 
             <p class="fw-semibold text-primary small mb-3">
-                <i class="bi bi-cash-coin me-1"></i>Payment Details
+                <i data-lucide="banknote" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Payment Details
             </p>
 
             <div class="row g-3">
@@ -74,7 +74,7 @@
                     <label class="form-label fw-semibold">Payment Method</label>
                     <input type="hidden" name="payment_method" value="cash">
                     <div class="form-control bg-light">
-                        <i class="bi bi-cash me-1 text-success"></i>
+                        <i data-lucide="banknote" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;margin-right:.3rem;stroke:#16a34a;"></i>
                         <strong>Cash</strong>
                         <span class="text-muted small ms-1">(over-the-counter)</span>
                     </div>
@@ -95,7 +95,7 @@
             </div>
 
             <div class="alert alert-warning mt-4 py-2">
-                <i class="bi bi-exclamation-triangle me-1"></i>
+                <i data-lucide="triangle-alert" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                 <strong>Important:</strong> Recording this payment will automatically
                 update the enrollment status to
                 <strong>Enrolled — Payment Confirmed</strong>.
@@ -103,7 +103,7 @@
             </div>
 
             <button type="submit" class="btn btn-success">
-                <i class="bi bi-cash-coin me-1"></i>Confirm & Record Payment
+                <i data-lucide="banknote" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Confirm & Record Payment
             </button>
         </form>
     </div>

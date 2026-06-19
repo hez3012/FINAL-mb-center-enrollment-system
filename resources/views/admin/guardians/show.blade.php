@@ -1,11 +1,11 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 @section('title', 'Guardian Details')
 @section('content')
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Guardian Details</h5>
     <a href="{{ route('admin.guardians.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left me-1"></i>Back
+        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
 </div>
 
@@ -39,7 +39,7 @@
         {{-- changed title from "Personal Information" to "Guardian Information" --}}
         <div class="card border-0 shadow-sm mb-3">
             <div class="card-header bg-white fw-semibold">
-                <i class="bi bi-person-heart me-1"></i>Guardian Information
+                <i data-lucide="heart-handshake" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Guardian Information
             </div>
             <div class="card-body">
                 @php $u = $guardian->user; $na = 'N/A'; @endphp
@@ -95,7 +95,7 @@
         @if($guardian->students->count() > 0)
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white fw-semibold">
-                    <i class="bi bi-people me-1"></i>Linked Students
+                    <i data-lucide="users" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Linked Students
                     <span class="badge bg-primary ms-1">{{ $guardian->students->count() }}</span>
                 </div>
                 <div class="card-body p-0">
@@ -128,7 +128,7 @@
                                         {{-- pass from_guardian so Back button returns here --}}
                                         <a href="{{ route('admin.students.show', $student->student_id) }}?from_guardian={{ $guardian->guardian_id }}"
                                            class="btn btn-sm btn-outline-info">
-                                            <i class="bi bi-eye"></i>
+                                            <i data-lucide="eye" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -140,7 +140,7 @@
         @else
             <div class="card border-0 shadow-sm">
                 <div class="card-body text-center text-muted py-3">
-                    <i class="bi bi-people d-block mb-1" style="font-size:1.5rem;"></i>
+                    <i data-lucide="users" style="width:1.5rem;height:1.5rem;display:block;margin:.5rem auto;stroke:#9ca3af;"></i>
                     No linked students yet.
                 </div>
             </div>

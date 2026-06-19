@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 @section('title', 'User Details')
 @section('content')
 
@@ -12,7 +12,7 @@ function fmtPerm(string $n): string {
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">User Details</h5>
     <a href="{{ route('admin.users.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left me-1"></i>Back
+        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
 </div>
 
@@ -52,8 +52,8 @@ function fmtPerm(string $n): string {
     {{-- Right Panel --}}
     <div class="col-md-8">
         <div class="card border-0 shadow-sm mb-3">
-            <div class="card-header fw-semibold text-white" style="background: linear-gradient(135deg, var(--primary-green, #22c55e) 0%, var(--primary-yellow, #eab308) 100%); border: none;">
-                <i class="bi bi-person me-1"></i>Personal Information
+            <div class="card-header fw-semibold text-white" style="background: #1B4332; border: none;">
+                <i data-lucide="user" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Personal Information
             </div>
             <div class="card-body">
                 <table class="table table-sm mb-0">
@@ -106,20 +106,24 @@ function fmtPerm(string $n): string {
 
         @if($user->role?->role_name !== 'guardian')
         <div class="card border-0 shadow-sm">
-            <div class="card-header fw-semibold text-white" style="background: linear-gradient(135deg, var(--primary-green, #22c55e) 0%, var(--primary-yellow, #eab308) 100%); border: none;">
-                <i class="bi bi-shield-check me-1"></i>Permissions
+            <div class="card-header fw-semibold text-white" style="background: #1B4332; border: none;">
+                <i data-lucide="shield-check" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Permissions
             </div>
             <div class="card-body">
                 @foreach($allPermissions->groupBy('category') as $category => $catPerms)
                     <div class="mb-3">
                         <p class="fw-semibold small text-primary mb-2">
-                            <i class="bi bi-folder me-1"></i>{{ $category }}
+                            <i data-lucide="folder" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>{{ $category }}
                         </p>
                         <div class="row g-1">
                             @foreach($catPerms as $perm)
                                 @php $hasIt = $user->permissions->contains('permission_id', $perm->permission_id); @endphp
                                 <div class="col-md-6 small d-flex align-items-center gap-1">
-                                    <i class="bi bi-{{ $hasIt ? 'check-circle-fill text-success' : 'x-circle text-danger' }}"></i>
+                                    @if($hasIt)
+                                    <i data-lucide="check-circle-2" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;stroke:#16a34a;flex-shrink:0;"></i>
+                                    @else
+                                    <i data-lucide="x-circle" style="width:13px;height:13px;display:inline;vertical-align:text-bottom;stroke:#dc2626;flex-shrink:0;"></i>
+                                    @endif
                                     <span>{{ fmtPerm($perm->permission_name) }}</span>
                                 </div>
                             @endforeach

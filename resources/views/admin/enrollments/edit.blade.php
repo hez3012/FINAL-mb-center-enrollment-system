@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 @section('title', 'Edit Enrollment')
 @section('content')
 
@@ -17,7 +17,7 @@ $docsLocked = $enrollment->status !== 'pending' || $hasPayment;
     <h5 class="fw-bold mb-0">Edit Enrollment</h5>
     <a href="{{ route('admin.enrollments.index') }}"
         class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left me-1"></i>Back
+        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
 </div>
 
@@ -51,7 +51,7 @@ $docsLocked = $enrollment->status !== 'pending' || $hasPayment;
 
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-clipboard-check"></i>Enrollment Details
+                    <i data-lucide="clipboard-check" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Enrollment Details
                 </p>
                 <div class="row g-3 mb-0">
                     @if($studentIsSpED)
@@ -92,7 +92,7 @@ $docsLocked = $enrollment->status !== 'pending' || $hasPayment;
                         <input type="text" class="form-control bg-light" readonly
                             value="Pending Review">
                         <small class="text-muted mt-1 d-block">
-                            <i class="bi bi-info-circle me-1"></i>
+                            <i data-lucide="info" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                             Use <strong>Approve / Reject</strong> on the View page.
                         </small>
 
@@ -206,14 +206,14 @@ $docsLocked = $enrollment->status !== 'pending' || $hasPayment;
             {{-- Document Checklist --}}
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-file-earmark-check"></i>Document Checklist
+                    <i data-lucide="file" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Document Checklist
                 </p>
 
                 @if($docsLocked)
                 {{-- Locked: read-only document view --}}
                 <div class="border rounded p-3 mb-4">
                     <p class="text-muted small mb-3">
-                        <i class="bi bi-lock me-1"></i>
+                        <i data-lucide="lock" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                         @if($hasPayment)
                         Documents are locked after payment is recorded.
                         @elseif($enrollment->enrollment_type === 'online')
@@ -247,7 +247,7 @@ $docsLocked = $enrollment->status !== 'pending' || $hasPayment;
                             <a href="{{ Storage::url($path) }}"
                                 target="_blank"
                                 class="btn btn-sm btn-outline-secondary">
-                                <i class="bi bi-file-earmark me-1"></i>View File{{ count($existing->file_paths) > 1 ? ' ' . ($i + 1) : '' }}
+                                <i data-lucide="file" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>View File{{ count($existing->file_paths) > 1 ? ' ' . ($i + 1) : '' }}
                             </a>
                             @endforeach
                         </div>
@@ -311,17 +311,17 @@ $docsLocked = $enrollment->status !== 'pending' || $hasPayment;
                                         style="background:#f8f9fa;"
                                         id="existingDocRow{{ $docType->document_type_id }}_{{ $i }}">
                                         <span class="small text-truncate" style="max-width:180px;" title="{{ basename($path) }}">
-                                            <i class="bi bi-file-earmark-check me-1 text-success"></i>{{ basename($path) }}
+                                            <i data-lucide="file" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>{{ basename($path) }}
                                         </span>
                                         <div class="d-flex gap-1 flex-shrink-0">
                                             <a href="{{ Storage::url($path) }}" target="_blank"
                                                 class="btn btn-sm btn-outline-secondary py-0 px-2" title="View File">
-                                                <i class="bi bi-eye"></i>
+                                                <i data-lucide="eye" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                                             </a>
                                             <button type="button" class="btn btn-sm btn-outline-danger py-0 px-2"
                                                 title="Remove File / Photo"
                                                 onclick="document.getElementById('existingDocRow{{ $docType->document_type_id }}_{{ $i }}').remove(); document.getElementById('keepExistingDoc{{ $docType->document_type_id }}_{{ $i }}').remove(); refreshDocLockState({{ $docType->document_type_id }});">
-                                                <i class="bi bi-trash"></i>
+                                                <i data-lucide="trash-2" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                                             </button>
                                         </div>
                                         <input type="hidden"
@@ -335,11 +335,11 @@ $docsLocked = $enrollment->status !== 'pending' || $hasPayment;
                                 <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
                                     <label for="docFile{{ $docType->document_type_id }}"
                                         class="btn btn-sm btn-outline-secondary mb-0">
-                                        <i class="bi bi-paperclip me-1"></i>Choose File
+                                        <i data-lucide="paperclip" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Choose File
                                     </label>
                                     <button type="button" class="btn btn-sm btn-outline-secondary mb-0"
                                         onclick="openCameraCapture(function(file){ addDocFiles({{ $docType->document_type_id }}, [file]); })">
-                                        <i class="bi bi-camera me-1"></i>Take Photo
+                                        <i data-lucide="camera" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Take Photo
                                     </button>
                                     <input type="file"
                                         name="doc_file[{{ $docType->document_type_id }}][]"
@@ -368,7 +368,7 @@ $docsLocked = $enrollment->status !== 'pending' || $hasPayment;
 
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-success px-4">
-                        <i class="bi bi-save me-1"></i>Save Changes
+                        <i data-lucide="save" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Save Changes
                     </button>
                 </div>
         </form>

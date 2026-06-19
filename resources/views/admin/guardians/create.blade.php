@@ -1,16 +1,16 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 @section('title', 'Add New Guardian')
 @section('content')
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h5 class="fw-bold mb-0">Add New Guardian</h5>
     <a href="{{ route('admin.guardians.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left me-1"></i>Back
+        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
 </div>
 
 <div class="alert alert-info small">
-    <i class="bi bi-info-circle me-1"></i>
+    <i data-lucide="info" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
     Only user accounts with the <strong>Guardian</strong> role that don't have a profile yet are shown below.
     If the list is empty, create a Guardian user account first via
     <a href="{{ route('admin.users.create') }}" class="alert-link">User Management</a>.
@@ -23,7 +23,7 @@
 
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-person-heart"></i>Guardian Information
+                    <i data-lucide="heart-handshake" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Guardian Information
                 </p>
                 <div class="row g-3 mb-0">
                 <div class="col-md-12">
@@ -89,7 +89,7 @@
 
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-success px-4">
-                    <i class="bi bi-person-plus me-1"></i>Create Guardian
+                    <i data-lucide="user-plus" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Create Guardian
                 </button>
             </div>
         </form>

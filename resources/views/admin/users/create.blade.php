@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 @section('title', 'Add New User')
 @section('content')
 
@@ -13,11 +13,11 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
     <h5 class="fw-bold mb-0">Add New User</h5>
     @if(($preselectedRole ?? '') === 'guardian')
     <a href="{{ route('admin.guardians.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left me-1"></i>Back
+        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
     @else
     <a href="{{ route('admin.users.index') }}" class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left me-1"></i>Back
+        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
     @endif
 </div>
@@ -39,7 +39,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
                     value="{{ $guardianRole?->role_id }}">
                 <input type="text" class="form-control bg-light" readonly value="Guardian">
                 <small class="text-muted">
-                    <i class="bi bi-lock me-1"></i>Role is locked to Guardian.
+                    <i data-lucide="lock" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Role is locked to Guardian.
                 </small>
                 @else
                 <select name="role_id" id="roleSelect"
@@ -60,7 +60,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
             {{-- Profile Picture --}}
             <div class="border rounded-4 p-4 mb-4" style="background: linear-gradient(135deg, #f9fdf8 0%, #f2fff4 100%); border-color: rgba(34, 197, 94, 0.2);">
                 <p class="fw-semibold text-success small mb-3">
-                    <i class="bi bi-person-circle me-1"></i>Profile Picture
+                    <i data-lucide="user-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Profile Picture
                 </p>
                 <div class="row g-3 align-items-center">
                     <div class="col-md-4 text-center text-md-start">
@@ -71,14 +71,14 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
                     <div class="col-md-8">
                         <div class="d-flex flex-column flex-md-row align-items-md-center gap-2 mb-2">
                             <label for="profilePicInput" class="btn btn-sm btn-outline-success mb-0 px-3">
-                                <i class="bi bi-image me-1"></i>Choose Picture
+                                <i data-lucide="image" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Choose Picture
                             </label>
                             <button type="button" class="btn btn-sm btn-outline-success mb-0 px-3"
                                 onclick="openCameraCapture('profilePicInput')">
-                                <i class="bi bi-camera me-1"></i>Take Photo
+                                <i data-lucide="camera" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Take Photo
                             </button>
                             <button type="button" id="removePicBtn" class="btn btn-sm btn-outline-danger mb-0 px-3 d-none">
-                                <i class="bi bi-trash me-1"></i>Remove Photo
+                                <i data-lucide="trash-2" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Remove Photo
                             </button>
                             <input type="file" name="profile_picture" id="profilePicInput"
                                 class="d-none @error('profile_picture') is-invalid @enderror"
@@ -98,7 +98,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
             {{-- Personal Information --}}
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-person"></i>Personal Information
+                    <i data-lucide="user" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Personal Information
                 </p>
                 <div class="row g-3 mb-0">
                     <div class="col-md-4">
@@ -204,7 +204,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
             {{-- Address --}}
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-geo-alt"></i>Address
+                    <i data-lucide="map-pin" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Address
                 </p>
                 <div class="mb-0">
                     @include('partials.address-fields',[
@@ -225,7 +225,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
             {{-- Account Credentials --}}
             <div class="border rounded-4 p-3 p-md-4 mb-4" style="background: rgba(255,255,255,0.7); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-shield"></i>Account Credentials
+                    <i data-lucide="shield" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Account Credentials
                 </p>
                 <div class="row g-3 mb-0">
                     <div class="col-md-6">
@@ -271,7 +271,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
                 class="border rounded-4 p-3 p-md-4 mb-4 {{ ($preselectedRole ?? '') === 'guardian' ? '' : 'd-none' }}"
                 style="background: rgba(255,255,255,0.8); border-color: rgba(34,197,94,0.2) !important;">
                 <p class="fw-semibold text-success small mb-3 d-flex align-items-center gap-2">
-                    <i class="bi bi-person-heart"></i>Guardian Profile Information
+                    <i data-lucide="heart-handshake" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Guardian Profile Information
                 </p>
                 <div class="row g-3">
                     <div class="col-md-6">
@@ -316,7 +316,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
                 @foreach($permissions->groupBy('category') as $category => $catPerms)
                 <div class="border rounded p-3 mb-2 bg-light">
                     <p class="fw-semibold text-primary mb-2 small">
-                        <i class="bi bi-folder me-1"></i>{{ $category }}
+                        <i data-lucide="folder" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>{{ $category }}
                     </p>
                     <div class="row g-2">
                         @foreach($catPerms as $permission)
@@ -342,7 +342,7 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
 
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-success px-4">
-                    <i class="bi bi-person-plus me-1"></i>Create User
+                    <i data-lucide="user-plus" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Create User
                 </button>
             </div>
         </form>

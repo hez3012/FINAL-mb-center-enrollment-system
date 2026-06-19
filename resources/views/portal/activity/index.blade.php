@@ -1,4 +1,4 @@
-@extends('portal.layouts.app')
+﻿@extends('portal.layouts.app')
 @section('title', 'My Activity')
 @section('content')
 
@@ -15,14 +15,14 @@
     <li class="nav-item">
         <a class="nav-link {{ $activeTab === 'log' ? 'active' : '' }}"
            href="{{ route('portal.activity.index', array_merge(request()->query(), ['tab' => 'log'])) }}">
-            <i class="bi bi-shield-lock me-1"></i>Login / Logout History
+            <i data-lucide="shield" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Login / Logout History
             <span class="badge bg-secondary ms-1">{{ $logs->total() }}</span>
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link {{ $activeTab === 'trail' ? 'active' : '' }}"
            href="{{ route('portal.activity.index', array_merge(request()->query(), ['tab' => 'trail'])) }}">
-            <i class="bi bi-clock-history me-1"></i>Activity Trail
+            <i data-lucide="history" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Activity Trail
             <span class="badge bg-secondary ms-1">{{ $trails->total() }}</span>
         </a>
     </li>
@@ -47,11 +47,11 @@
                             <td>
                                 @if($log->action === 'login')
                                     <span class="badge bg-success">
-                                        <i class="bi bi-box-arrow-in-right me-1"></i>Logged In
+                                        <i data-lucide="log-in" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Logged In
                                     </span>
                                 @else
                                     <span class="badge bg-secondary">
-                                        <i class="bi bi-box-arrow-right me-1"></i>Logged Out
+                                        <i data-lucide="log-out" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Logged Out
                                     </span>
                                 @endif
                             </td>
@@ -66,7 +66,7 @@
                     @empty
                         <tr>
                             <td colspan="4" class="text-center text-muted py-4">
-                                <i class="bi bi-shield-lock d-block mb-2" style="font-size:1.5rem;"></i>
+                                <i data-lucide="shield" style="width:1.5rem;height:1.5rem;display:block;margin:0 auto .5rem;stroke:#9ca3af;"></i>
                                 No login / logout history yet.
                             </td>
                         </tr>
@@ -125,7 +125,7 @@
                     @empty
                         <tr>
                             <td colspan="5" class="text-center text-muted py-4">
-                                <i class="bi bi-clock-history d-block mb-2" style="font-size:1.5rem;"></i>
+                                <i data-lucide="history" style="width:1.5rem;height:1.5rem;display:block;margin:0 auto .5rem;stroke:#9ca3af;"></i>
                                 No activity recorded yet.
                             </td>
                         </tr>

@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 @section('title', 'Enrollment Details')
 @section('content')
 
@@ -18,7 +18,7 @@ $canRecord = $enrollment->status === 'pending_payment'
     <h5 class="fw-bold mb-0">Enrollment Details</h5>
     <a href="{{ route('admin.enrollments.index') }}"
         class="btn btn-sm btn-outline-secondary">
-        <i class="bi bi-arrow-left me-1"></i>Back
+        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Back
     </a>
 </div>
 
@@ -29,7 +29,7 @@ $canRecord = $enrollment->status === 'pending_payment'
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                 <div>
                     <p class="fw-semibold mb-1">
-                        <i class="bi bi-globe me-1 text-info"></i>
+                        <i data-lucide="globe" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                         Online Enrollment — Pending Review
                     </p>
                     <p class="text-muted small mb-0">
@@ -42,12 +42,12 @@ $canRecord = $enrollment->status === 'pending_payment'
                         @csrf
                         @method('PATCH')
                         <button type="submit" class="btn btn-success px-4">
-                            <i class="bi bi-check-circle me-1"></i>Approve
+                            <i data-lucide="check-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Approve
                         </button>
                     </form>
                     <button type="button" class="btn btn-danger px-4"
                             data-bs-toggle="modal" data-bs-target="#rejectModal">
-                        <i class="bi bi-x-circle me-1"></i>Reject
+                        <i data-lucide="x-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Reject
                     </button>
                 </div>
             </div>
@@ -60,17 +60,17 @@ $canRecord = $enrollment->status === 'pending_payment'
 @if($canRecord)
 <div class="alert alert-info d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
     <div>
-        <i class="bi bi-cash-coin me-1"></i>
+        <i data-lucide="banknote" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
         All required documents are submitted. Ready to record payment.
     </div>
     <a href="{{ route('admin.enrollments.payment.create', ['id' => $enrollment->enrollment_id]) }}"
         class="btn btn-success btn-sm">
-        <i class="bi bi-cash-coin me-1"></i>Record Payment
+        <i data-lucide="banknote" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Record Payment
     </a>
 </div>
 @else
 <div class="alert alert-warning mb-3">
-    <i class="bi bi-exclamation-triangle me-2"></i>
+    <i data-lucide="triangle-alert" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
     <strong>Cannot record payment yet.</strong>
     The following required documents must be marked as
     <strong>Submitted</strong> first:
@@ -91,7 +91,7 @@ $canRecord = $enrollment->status === 'pending_payment'
 @if($hasPayment)
 <div class="card border-success border mb-3">
     <div class="card-header bg-success bg-opacity-10 fw-semibold text-success">
-        <i class="bi bi-check-circle me-1"></i>Payment Recorded
+        <i data-lucide="check-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Payment Recorded
     </div>
     <div class="card-body">
         <div class="row g-2">
@@ -132,7 +132,7 @@ $canRecord = $enrollment->status === 'pending_payment'
         {{-- Student Info --}}
         <div class="card border-0 shadow-sm mb-3">
             <div class="card-header bg-white fw-semibold">
-                <i class="bi bi-person me-1"></i>Student Information
+                <i data-lucide="user" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Student Information
             </div>
             <div class="card-body">
                 @if($student)
@@ -190,7 +190,7 @@ $canRecord = $enrollment->status === 'pending_payment'
         {{-- Enrollment Info --}}
         <div class="card border-0 shadow-sm mb-3">
             <div class="card-header bg-white fw-semibold">
-                <i class="bi bi-clipboard-check me-1"></i>Enrollment Information
+                <i data-lucide="clipboard-check" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Enrollment Information
             </div>
             <div class="card-body">
                 <table class="table table-sm mb-0">
@@ -225,11 +225,11 @@ $canRecord = $enrollment->status === 'pending_payment'
                         <td>
                             @if($enrollment->waiver_signed)
                             <span class="text-success">
-                                <i class="bi bi-check-circle me-1"></i>Signed
+                                <i data-lucide="check-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Signed
                             </span>
                             @else
                             <span class="text-danger">
-                                <i class="bi bi-x-circle me-1"></i>Not signed
+                                <i data-lucide="x-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Not signed
                             </span>
                             @endif
                         </td>
@@ -261,7 +261,7 @@ $canRecord = $enrollment->status === 'pending_payment'
     <div class="col-md-5">
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-white fw-semibold">
-                <i class="bi bi-file-earmark-check me-1"></i>Document Checklist
+                <i data-lucide="file" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Document Checklist
             </div>
             <div class="card-body p-0">
                 @forelse($enrollment->documents as $doc)
@@ -281,7 +281,7 @@ $canRecord = $enrollment->status === 'pending_payment'
                             target="_blank"
                             class="btn btn-sm btn-outline-secondary"
                             title="View File{{ count($doc->file_paths) > 1 ? ' ' . ($i + 1) : '' }}">
-                            <i class="bi bi-file-earmark"></i>
+                            <i data-lucide="file" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                             @if(count($doc->file_paths) > 1)
                             <span class="small">{{ $i + 1 }}</span>
                             @endif
@@ -332,7 +332,7 @@ $canRecord = $enrollment->status === 'pending_payment'
                     <button type="button" class="btn btn-secondary"
                         data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-danger">
-                        <i class="bi bi-x-circle me-1"></i>Confirm Reject
+                        <i data-lucide="x-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Confirm Reject
                     </button>
                 </div>
             </form>
