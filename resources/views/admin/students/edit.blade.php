@@ -366,8 +366,8 @@
             </div>
 
             <div class="d-flex justify-content-end">
-                <button type="submit" class="btn px-4 text-white fw-semibold" style="background:#1B4332;">
-                    <i data-lucide="save" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Save Changes
+                <button type="submit" class="btn-primary-app">
+                    <i data-lucide="save"></i>Save Changes
                 </button>
             </div>
         </form>

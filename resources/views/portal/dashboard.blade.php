@@ -4,40 +4,49 @@
 @section('extra-styles')
 <style>
     .portal-stat {
-        background: #fff; border-radius: 12px; border: 1px solid var(--bdr);
-        box-shadow: 0 1px 4px rgba(0,0,0,.05);
-        padding: 1.25rem 1.35rem;
-        display: flex; align-items: center; gap: 1rem;
-        transition: box-shadow .2s, transform .2s;
+        background: #fff; border-radius: 14px; border: 1px solid #E5E9F2;
+        box-shadow: 0 1px 6px rgba(0,0,0,.06);
+        padding: 1.65rem 1.8rem 1.45rem;
+        display: flex; align-items: flex-start; gap: 1.2rem;
+        transition: box-shadow .22s, transform .22s;
+        position: relative; overflow: hidden;
     }
-    .portal-stat:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,.1); }
+    .portal-stat::before {
+        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+        background: var(--kpi-bar, #E5E9F2);
+    }
+    .portal-stat:hover { transform: translateY(-3px); box-shadow: 0 6px 24px rgba(27,67,50,.12); }
     .portal-stat-icon {
-        width: 50px; height: 50px; border-radius: 10px;
+        width: 52px; height: 52px; border-radius: 12px;
         display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-        background: var(--go);
+        background: linear-gradient(135deg, #1B4332, #2D6A4F);
+        box-shadow: 0 4px 14px rgba(27,67,50,.28);
     }
-    .portal-stat-icon svg { width: 24px; height: 24px; stroke: var(--g); }
-    .portal-stat-icon.gold { background: rgba(234,179,8,.12); }
-    .portal-stat-icon.gold svg { stroke: #B45309; }
+    .portal-stat-icon svg { width: 24px; height: 24px; stroke: #fff; }
+    .portal-stat-icon.gold {
+        background: linear-gradient(135deg, #EAB308, #F59E0B);
+        box-shadow: 0 4px 14px rgba(234,179,8,.3);
+    }
+    .portal-stat-icon.gold svg { stroke: #fff; }
     .portal-stat-value {
-        font-size: 1.85rem; font-weight: 800; color: var(--txt); line-height: 1; margin-bottom: .2rem;
+        font-size: 2.1rem; font-weight: 800; color: #0F172A; line-height: 1; margin-bottom: .25rem;
     }
-    .portal-stat-label { font-size: .8rem; color: var(--txt2); font-weight: 500; }
+    .portal-stat-label { font-size: .8rem; color: #64748B; font-weight: 500; }
     .portal-welcome {
-        background: linear-gradient(120deg, #1B4332 0%, #2D6A4F 100%);
-        border-radius: 12px; padding: 1.25rem 1.5rem; color: #fff;
-        margin-bottom: 1.35rem; box-shadow: 0 4px 18px rgba(27,67,50,.2);
+        background: linear-gradient(118deg, #1B4332 0%, #295c45 55%, #3a7a5c 100%);
+        border-radius: 14px; padding: 1.5rem 1.75rem; color: #fff;
+        margin-bottom: 1.5rem; box-shadow: 0 8px 28px rgba(27,67,50,.28);
     }
-    .portal-welcome h2 { font-size: 1.25rem; font-weight: 700; margin: 0 0 .2rem; color: #fff; }
-    .portal-welcome p { margin: 0; color: rgba(255,255,255,.7); font-size: .875rem; }
-    .portal-welcome a { color: #EAB308; font-weight: 700; text-decoration: none; }
-    .portal-welcome a:hover { text-decoration: underline; }
+    .portal-welcome h2 { font-size: 1.3rem; font-weight: 700; margin: 0 0 .25rem; color: #fff; }
+    .portal-welcome p { margin: 0; color: rgba(255,255,255,.75); font-size: .875rem; }
+    .portal-welcome a { color: #FDE047; font-weight: 700; text-decoration: none; }
+    .portal-welcome a:hover { text-decoration: underline; color: #EAB308; }
     .students-card-header {
-        background: var(--g); color: var(--gld);
-        border-radius: 10px 10px 0 0; padding: .85rem 1.1rem;
+        background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
+        color: #fff; border-radius: 14px 14px 0 0; padding: .9rem 1.2rem;
         font-size: .84rem; font-weight: 700; display: flex; align-items: center; gap: .45rem;
     }
-    .students-card-header svg { width: 15px; height: 15px; }
+    .students-card-header svg { width: 15px; height: 15px; stroke: rgba(255,255,255,.85); }
 </style>
 @endsection
 
@@ -69,7 +78,7 @@ $statusTx = [
 {{-- Stat cards --}}
 <div class="row g-3 mb-4">
     <div class="col-md-6" data-aos="fade-up" data-aos-delay="0">
-        <div class="portal-stat">
+        <div class="portal-stat" style="--kpi-bar: linear-gradient(90deg, #1B4332, #2D6A4F);">
             <div class="portal-stat-icon">
                 <i data-lucide="graduation-cap"></i>
             </div>
@@ -80,7 +89,7 @@ $statusTx = [
         </div>
     </div>
     <div class="col-md-6" data-aos="fade-up" data-aos-delay="60">
-        <div class="portal-stat">
+        <div class="portal-stat" style="--kpi-bar: linear-gradient(90deg, #EAB308, #F59E0B);">
             <div class="portal-stat-icon gold">
                 <i data-lucide="user-check"></i>
             </div>

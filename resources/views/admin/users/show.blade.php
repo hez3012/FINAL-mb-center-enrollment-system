@@ -50,8 +50,8 @@ function fmtPerm(string $n): string {
 
     {{-- Right Panel --}}
     <div class="col-md-8">
-        <div class="card border-0 shadow-sm mb-3">
-            <div class="card-header fw-semibold text-white" style="background: #1B4332; border: none;">
+        <div class="card border-0 shadow-sm mb-3" style="overflow:hidden;">
+            <div class="card-hd-grad">
                 <i data-lucide="user" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Personal Information
             </div>
             <div class="card-body">
@@ -104,14 +104,14 @@ function fmtPerm(string $n): string {
         </div>
 
         @if($user->role?->role_name !== 'guardian')
-        <div class="card border-0 shadow-sm">
-            <div class="card-header fw-semibold text-white" style="background: #1B4332; border: none;">
+        <div class="card border-0 shadow-sm" style="overflow:hidden;">
+            <div class="card-hd-grad">
                 <i data-lucide="shield-check" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Permissions
             </div>
             <div class="card-body">
                 @foreach($allPermissions->groupBy('category') as $category => $catPerms)
                     <div class="mb-3">
-                        <p class="fw-semibold small text-primary mb-2">
+                        <p class="fw-semibold small mb-2" style="color:#1B4332;">
                             <i data-lucide="folder" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>{{ $category }}
                         </p>
                         <div class="row g-1">

@@ -9,7 +9,7 @@
     {{-- Google Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     {{-- Flatpickr --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
@@ -28,7 +28,7 @@
         }
 
         .reg-header {
-            background: var(--hope-green);
+            background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
             padding: 1.25rem 1.5rem;
             display: flex;
             align-items: center;
@@ -36,14 +36,14 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 12px rgba(0,0,0,.18);
+            box-shadow: 0 2px 12px rgba(0,0,0,.25);
         }
 
         .reg-header img.hope-logo { height: 44px; }
 
         .reg-header-text strong {
-            font-family: 'Playfair Display', serif;
             font-size: 1.05rem;
+            font-weight: 700;
             color: #fff;
         }
 
@@ -70,9 +70,9 @@
         }
 
         .reg-section-header {
-            background: var(--hope-green);
+            background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
             color: #fff;
-            padding: .65rem 1.1rem;
+            padding: .75rem 1.1rem;
             display: flex;
             align-items: center;
             gap: .55rem;
@@ -82,9 +82,9 @@
         }
 
         .reg-section-header svg {
-            width: 16px;
-            height: 16px;
-            stroke: var(--hope-gold);
+            width: 15px;
+            height: 15px;
+            stroke: rgba(255,255,255,.8);
         }
 
         .reg-section-body { padding: 1.25rem 1.1rem; }
@@ -132,21 +132,22 @@
 
         /* Submit button */
         .btn-hope {
-            background: var(--hope-green);
+            background: linear-gradient(135deg, var(--hope-green) 0%, var(--hope-green2) 100%);
             color: #fff;
             font-weight: 700;
             padding: .75rem 2rem;
             border-radius: 10px;
             border: none;
             font-size: .95rem;
-            transition: background .18s ease, transform .15s ease;
+            box-shadow: 0 2px 10px rgba(27,67,50,.3);
+            transition: box-shadow .18s ease, transform .15s ease;
             display: inline-flex;
             align-items: center;
             gap: .5rem;
         }
 
         .btn-hope:hover {
-            background: var(--hope-green2);
+            box-shadow: 0 4px 18px rgba(27,67,50,.38);
             color: #fff;
             transform: translateY(-1px);
         }

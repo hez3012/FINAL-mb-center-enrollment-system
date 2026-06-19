@@ -9,7 +9,7 @@
     {{-- Google Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     {{-- Animate.css --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
 
@@ -95,8 +95,8 @@
 
         .auth-mb-name strong {
             display: block;
-            font-family: 'Playfair Display', serif;
             font-size: 1rem;
+            font-weight: 700;
             color: #fff;
             line-height: 1.2;
         }
@@ -107,9 +107,9 @@
         }
 
         .auth-tagline {
-            font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: 1.3rem;
+            font-weight: 600;
+            font-size: 1.25rem;
             color: var(--hope-gold);
             margin-bottom: .5rem;
             line-height: 1.4;
@@ -148,11 +148,11 @@
         }
 
         .auth-form-title {
-            font-family: 'Playfair Display', serif;
             font-size: 1.65rem;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--hope-green);
             margin-bottom: .25rem;
+            letter-spacing: -.5px;
         }
 
         .auth-form-subtitle {
@@ -201,7 +201,7 @@
 
         /* Submit button */
         .btn-hope {
-            background: var(--hope-green);
+            background: linear-gradient(135deg, var(--hope-green) 0%, var(--hope-green2) 100%);
             color: #fff;
             font-weight: 700;
             padding: .7rem;
@@ -209,7 +209,8 @@
             border: none;
             font-size: .95rem;
             width: 100%;
-            transition: background .18s ease, transform .15s ease;
+            box-shadow: 0 2px 10px rgba(27,67,50,.3);
+            transition: box-shadow .18s ease, transform .15s ease;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -217,7 +218,7 @@
         }
 
         .btn-hope:hover {
-            background: var(--hope-green2);
+            box-shadow: 0 4px 18px rgba(27,67,50,.38);
             color: #fff;
             transform: translateY(-1px);
         }

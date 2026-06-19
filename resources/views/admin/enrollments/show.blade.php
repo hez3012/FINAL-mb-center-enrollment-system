@@ -23,15 +23,15 @@ $canRecord = $enrollment->status === 'pending_payment'
 
 {{-- Approve / Reject for online pending — Directress and Admin only --}}
 @if($hasPending && Auth::user()->hasPermission('approve_enrollment'))
-    <div class="card border-warning border mb-3">
+    <div class="card border-0 mb-3" style="border-left: 4px solid #EAB308 !important; background: #FFFBEB; box-shadow: 0 1px 6px rgba(0,0,0,.06); border-radius: 12px;">
         <div class="card-body">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                 <div>
-                    <p class="fw-semibold mb-1">
+                    <p class="fw-semibold mb-1" style="color:#92400E;">
                         <i data-lucide="globe" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>
                         Online Enrollment — Pending Review
                     </p>
-                    <p class="text-muted small mb-0">
+                    <p class="small mb-0" style="color:#B45309;">
                         Review the student's information and documents before approving.
                     </p>
                 </div>
@@ -88,8 +88,8 @@ $canRecord = $enrollment->status === 'pending_payment'
 
 {{-- Payment confirmed --}}
 @if($hasPayment)
-<div class="card border-success border mb-3">
-    <div class="card-header bg-success bg-opacity-10 fw-semibold text-success">
+<div class="card border-0 mb-3" style="border-left: 4px solid #22C55E !important; background: #fff; box-shadow: 0 1px 6px rgba(0,0,0,.06); border-radius: 12px; overflow: hidden;">
+    <div class="card-hd-grad">
         <i data-lucide="check-circle" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Payment Recorded
     </div>
     <div class="card-body">

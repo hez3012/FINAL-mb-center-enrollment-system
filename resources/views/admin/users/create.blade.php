@@ -339,8 +339,8 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
             </div>
 
             <div class="d-flex justify-content-end">
-                <button type="submit" class="btn px-4 text-white fw-semibold" style="background:#1B4332;">
-                    <i data-lucide="user-plus" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Create User
+                <button type="submit" class="btn-primary-app">
+                    <i data-lucide="user-plus"></i>Create User
                 </button>
             </div>
         </form>
