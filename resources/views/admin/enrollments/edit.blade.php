@@ -29,21 +29,21 @@ $docsLocked = $enrollment->status !== 'pending' || $hasPayment;
             @method('PUT')
 
             {{-- Student summary (read-only) --}}
-            <div class="alert alert-light border mb-4">
+            <div class="mb-4 px-3 py-3 rounded-3" style="background:#F0FDF4; border:1px solid #BBF7D0;">
                 <div class="row">
                     <div class="col-md-4">
-                        <small class="text-muted d-block">Student</small>
-                        <strong>{{ optional($enrollment->student)->list_name }}</strong>
+                        <small class="d-block" style="color:#64748B; font-size:.76rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em;">Student</small>
+                        <strong style="color:#0F172A;">{{ optional($enrollment->student)->list_name }}</strong>
                     </div>
                     <div class="col-md-4">
-                        <small class="text-muted d-block">Service Type</small>
-                        <strong>
+                        <small class="d-block" style="color:#64748B; font-size:.76rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em;">Service Type</small>
+                        <strong style="color:#0F172A;">
                             {{ $enrollment->student?->serviceType?->service_name ?? '—' }}
                         </strong>
                     </div>
                     <div class="col-md-4">
-                        <small class="text-muted d-block">School Year</small>
-                        <strong>{{ optional($enrollment->schoolYear)->year_label }}</strong>
+                        <small class="d-block" style="color:#64748B; font-size:.76rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em;">School Year</small>
+                        <strong style="color:#0F172A;">{{ optional($enrollment->schoolYear)->year_label }}</strong>
                     </div>
                 </div>
             </div>

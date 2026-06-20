@@ -276,7 +276,7 @@
                 <img src="{{ asset('MB-LOGO.png') }}" alt="M.B. Therapy Center">
                 <div class="auth-mb-name">
                     <strong>M.B. Therapy Center</strong>
-                    <small>Batangas City, Philippines</small>
+                    <small>Taguig City, Philippines</small>
                 </div>
             </div>
 

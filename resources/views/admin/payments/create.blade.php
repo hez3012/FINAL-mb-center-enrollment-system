@@ -10,22 +10,22 @@
 </div>
 
 {{-- Enrollment Summary --}}
-<div class="alert alert-light border mb-4">
+<div class="mb-4 px-3 py-3 rounded-3" style="background:#F0FDF4; border:1px solid #BBF7D0;">
     <div class="row g-2">
         <div class="col-md-3">
-            <small class="text-muted d-block">Student</small>
-            <strong>{{ optional($enrollment->student)->list_name }}</strong>
+            <small class="d-block" style="color:#64748B; font-size:.76rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em;">Student</small>
+            <strong style="color:#0F172A;">{{ optional($enrollment->student)->list_name }}</strong>
         </div>
         <div class="col-md-3">
-            <small class="text-muted d-block">School Year</small>
-            <strong>{{ optional($enrollment->schoolYear)->year_label }}</strong>
+            <small class="d-block" style="color:#64748B; font-size:.76rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em;">School Year</small>
+            <strong style="color:#0F172A;">{{ optional($enrollment->schoolYear)->year_label }}</strong>
         </div>
         <div class="col-md-3">
-            <small class="text-muted d-block">Program Level</small>
-            <strong>{{ optional($enrollment->programLevel)->program_name }}</strong>
+            <small class="d-block" style="color:#64748B; font-size:.76rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em;">Program Level</small>
+            <strong style="color:#0F172A;">{{ optional($enrollment->programLevel)->program_name }}</strong>
         </div>
         <div class="col-md-3">
-            <small class="text-muted d-block">Enrollment Type</small>
+            <small class="d-block" style="color:#64748B; font-size:.76rem; font-weight:600; text-transform:uppercase; letter-spacing:.04em;">Enrollment Type</small>
             <span class="badge bg-{{ $enrollment->enrollment_type === 'walk_in' ? 'secondary' : 'info text-dark' }}">
                 {{ $enrollment->type_label }}
             </span>
@@ -39,7 +39,7 @@
             action="{{ route('admin.enrollments.payment.store', $enrollment->enrollment_id) }}">
             @csrf
 
-            <p class="fw-semibold text-primary small mb-3">
+            <p class="fw-semibold small mb-3" style="color:#1B4332;">
                 <i data-lucide="banknote" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i>Payment Details
             </p>
 
