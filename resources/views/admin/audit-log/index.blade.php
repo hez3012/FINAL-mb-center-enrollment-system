@@ -64,7 +64,12 @@ $roleTx = ['directress'=>'#B91C1C','admin'=>'#1E40AF','teacher'=>'#166534','staf
     <form method="GET" action="{{ route('admin.audit-log.index') }}" class="row g-2 align-items-center">
         <input type="hidden" name="tab" value="log">
         <div class="col-md-5">
-            <input type="text" name="log_search" class="form-control" placeholder="Search by name…" value="{{ request('log_search') }}">
+            <div class="input-group">
+                <span class="input-group-text" style="background:#f8fafc;border-color:#E5E9F2;border-right:none;padding:.42rem .65rem;">
+                    <i data-lucide="search" style="width:14px;height:14px;stroke:#94A3B8;"></i>
+                </span>
+                <input type="text" name="log_search" class="form-control" placeholder="Search by name…" value="{{ request('log_search') }}">
+            </div>
         </div>
         <div class="col-md-3">
             <select name="log_action" class="form-select">
@@ -152,7 +157,12 @@ $roleTx = ['directress'=>'#B91C1C','admin'=>'#1E40AF','teacher'=>'#166534','staf
     <form method="GET" action="{{ route('admin.audit-log.index') }}" class="row g-2 align-items-center">
         <input type="hidden" name="tab" value="trail">
         <div class="col-md-3">
-            <input type="text" name="trail_search" class="form-control" placeholder="Search by name or details…" value="{{ request('trail_search') }}">
+            <div class="input-group">
+                <span class="input-group-text" style="background:#f8fafc;border-color:#E5E9F2;border-right:none;padding:.42rem .65rem;">
+                    <i data-lucide="search" style="width:14px;height:14px;stroke:#94A3B8;"></i>
+                </span>
+                <input type="text" name="trail_search" class="form-control" placeholder="Search by name or details…" value="{{ request('trail_search') }}">
+            </div>
         </div>
         <div class="col-md-2">
             <select name="trail_action" class="form-select">

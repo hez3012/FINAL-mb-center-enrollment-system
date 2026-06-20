@@ -595,5 +595,90 @@
 </script>
 
 @yield('scripts')
+
+<script>
+// ── Global Form Guard (unsaved changes protection) ────────────
+(function() {
+    // Find the main data-entry form: has a btn-primary-app submit + ≥ 3 user inputs
+    var form = null;
+    document.querySelectorAll('form').forEach(function(f) {
+        if (form) return;
+        var hasSubmit = !!f.querySelector('button.btn-primary-app[type="submit"], button.btn-primary-app:not([type])');
+        var inputCount = f.querySelectorAll('input[type="text"],input[type="email"],input[type="date"],select,textarea').length;
+        var isDestructive = f.querySelector('input[name="_method"][value="DELETE"],input[name="_method"][value="PATCH"]');
+        if (hasSubmit && inputCount >= 3 && !isDestructive) form = f;
+    });
+    if (!form) return;
+
+    var FORM_KEY = 'hope_form_' + window.location.pathname;
+    var isDirty  = false;
+    var isSubmitting = false;
+
+    // Restore non-sensitive fields from sessionStorage on fresh page load
+    try {
+        var saved = sessionStorage.getItem(FORM_KEY);
+        if (saved) {
+            var data = JSON.parse(saved);
+            Object.keys(data).forEach(function(name) {
+                var el = form.querySelector('[name="' + name + '"]');
+                if (!el || el.type === 'file' || el.type === 'hidden' || el.type === 'password') return;
+                if (!el.value) el.value = data[name];
+            });
+        }
+    } catch(e) {}
+
+    function saveFormData() {
+        if (isSubmitting) return;
+        isDirty = true;
+        try {
+            var data = {};
+            form.querySelectorAll('input,select,textarea').forEach(function(el) {
+                if (!el.name || el.type === 'file' || el.type === 'hidden' || el.type === 'password') return;
+                data[el.name] = el.value;
+            });
+            sessionStorage.setItem(FORM_KEY, JSON.stringify(data));
+        } catch(e) {}
+    }
+
+    form.addEventListener('input',  saveFormData);
+    form.addEventListener('change', saveFormData);
+
+    form.addEventListener('submit', function() {
+        isSubmitting = true; isDirty = false;
+        window.onbeforeunload = null;
+        try { sessionStorage.removeItem(FORM_KEY); } catch(e) {}
+    });
+
+    // Native browser "leave page?" warning
+    window.addEventListener('beforeunload', function(e) {
+        if (isDirty && !isSubmitting) { e.preventDefault(); e.returnValue = ''; }
+    });
+
+    // Back-button interception with SweetAlert2
+    history.pushState(null, '', window.location.href);
+    window.addEventListener('popstate', function() {
+        if (!isDirty || isSubmitting) return;
+        history.pushState(null, '', window.location.href);
+        if (typeof Swal === 'undefined') return;
+        Swal.fire({
+            title: 'Leave this page?',
+            html: 'You have unsaved changes. If you leave, your progress will be lost.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, leave',
+            cancelButtonText: 'Stay here',
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#1B4332',
+            reverseButtons: true,
+        }).then(function(result) {
+            if (result.isConfirmed) {
+                isDirty = false; window.onbeforeunload = null;
+                try { sessionStorage.removeItem(FORM_KEY); } catch(e) {}
+                history.back();
+            }
+        });
+    });
+})();
+</script>
 </body>
 </html>

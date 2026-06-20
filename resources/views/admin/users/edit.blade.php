@@ -250,15 +250,30 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
                             New Password
                             <span class="text-muted small fw-normal">(leave blank to keep)</span>
                         </label>
-                        <input type="password" name="password"
-                            class="form-control @error('password') is-invalid @enderror"
-                            minlength="6">
-                        @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                        <small class="text-muted">Minimum 6 characters.</small>
+                        <div class="input-group">
+                            <input type="password" name="password" id="userPassword"
+                                class="form-control @error('password') is-invalid @enderror"
+                                minlength="6" style="border-right:none;">
+                            <button type="button" class="input-group-text" id="toggleUserPw" tabindex="-1"
+                                style="background:#f9f7f3;border-color:#d6d0c4;border-left:none;color:#6b7280;cursor:pointer;border-radius:0 8px 8px 0;">
+                                <i data-lucide="eye" id="eyeUserPw" style="width:15px;height:15px;"></i>
+                            </button>
+                        </div>
+                        @error('password')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                        <div style="height:4px;border-radius:2px;background:#e5e7eb;margin-top:.35rem;overflow:hidden;"><div id="pwStrengthFill" style="height:100%;width:0%;border-radius:2px;transition:width .25s,background .25s;"></div></div>
+                        <div id="pwStrengthLabel" style="font-size:.72rem;margin-top:.2rem;"></div>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Confirm New Password</label>
-                        <input type="password" name="password_confirmation" class="form-control">
+                        <div class="input-group">
+                            <input type="password" name="password_confirmation" id="userPasswordConfirm"
+                                class="form-control" style="border-right:none;">
+                            <button type="button" class="input-group-text" id="toggleUserPwConfirm" tabindex="-1"
+                                style="background:#f9f7f3;border-color:#d6d0c4;border-left:none;color:#6b7280;cursor:pointer;border-radius:0 8px 8px 0;">
+                                <i data-lucide="eye" id="eyeUserPwConfirm" style="width:15px;height:15px;"></i>
+                            </button>
+                        </div>
+                        <div id="pwMatchMsg" style="font-size:.72rem;margin-top:.2rem;"></div>
                     </div>
                 </div>
             </div>
@@ -447,6 +462,51 @@ return implode(' ', array_map(fn($w) => $s[$w] ?? ucfirst($w), explode('_', $n))
         document.getElementById('fullscreenImg').src = e.target.src;
         new bootstrap.Modal(document.getElementById('fullscreenModal')).show();
     }
+
+    // Eye toggles
+    function makeEyeToggle(btnId, inputId, iconId) {
+        var btn = document.getElementById(btnId);
+        if (!btn) return;
+        btn.addEventListener('click', function() {
+            var inp = document.getElementById(inputId);
+            var isText = inp.type === 'text';
+            inp.type = isText ? 'password' : 'text';
+            document.getElementById(iconId).setAttribute('data-lucide', isText ? 'eye' : 'eye-off');
+            lucide.createIcons();
+        });
+    }
+    makeEyeToggle('toggleUserPw', 'userPassword', 'eyeUserPw');
+    makeEyeToggle('toggleUserPwConfirm', 'userPasswordConfirm', 'eyeUserPwConfirm');
+
+    // Password strength
+    document.getElementById('userPassword').addEventListener('input', function() {
+        var val = this.value;
+        var score = 0;
+        if (val.length >= 6) score++;
+        if (val.length >= 10) score++;
+        if (/[A-Z]/.test(val)) score++;
+        if (/[0-9]/.test(val)) score++;
+        if (/[^A-Za-z0-9]/.test(val)) score++;
+        var fill  = document.getElementById('pwStrengthFill');
+        var label = document.getElementById('pwStrengthLabel');
+        var colors = ['','#ef4444','#f97316','#EAB308','#22c55e','#16a34a'];
+        var labels = ['','Very weak','Weak','Fair','Strong','Very strong'];
+        fill.style.width      = val.length === 0 ? '0%' : (score * 20) + '%';
+        fill.style.background = colors[score] || '';
+        label.textContent     = val.length === 0 ? '' : (labels[score] || '');
+        label.style.color     = colors[score] || '';
+        checkUserPwMatch();
+    });
+
+    function checkUserPwMatch() {
+        var pw   = document.getElementById('userPassword').value;
+        var conf = document.getElementById('userPasswordConfirm').value;
+        var msg  = document.getElementById('pwMatchMsg');
+        if (!conf) { msg.textContent = ''; return; }
+        if (pw === conf) { msg.textContent = '✓ Passwords match';       msg.style.color = '#16a34a'; }
+        else             { msg.textContent = '✗ Passwords do not match'; msg.style.color = '#dc2626'; }
+    }
+    document.getElementById('userPasswordConfirm').addEventListener('input', checkUserPwMatch);
 </script>
 
 @include('partials.camera-capture')

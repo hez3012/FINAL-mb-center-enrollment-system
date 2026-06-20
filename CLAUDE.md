@@ -106,6 +106,52 @@ Based on the official Facebook cover/poster:
 - Do **not** push directly to `main`. When the redesign is complete and tested, the
   developer will review the `frontend-redesign` branch and merge it manually.
 
+## Design Direction — Reference UI Style (IMPORTANT — read before redesigning)
+The first redesign attempt did NOT match what's wanted. Study these reference patterns
+(SaaS/fintech dashboard style — think Stripe, Linear, modern crypto/business dashboards)
+and follow them closely:
+
+- **Typography**: ONE consistent professional sans-serif font family throughout the
+  entire app (e.g. **Inter**, **Plus Jakarta Sans**, or **Manrope** — pick one and use
+  it everywhere, including headings). Do NOT mix multiple font families across
+  different pages/sections. Text sizes should be confident and readable — avoid tiny
+  text; stat numbers should be large and bold (e.g. 28–36px), labels small and muted.
+- **Color contrast**: apply proper complementary color theory whenever text sits on a
+  colored/gradient background — always check contrast (light text on dark backgrounds,
+  dark text on light/pastel backgrounds). Never put low-contrast text on a busy
+  gradient.
+- **Gradients, not flat fills**: the brand green and gold should appear as **gradients**
+  (e.g. `linear-gradient(135deg, #1B4332, #2D6A4F)` for green elements,
+  `linear-gradient(135deg, #EAB308, #FBBF24)` for gold elements) — used on primary
+  buttons, sidebar active states, key stat-card accents, header bars. Not everything
+  needs a gradient — use it intentionally on 1–2 hero/primary elements per page, flat
+  neutral colors (white/cream/light gray) elsewhere.
+- **Stat cards**: clean white cards, soft shadow, rounded corners (~12–16px radius),
+  icon in a colored rounded-square or circle badge, large bold number, small muted
+  label below, optional small trend indicator (colored arrow + %). Keep generous
+  padding — don't cram content.
+- **Charts as supporting visuals inside cards**: circular/donut progress rings,
+  small inline bar charts, and clean line/area charts (Chart.js) embedded inside their
+  own card with a title and an overflow/options menu (three-dot icon) in the corner —
+  mirroring a typical fintech/SaaS analytics dashboard.
+- **Lists and tables**: clean rows with clear hierarchy (avatar/icon + primary text +
+  secondary muted text on the left, status badge or value on the right), generous row
+  height, subtle dividers (not heavy borders), hover state on rows, rounded badge
+  pills for status (colored background + matching text color, not harsh saturated
+  colors), pagination and filter controls styled consistently with the rest of the UI
+  (not default browser-looking inputs).
+- **Layout hierarchy — F-pattern / Z-pattern**: top area = page title + primary action
+  button(s) aligned right; below that = a row of key stat cards; below that = the
+  main content split into a wider "primary" card (chart, table, or list) and a
+  narrower "secondary" sidebar-style card (recent activity, mini list, quick info) —
+  this mirrors how the eye naturally scans left-to-right, top-to-bottom.
+- **Forms**: clean grouped sections with clear labels above inputs (not inline/cramped),
+  consistent input height and border-radius, focus states using the brand color,
+  helper/error text directly below each field, generous spacing between field groups.
+- **Overall feel**: spacious, confident, professional — closer to a business analytics
+  dashboard than a generic admin template. Avoid visual clutter; let whitespace do
+  the work.
+
 ## Full Scope (single session, redesign everything)
 
 ### Admin/Internal side (`resources/views/admin/**`)

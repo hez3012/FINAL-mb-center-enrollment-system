@@ -206,6 +206,10 @@
         <strong>Guardian Registration</strong>
         <small>H.O.P.E. — Holistic Online Profile &amp; Enrollment System &nbsp;·&nbsp; M.B. Therapy Center</small>
     </div>
+    <a href="{{ route('login') }}" style="margin-left:auto;display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.9);padding:.4rem .95rem;border-radius:8px;font-size:.82rem;font-weight:600;text-decoration:none;transition:background .15s;flex-shrink:0;"
+        onmouseover="this.style.background='rgba(255,255,255,.2)'" onmouseout="this.style.background='rgba(255,255,255,.12)'">
+        <i data-lucide="arrow-left" style="width:14px;height:14px;display:inline;vertical-align:middle;"></i>Back to Login
+    </a>
 </div>
 
 <div class="reg-wrap">
@@ -247,8 +251,45 @@
     </div>
     @endif
 
-    <form method="POST" action="{{ route('register.post') }}" id="registerForm">
+    <form method="POST" action="{{ route('register.post') }}" id="registerForm" enctype="multipart/form-data">
         @csrf
+
+        {{-- Profile Picture --}}
+        <div class="reg-section">
+            <div class="reg-section-header">
+                <i data-lucide="user-circle"></i> Profile Picture
+                <span style="opacity:.6;font-weight:400;font-size:.75rem;margin-left:.3rem;">(optional)</span>
+            </div>
+            <div class="reg-section-body">
+                <div class="d-flex flex-column flex-md-row align-items-md-center gap-3">
+                    <div class="flex-shrink-0">
+                        <div id="avatarWrapper" class="d-inline-flex align-items-center justify-content-center rounded-circle border border-2 shadow-sm"
+                            style="background:#fff;width:96px;height:96px;border-color:var(--hope-green)!important;">
+                            <i data-lucide="user" style="width:40px;height:40px;stroke:#d1d5db;"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="d-flex flex-wrap gap-2 mb-2">
+                            <label for="profilePicInput" class="btn btn-sm px-3 mb-0"
+                                style="border:1px solid var(--hope-green);color:var(--hope-green);background:#fff;cursor:pointer;">
+                                <i data-lucide="image" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i> Choose Picture
+                            </label>
+                            <button type="button" class="btn btn-sm px-3 mb-0"
+                                style="border:1px solid var(--hope-green);color:var(--hope-green);background:#fff;"
+                                onclick="openCameraCapture('profilePicInput')">
+                                <i data-lucide="camera" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i> Take Photo
+                            </button>
+                            <button type="button" id="removePicBtn" class="btn btn-sm btn-outline-danger px-3 mb-0 d-none">
+                                <i data-lucide="trash-2" style="width:14px;height:14px;display:inline;vertical-align:text-bottom;"></i> Remove
+                            </button>
+                            <input type="file" name="profile_picture" id="profilePicInput" class="d-none" accept=".jpg,.jpeg,.png">
+                            <span id="picFileName" class="text-muted small fw-semibold align-self-center">No file chosen</span>
+                        </div>
+                        <div class="small text-muted">JPG or PNG only · Max 50MB · Optional</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         {{-- Personal Information --}}
         <div class="reg-section">
@@ -520,10 +561,11 @@
 
 </div>
 
-{{-- Tabler + Lucide --}}
+{{-- Tabler + Lucide + SweetAlert2 --}}
 <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta21/dist/js/tabler.min.js"></script>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
 <script>
     lucide.createIcons();
@@ -613,7 +655,102 @@
         txt.style.display  = 'none';
         spin.style.display = 'inline';
     });
+
+    // Profile picture preview
+    document.getElementById('profilePicInput').addEventListener('change', function() {
+        var file = this.files[0];
+        if (!file) return;
+        document.getElementById('picFileName').textContent = file.name;
+        document.getElementById('removePicBtn').classList.remove('d-none');
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var w = document.getElementById('avatarWrapper');
+            w.innerHTML = '<img src="' + e.target.result + '" style="width:80px;height:80px;border-radius:50%;object-fit:cover;flex-shrink:0;">';
+        };
+        reader.readAsDataURL(file);
+    });
+    document.getElementById('removePicBtn').addEventListener('click', function() {
+        document.getElementById('profilePicInput').value = '';
+        document.getElementById('picFileName').textContent = 'No file chosen';
+        document.getElementById('avatarWrapper').innerHTML = '<i data-lucide="user" style="width:40px;height:40px;stroke:#d1d5db;"></i>';
+        lucide.createIcons();
+        this.classList.add('d-none');
+    });
+
+    // ── Form Guard (unsaved changes) ──────────────────────────
+    (function() {
+        var form = document.getElementById('registerForm');
+        var FORM_KEY = 'hope_form_register';
+        var isDirty = false;
+        var isSubmitting = false;
+
+        // Restore non-password text fields from sessionStorage
+        try {
+            var saved = sessionStorage.getItem(FORM_KEY);
+            if (saved) {
+                var data = JSON.parse(saved);
+                Object.keys(data).forEach(function(name) {
+                    var el = form.querySelector('[name="' + name + '"]');
+                    if (el && !el.value && el.type !== 'file' && el.type !== 'hidden' && el.type !== 'password') {
+                        if (el.tagName === 'SELECT') el.value = data[name];
+                        else el.value = data[name];
+                    }
+                });
+            }
+        } catch(e) {}
+
+        function saveFormData() {
+            if (isSubmitting) return;
+            isDirty = true;
+            try {
+                var data = {};
+                form.querySelectorAll('input,select,textarea').forEach(function(el) {
+                    if (!el.name || el.type === 'file' || el.type === 'hidden' || el.type === 'password') return;
+                    data[el.name] = el.value;
+                });
+                sessionStorage.setItem(FORM_KEY, JSON.stringify(data));
+            } catch(e) {}
+        }
+
+        form.addEventListener('input', saveFormData);
+        form.addEventListener('change', saveFormData);
+
+        form.addEventListener('submit', function() {
+            isSubmitting = true; isDirty = false;
+            window.onbeforeunload = null;
+            try { sessionStorage.removeItem(FORM_KEY); } catch(e) {}
+        });
+
+        window.addEventListener('beforeunload', function(e) {
+            if (isDirty && !isSubmitting) { e.preventDefault(); e.returnValue = ''; }
+        });
+
+        history.pushState(null, '', window.location.href);
+        window.addEventListener('popstate', function() {
+            if (isDirty && !isSubmitting) {
+                history.pushState(null, '', window.location.href);
+                Swal.fire({
+                    title: 'Leave registration?',
+                    html: 'Your registration progress will be lost if you leave now.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, leave',
+                    cancelButtonText: 'Stay here',
+                    confirmButtonColor: '#dc2626',
+                    cancelButtonColor: '#1B4332',
+                    reverseButtons: true,
+                }).then(function(result) {
+                    if (result.isConfirmed) {
+                        isDirty = false; window.onbeforeunload = null;
+                        try { sessionStorage.removeItem(FORM_KEY); } catch(e) {}
+                        history.back();
+                    }
+                });
+            }
+        });
+    })();
 </script>
 
+@include('partials.camera-capture')
 </body>
 </html>

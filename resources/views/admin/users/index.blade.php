@@ -16,8 +16,13 @@
 <div class="filter-bar">
     <div class="row g-2 align-items-center">
         <div class="col-md-4">
-            <input type="text" id="searchInput" class="form-control"
-                placeholder="Search by name, email, username…">
+            <div class="input-group">
+                <span class="input-group-text" style="background:#f8fafc;border-color:#E5E9F2;border-right:none;padding:.42rem .65rem;">
+                    <i data-lucide="search" style="width:14px;height:14px;stroke:#94A3B8;"></i>
+                </span>
+                <input type="text" id="searchInput" class="form-control"
+                    placeholder="Search by name, email, username…">
+            </div>
         </div>
         <div class="col-md-2">
             <select id="sortSelect" class="form-select">

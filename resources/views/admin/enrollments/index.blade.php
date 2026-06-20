@@ -14,7 +14,12 @@
 <div class="filter-bar">
     <div class="row g-2 align-items-center">
         <div class="col-md-3">
-            <input type="text" id="searchInput" class="form-control" placeholder="Search by student name…">
+            <div class="input-group">
+                <span class="input-group-text" style="background:#f8fafc;border-color:#E5E9F2;border-right:none;padding:.42rem .65rem;">
+                    <i data-lucide="search" style="width:14px;height:14px;stroke:#94A3B8;"></i>
+                </span>
+                <input type="text" id="searchInput" class="form-control" placeholder="Search by student name…">
+            </div>
         </div>
         <div class="col-md-2">
             <select id="yearFilter" class="form-select">
@@ -124,7 +129,16 @@ $statusTx = ['pending'=>'#92400E','pending_payment'=>'#9A3412','enrolled'=>'#166
                     data-type="{{ $enrollment->enrollment_type }}"
                     data-search="{{ strtolower(optional($enrollment->student)->list_name ?? '') }}">
                     <td style="color:#94A3B8;font-size:12px;">{{ $enrollment->enrollment_id }}</td>
-                    <td class="fw-semibold">{{ optional($enrollment->student)->list_name ?? '—' }}</td>
+                    <td>
+                        @if($enrollment->student)
+                        <div class="d-flex align-items-center gap-2">
+                            @include('partials.avatar',['name'=>$enrollment->student->list_name,'image'=>$enrollment->student->profile_picture??null,'size'=>32])
+                            <span class="fw-semibold" style="font-size:13.5px;">{{ $enrollment->student->list_name }}</span>
+                        </div>
+                        @else
+                        <span class="fw-semibold">—</span>
+                        @endif
+                    </td>
                     <td>{{ optional($enrollment->schoolYear)->year_label ?? '—' }}</td>
                     <td>
                         @if(optional($enrollment->programLevel)->program_name)
