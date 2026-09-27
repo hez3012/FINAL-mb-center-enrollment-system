@@ -414,8 +414,16 @@
             .card-hd-grad { border-radius: 10px 10px 0 0; }
         }
 
-        @yield('extra-styles')
+        [data-aos] {
+            overflow: visible !important;
+        }
+
+        .col-sm-6.col-xl-3 {
+            overflow:visible;
+        }
+        
     </style>
+    @yield('extra-styles')
 </head>
 <body>
 
@@ -428,7 +436,7 @@
         <i data-lucide="x"></i>
     </button>
     <div class="s-brand">
-        <img src="{{ asset('HOPE-LOGO.png') }}" alt="H.O.P.E." class="s-logo">
+        <img src="{{ asset('MB-LOGO.png') }}" alt="H.O.P.E." class="s-logo">
         <div class="s-badge">
             <img src="{{ asset('MB-LOGO.png') }}" alt="MB">
             <span>M.B. Therapy Center</span>

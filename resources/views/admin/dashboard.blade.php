@@ -5,44 +5,52 @@
     <style>
         /* ── KPI stat cards ──────────────────────────────── */
         .kpi {
-            background: #fff;
+            background-color: #fff;
+            background-image: var(--kpi-bar, linear-gradient(90deg,#E5E9F2,#E5E9F2));
+            background-repeat: no-repeat;
+            background-position: top left;
+            background-size: 100% 5px;
             border: 1px solid #E5E9F2;
             border-radius: 14px;
-            padding: 1.65rem 1.8rem 1.45rem;
+            padding: 1.6rem 1.5rem 1.35rem;
             display: flex;
             align-items: flex-start;
-            gap: 1.2rem;
+            gap: 1rem;
             box-shadow: 0 1px 6px rgba(0, 0, 0, .06);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+            cursor: default;
+            transition:
+                transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.3s ease,
+                border-color 0.3s ease,
+                background-size 0.3s ease;
         }
 
-        .kpi::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--kpi-bar, #E5E9F2);
-            border-radius: 14px 14px 0 0;
-            transition: all 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+        .kpi:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 18px 42px rgba(0, 0, 0, .13);
+            border-color: rgba(27, 67, 50, .2);
+            background-size: 100% 7px;
         }
 
         .kpi-icon {
-            width: 52px;
-            height: 52px;
+            width: 50px;
+            height: 50px;
             border-radius: 13px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            transform-origin: bottom center;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .kpi:hover .kpi-icon {
+            transform: scale(1.12) rotate(-5deg);
         }
 
         .kpi-icon svg {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             stroke: #fff;
         }
 
@@ -72,25 +80,30 @@
         }
 
         .kpi-val {
-            font-size: 2.15rem;
+            font-size: 2rem;
             font-weight: 800;
             color: #0F172A;
             line-height: 1.1;
-            margin-bottom: .15rem;
+            margin-bottom: .12rem;
             font-variant-numeric: tabular-nums;
             letter-spacing: -.02em;
+            transition: color 0.25s ease;
+        }
+
+        .kpi:hover .kpi-val {
+            color: #1B4332;
         }
 
         .kpi-lbl {
-            font-size: .77rem;
+            font-size: .75rem;
             color: #64748B;
             font-weight: 500;
         }
 
         .kpi-sub {
-            font-size: .71rem;
+            font-size: .69rem;
             font-weight: 600;
-            margin-top: .3rem;
+            margin-top: .28rem;
             display: flex;
             align-items: center;
             gap: .25rem;
@@ -318,12 +331,12 @@
 
     {{-- KPI row --}}
     <div class="row g-3 mb-4">
-        <div class="col-sm-4 m-3 p-3" style="width: 20%;" data-aos="fade-up" data-aos-delay="0">
+        <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
             <div class="kpi" style="--kpi-bar: linear-gradient(90deg, #1B4332, #2D6A4F);">
                 <div class="kpi-icon g"><i data-lucide="users"></i></div>
                 <div class="kpi-body">
                     @if($isTeacherOrStaff)
-                        <div class="kpi-val">{{ $totalEnrollees }}</div>    
+                        <div class="kpi-val">{{ $totalEnrollees }}</div>
                         <div class="kpi-lbl">Enrollees (This A.Y.)</div>
                     @else
                         <div class="kpi-val">{{ $totalUsers }}</div>
@@ -336,7 +349,7 @@
             </div>
         </div>
 
-        <div class="col-sm-4 m-3 p-3" style="width: 20%;" data-aos="fade-up" data-aos-delay="60">
+        <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="60">
             <div class="kpi" style="--kpi-bar: linear-gradient(90deg, #C27803, #EAB308);">
                 <div class="kpi-icon gd"><i data-lucide="heart-handshake"></i></div>
                 <div class="kpi-body">
@@ -349,7 +362,7 @@
             </div>
         </div>
 
-        <div class="col-sm-4 m-3 p-3" style="width: 20%;" data-aos="fade-up" data-aos-delay="120">
+        <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="120">
             <div class="kpi" style="--kpi-bar: linear-gradient(90deg, #1D4ED8, #3B82F6);">
                 <div class="kpi-icon b"><i data-lucide="graduation-cap"></i></div>
                 <div class="kpi-body">
@@ -362,7 +375,7 @@
             </div>
         </div>
 
-        <div class="col-sm-4 m-3 p-3" style="width: 20%;" data-aos="fade-up" data-aos-delay="180">
+        <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="180">
             <div class="kpi" style="--kpi-bar: linear-gradient(90deg, #0F766E, #14B8A6);">
                 <div class="kpi-icon t"><i data-lucide="user-check"></i></div>
                 <div class="kpi-body">

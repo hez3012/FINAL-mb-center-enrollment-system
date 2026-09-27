@@ -4,34 +4,49 @@
 @section('extra-styles')
 <style>
     .portal-stat {
-        background: #fff; border-radius: 14px; border: 1px solid #E5E9F2;
+        background-color: #fff;
+        background-image: var(--kpi-bar, linear-gradient(90deg,#E5E9F2,#E5E9F2));
+        background-repeat: no-repeat;
+        background-position: top left;
+        background-size: 100% 5px;
+        border-radius: 14px; border: 1px solid #E5E9F2;
         box-shadow: 0 1px 6px rgba(0,0,0,.06);
-        padding: 1.65rem 1.8rem 1.45rem;
-        display: flex; align-items: flex-start; gap: 1.2rem;
-        transition: box-shadow .22s, transform .22s;
-        position: relative; overflow: hidden;
+        padding: 1.6rem 1.6rem 1.35rem;
+        display: flex; align-items: flex-start; gap: 1.1rem;
+        cursor: default;
+        transition:
+            transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+            box-shadow 0.3s ease,
+            border-color 0.3s ease,
+            background-size 0.3s ease;
     }
-    .portal-stat::before {
-        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-        background: var(--kpi-bar, #E5E9F2);
+    .portal-stat:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 18px 42px rgba(27,67,50,.14);
+        border-color: rgba(27,67,50,.2);
+        background-size: 100% 7px;
     }
-    .portal-stat:hover { transform: translateY(-3px); box-shadow: 0 6px 24px rgba(27,67,50,.12); }
     .portal-stat-icon {
-        width: 52px; height: 52px; border-radius: 12px;
+        width: 50px; height: 50px; border-radius: 12px;
         display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         background: linear-gradient(135deg, #1B4332, #2D6A4F);
         box-shadow: 0 4px 14px rgba(27,67,50,.28);
+        transform-origin: bottom center;
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .portal-stat-icon svg { width: 24px; height: 24px; stroke: #fff; }
+    .portal-stat:hover .portal-stat-icon { transform: scale(1.12) rotate(-5deg); }
+    .portal-stat-icon svg { width: 22px; height: 22px; stroke: #fff; }
     .portal-stat-icon.gold {
         background: linear-gradient(135deg, #EAB308, #F59E0B);
         box-shadow: 0 4px 14px rgba(234,179,8,.3);
     }
     .portal-stat-icon.gold svg { stroke: #fff; }
     .portal-stat-value {
-        font-size: 2.1rem; font-weight: 800; color: #0F172A; line-height: 1; margin-bottom: .25rem;
+        font-size: 2rem; font-weight: 800; color: #0F172A; line-height: 1; margin-bottom: .22rem;
+        transition: color 0.25s ease;
     }
-    .portal-stat-label { font-size: .8rem; color: #64748B; font-weight: 500; }
+    .portal-stat:hover .portal-stat-value { color: #1B4332; }
+    .portal-stat-label { font-size: .78rem; color: #64748B; font-weight: 500; }
     .portal-welcome {
         background: linear-gradient(118deg, #1B4332 0%, #295c45 55%, #3a7a5c 100%);
         border-radius: 14px; padding: 1.5rem 1.75rem; color: #fff;
