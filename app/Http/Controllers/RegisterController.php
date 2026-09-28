@@ -49,6 +49,7 @@ class RegisterController extends Controller
             'username'         => 'required|string|min:4|max:50|unique:users,username|alpha_dash',
             'password'         => 'required|string|min:6|confirmed',
             'relationship'     => 'required|string',
+            'profile_picture'  => 'nullable|image|mimes:jpg,jpeg,png|max:51200',
         ], [
             'contact_number_1.regex' => 'Contact #1 must start with 09 and be exactly 11 digits.',
             'contact_number_2.regex' => 'Contact #2 must start with 09 and be exactly 11 digits.',
@@ -59,6 +60,12 @@ class RegisterController extends Controller
         ]);
 
         $guardianRole = Role::where('role_name', 'guardian')->firstOrFail();
+
+        $picturePath = null;
+        if ($request->hasFile('profile_picture')) {
+            $picturePath = $request->file('profile_picture')
+                ->store('profile_pictures/users', 'public');
+        }
 
         $user = User::create([
             'first_name'       => $request->first_name,
@@ -82,6 +89,7 @@ class RegisterController extends Controller
             'password'         => Hash::make($request->password),
             'role_id'          => $guardianRole->role_id,
             'is_active'        => 1,
+            'profile_picture'  => $picturePath,
         ]);
 
         Guardian::create([
